@@ -9,7 +9,12 @@ An app developed in react native for android and iOS to keep track of words user
 
 # Features
 
-- Users can create new words along with theri denifitions.
-- Users can view words as interactive flashcards.
+- Users can create new words along with their denifitions
+- Users can view words as interactive flashcards
 - Users can sort words
 - Users can use search functionality to quickly find specific words
+- Users can add tag to words
+- Users can filter words by time and tag
+- Users can bookmark words
+- Users can get notification of daily random words
+- Users can change theme of the app
