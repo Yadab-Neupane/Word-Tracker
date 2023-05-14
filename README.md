@@ -3,3 +3,4 @@ An app developed in react native for android and iOS to keep track of words user
 
 # Group D
 - Yadab Neupane, Section 01
+- Bishownath Dhakal, Section 01
