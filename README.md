@@ -22,4 +22,4 @@ An app developed in react native for android and iOS to keep track of words user
 - Users can track their progress including how many words they have learned and how many activities they have completed
 - Users can share the words along with its definitions to multiple applications (messaging apps)
 - Users can set goals on how much they want to read or write each day, week or month
-- All the users data can be deleted from the app to start the app freshly without any data in the app
+- Users can delete all their data from their app 
