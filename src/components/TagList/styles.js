@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native"
+import { secondaryColor } from "../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
@@ -8,5 +9,11 @@ export default styles = StyleSheet.create({
     },
     tag:{
         paddingTop:10
+    },
+    addButton: {
+        paddingTop:15,
+        marginLeft: 5,
+        marginRight: 5,
+        padding: 5,
     }
 })

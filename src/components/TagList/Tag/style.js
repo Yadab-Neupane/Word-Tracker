@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { labelWhiteColor, secondaryColor } from "../../../common/includes"
+import { blueColor, labelWhiteColor } from "../../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
@@ -9,12 +9,13 @@ export default styles = StyleSheet.create({
         flex: -1,
         marginLeft: 5,
         marginRight: 5,
-        backgroundColor: secondaryColor,
+        backgroundColor: blueColor,
         borderRadius: 10,
         padding: 5,
     },
     text: {
         fontSize: 20,
-        color: labelWhiteColor
+        color: labelWhiteColor,
+        fontStyle:"italic"
     }
 })

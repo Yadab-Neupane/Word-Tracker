@@ -13,7 +13,7 @@ export default function Detail({ words }) {
                     Tags:
                 </Text>
                 <View style={styles.taglistContainer}>
-                    <TagList >
+                    <TagList>
                     </TagList>
                 </View>
 
