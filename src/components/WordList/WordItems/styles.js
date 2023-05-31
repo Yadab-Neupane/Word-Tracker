@@ -1,5 +1,5 @@
 import { Platform, StyleSheet } from "react-native"
-import { labelWhiteColor, secondaryColor } from "../../../common/includes"
+import { fontFamilySerif, labelWhiteColor, secondaryColor } from "../../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
@@ -15,10 +15,10 @@ export default styles = StyleSheet.create({
     },
     cardText: {
         color: labelWhiteColor,
-        fontFamily: Platform.OS == 'ios' ? 'Cochin' : 'serif'
+        fontFamily: fontFamilySerif
     },
     cardDescription: {
         color: labelWhiteColor,
-        fontFamily: Platform.OS == 'ios' ? 'Cochin' : 'normal'
+        fontFamily: fontFamilySerif
     }
 })

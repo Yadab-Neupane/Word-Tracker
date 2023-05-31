@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { secondaryColor } from "../../common/includes"
+import { fontFamilySerif, secondaryColor } from "../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
@@ -9,7 +9,7 @@ export default styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     title: {
-        fontFamily: 'sans-serif',
+        fontFamily: fontFamilySerif,
         fontWeight: 'bold',
         fontSize: 20,
         color: secondaryColor
@@ -22,7 +22,7 @@ export default styles = StyleSheet.create({
     },
     author: {
         fontSize: 12,
-        fontFamily: 'sans-serif',
+        fontFamily: fontFamilySerif,
         marginTop: 0,
     }
 })

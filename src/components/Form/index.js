@@ -3,7 +3,7 @@ import styles from './styles'
 import { useState } from "react";
 
 
-export default function Form({ onAddNewWord }) {
+export default function Form({ onAddNewWord, writeToJSONFile }) {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -28,6 +28,7 @@ export default function Form({ onAddNewWord }) {
         else {
             // console.log("Save button pressed " + title + " " + description)
             onAddNewWord(title, description)
+            // writeToJSONFile(data)
 
             setTitle('')
             setDescription('')

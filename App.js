@@ -9,9 +9,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { lavenderColor, secondaryColor } from './src/common/includes';
 import { MaterialIcons } from '@expo/vector-icons';
 import Header from './src/components/Header';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import WordList from './src/components/WordList';
 import FormScreen from './src/screens/FormScreen'
+// import RNFS from 'react-native-fs';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,35 +21,33 @@ export default function App() {
   const [words, setWords] = useState([
     {
       title: "Car",
-      description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      description: "1 four wheel vehicle lorem ipsum hehahahah lorem lorem",
     },
     {
       title: "Dog",
-      description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      description: "2 four wheel vehicle lorem ipsum hehahahah lorem lorem",
     },
     {
       title: "Cat",
-      description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      description: "3 four wheel vehicle lorem ipsum hehahahah lorem lorem",
     },
-    // {
-    //   word: "Cow",
-    //   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-    // },
-    // {
-    //   word: "Hair",
-    //   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-    // },
-    // {
-    //   word: "Phone",
-    //   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-    // },
-    // {
-    //   word: "Mobile",
-    //   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-    // },
-
-
   ])
+
+
+  // const writeToJSONFile = async (data) => {
+  //   data = {
+  //     title: title,
+  //     description: description
+  //   }
+  //   const path = RNFS.DocumentDirectoryPath + '/db.json';
+
+  //   try {
+  //     await RNFS.writeFile(path, JSON.stringify(data), 'utf8');
+  //     console.log('Data written to the file successfully!', data);
+  //   } catch (error) {
+  //     console.log('Error writing to the file:', error);
+  //   }
+  // };
 
   const onAddNewWord = (title, description) => {
     const newWord = {
@@ -56,7 +55,7 @@ export default function App() {
       description: description
     }
     words.push(newWord)
-    console.log("New Word ", title)
+    console.log("New Word ", newWord)
   }
 
   return (
@@ -110,6 +109,7 @@ export default function App() {
                   {...props}
                   words={words}
                   onAddNewWord={onAddNewWord}
+                // writeToJSONFile={writeToJSONFile}
                 />
               )
             }}

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { accentColor, labelWhiteColor, secondaryColor } from "../../common/includes";
+import { accentColor, fontFamilySerif, labelWhiteColor, secondaryColor } from "../../common/includes";
 
 
 export default styles = StyleSheet.create({
@@ -13,7 +13,7 @@ export default styles = StyleSheet.create({
     wordLabel: {
         fontSize: 20,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif'
+        fontFamily: fontFamilySerif
     },
     wordTF: {
         // borderBottomWidth: 0.2,
@@ -25,7 +25,7 @@ export default styles = StyleSheet.create({
     wordDesc: {
         fontSize: 20,
         fontWeight: 'bold',
-        fontFamily: 'sans-serif'
+        fontFamily: fontFamilySerif
     },
     touchableButton: {
 
