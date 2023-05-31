@@ -1,6 +1,6 @@
 import Home from '../../components/Home'
 
-export default function Homescreen({ words }) {
+export default function HomeScreen({ words }) {
     return (
         <Home
             words={words}
