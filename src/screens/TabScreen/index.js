@@ -15,14 +15,17 @@ export default function TabScreen(props) {
 		{
 			title: 'Car',
 			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
+			tags:["bmw", "mercedesssss"]
 		},
 		{
 			title: 'Dog',
 			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
+			tags:["bmw", "mercedesssss"]
 		},
 		{
 			title: 'Cat',
 			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
+			tags:["bmw", "mercedesssss"]
 		},
 		// {
 		//   word: "Cow",
