@@ -14,3 +14,4 @@ export const appTitle = 'Word Tracker App'
 export const appAuthor = 'Bishow, Susom, Yadab'
 
 export const PLATFORM_OS = Platform.OS == 'ios' ? 'iOS' : 'Android'
+export const fontFamilyPlatform = Platform.OS == 'ios' ? "Cochin" : "sans-serif"
