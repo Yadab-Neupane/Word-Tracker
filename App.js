@@ -10,6 +10,8 @@ import { lavenderColor, secondaryColor } from './src/common/includes';
 import { MaterialIcons } from '@expo/vector-icons';
 import Header from './src/components/Header';
 import { useState } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './src/redux/store';
 import WordList from './src/components/WordList';
 import FormScreen from './src/screens/FormScreen'
 
@@ -21,14 +23,17 @@ export default function App() {
     {
       title: "Car",
       description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      tags: ["bmw", "mercedes", "audi", "honda", "subaru"]
     },
     {
       title: "Dog",
       description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      tags: ["dogs", "bark", "dogfood"]
     },
     {
       title: "Cat",
       description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
+      tags: ["meow"]
     },
     // {
     //   word: "Cow",
@@ -60,64 +65,65 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <View style={mainStyle.container}>
-        <StatusBar style="auto" />
-        <Header />
+    <Provider store={store}>
+      <NavigationContainer>
+        <View style={mainStyle.container}>
+          <StatusBar style="auto" />
+          <Header />
 
-        <Tab.Navigator>
-          <Tab.Screen
-            name='Home'
+          <Tab.Navigator>
+            <Tab.Screen
+              name='Home'
 
-            options={{
-              tabBarInactiveTintColor: lavenderColor,
-              tabBarActiveTintColor: secondaryColor,
-              headerShown: false,
-              tabBarIcon: ({ focused, color, size }) => {
-                const icon = focused ? "ios-home-sharp" : "home-outline"
-                return <Ionicons name={icon} size={24} color={color} />
-              }
-            }}
-          >
-            {(props) => {
-              return (
-                <Homescreen
-                  {...props}
-                  words={words}
-                />
-              )
-            }}
+              options={{
+                tabBarInactiveTintColor: lavenderColor,
+                tabBarActiveTintColor: secondaryColor,
+                headerShown: false,
+                tabBarIcon: ({ focused, color, size }) => {
+                  const icon = focused ? "ios-home-sharp" : "home-outline"
+                  return <Ionicons name={icon} size={24} color={color} />
+                }
+              }}
+            >
+              {(props) => {
+                return (
+                  <Homescreen
+                    {...props}
+                    words={words}
+                  />
+                )
+              }}
 
-          </Tab.Screen>
+            </Tab.Screen>
 
-          <Tab.Screen
-            name='Word'
+            <Tab.Screen
+              name='Word'
 
-            options={{
-              tabBarInactiveTintColor: lavenderColor,
-              tabBarActiveTintColor: secondaryColor,
-              headerShown: false,
-              tabBarIcon: ({ focused, color, size }) => {
-                const icon = focused ? "category" : "category"
-                return <MaterialIcons name={icon} size={size} color={color} />
-              }
-            }}
-          // component={WordListScreen}
-          >
-            {(props) => {
-              return (
-                <WordListScreen
-                  {...props}
-                  words={words}
-                  onAddNewWord={onAddNewWord}
-                />
-              )
-            }}
-          </Tab.Screen>
-        </Tab.Navigator>
+              options={{
+                tabBarInactiveTintColor: lavenderColor,
+                tabBarActiveTintColor: secondaryColor,
+                headerShown: false,
+                tabBarIcon: ({ focused, color, size }) => {
+                  const icon = focused ? "category" : "category"
+                  return <MaterialIcons name={icon} size={size} color={color} />
+                }
+              }}
+            // component={WordListScreen}
+            >
+              {(props) => {
+                return (
+                  <WordListScreen
+                    {...props}
+                    words={words}
+                    onAddNewWord={onAddNewWord}
+                  />
+                )
+              }}
+            </Tab.Screen>
+          </Tab.Navigator>
 
-      </View >
-    </NavigationContainer >
-
+        </View >
+      </NavigationContainer >
+    </Provider>
   );
 }

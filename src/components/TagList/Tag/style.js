@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { blackShadeColor, blueColor, labelWhiteColor, lavenderColor, primaryColor } from "../../../common/includes"
+import { blackShadeColor, blueColor, labelWhiteColor, lavenderColor, primaryColor, secondaryColor } from "../../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
@@ -18,25 +18,31 @@ export default styles = StyleSheet.create({
         color: labelWhiteColor,
         fontStyle: "italic"
     },
-    modal: {
-        flex: 1, 
-        justifyContent: "center", 
-        alignItems: "center",
+    modalContainer: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+    },
+    modalBox: {
+        alignItems:"center",
         backgroundColor: labelWhiteColor,
         padding: 10,
-        height: 300
+        width: '90%',
+        borderRadius: 15,
+        shadowOpacity: 0.25,
+        elevation: 5,
     },
     textbox: {
         borderBottomColor: blackShadeColor,
         borderBottomWidth: 1,
         padding: 10,
         margin: 20,
-        width:'75%',
+        width: '75%',
         textAlign: 'center',
         fontSize: 25
     },
-    buttonContainer:{
-        flexDirection:"row"
+    buttonContainer: {
+        flexDirection: "row"
     },
     button: {
         marginRight: 20,
@@ -44,7 +50,7 @@ export default styles = StyleSheet.create({
         marginTop: 10,
         paddingTop: 10,
         paddingBottom: 10,
-        backgroundColor: blueColor,
+        backgroundColor: secondaryColor,
         borderRadius: 10,
         borderWidth: 1,
         borderColor: labelWhiteColor

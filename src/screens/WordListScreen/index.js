@@ -30,13 +30,12 @@ export default function WordListScreen({ words, onAddNewWord }) {
             <Stack.Screen
                 name="Detail"
                 options={{
-                    headerTitle: "Description"
+                    headerTitle: "Defination"
                 }}
             >
                 {(props) => {
                     return <Detail
                         {...props}
-                        words={words}
                     />
                 }}
             </Stack.Screen>
