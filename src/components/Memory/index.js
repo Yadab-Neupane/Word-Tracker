@@ -1,9 +1,11 @@
 import { Text, View } from "react-native";
+import styles from "./styles";
+import Flashcard from "../Flashcard";
 
-export default function MemoryComponent() {
+export default function MemoryComponent(props) {
     return (
-        <View>
-            <Text>Memory Coponent</Text>
+        <View style={styles.container}>
+            <Flashcard {...props}></Flashcard>
         </View>
     );
 }
