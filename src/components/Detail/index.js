@@ -6,7 +6,7 @@ export default function Detail({ words }) {
         <View>
 
             <Text>{words[0].description}</Text>
-            <Text>Hello</Text>
+
         </View>
     )
 }
