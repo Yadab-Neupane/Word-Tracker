@@ -21,10 +21,11 @@ export default function App() {
 						component={TabScreen}
 						options={{ headerShown: false }}
 					/>
-					<Stack.Screen
-						name="Memory"
-						component={MemoryComponent}
-					/>
+					<Stack.Screen name="Memory">
+						{(props) => {
+							return <MemoryComponent {...props} />;
+						}}
+					</Stack.Screen>
 				</Stack.Navigator>
 			</View>
 		</NavigationContainer>
