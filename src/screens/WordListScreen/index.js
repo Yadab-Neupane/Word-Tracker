@@ -30,13 +30,12 @@ export default function WordListScreen({ words, onAddNewWord, writeToJSONFile })
             <Stack.Screen
                 name="Detail"
                 options={{
-                    headerTitle: "Description of word"
+                    headerTitle: "Defination"
                 }}
             >
                 {(props) => {
                     return <Detail
                         {...props}
-                        words={words}
                     />
                 }}
             </Stack.Screen>

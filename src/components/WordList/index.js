@@ -20,8 +20,7 @@ export default function WordList({ navigation, route, words }) {
                 {words.map((item, index) => {
                     return (<WordItems
                         key={index}
-                        title={item.title}
-                        description={item.description}
+                        word = {item}
                         navigation={navigation}
                     />
                     )

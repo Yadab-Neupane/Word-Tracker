@@ -3,7 +3,7 @@ import styles from './styles'
 import { Feather } from '@expo/vector-icons';
 
 
-export default function WordItems({ navigation, route, title, description }) {
+export default function WordItems({ navigation, route, word }) {
     return (
         <View
             style={styles.container}
@@ -23,10 +23,10 @@ export default function WordItems({ navigation, route, title, description }) {
                             { fontSize: 40 }]
                         }
                     >
-                        {title}
+                        {word.title}
                     </Text>
                     <Feather
-                        onPress={() => navigation.navigate("Detail")}
+                        onPress={() => navigation.navigate("Detail", {word})}
                         name="arrow-right-circle" size={24} color="white"
                         style={{ marginTop: 15 }} />
                 </View>
@@ -38,7 +38,7 @@ export default function WordItems({ navigation, route, title, description }) {
                         {[styles.cardDescription,
                         { fontSize: 18 }]}
                     >
-                        {description}
+                        {word.description}
                     </Text>
                 </View>
 
