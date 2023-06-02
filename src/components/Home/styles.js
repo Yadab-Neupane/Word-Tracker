@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { labelWhiteColor, secondaryColor } from './../../common/includes'
+import { labelWhiteColor, fontFamilyPlatform, secondaryColor } from './../../common/includes'
 
 export default styles = StyleSheet.create({
     container: {
@@ -19,12 +19,12 @@ export default styles = StyleSheet.create({
     cardLabelsTitle: {
         fontSize: 40,
         color: labelWhiteColor,
-        fontFamily: 'serif'
+        fontFamily: fontFamilyPlatform,
     },
     cardLabels: {
         color: 'white',
         marginTop: 10,
-        fontFamily: 'sans-serif',
+        fontFamily: fontFamilyPlatform,
         fontSize: 18
     },
     image: {
