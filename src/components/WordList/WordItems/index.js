@@ -26,7 +26,7 @@ export default function WordItems({ navigation, route, word }) {
                         {word.title}
                     </Text>
                     <Feather
-                        onPress={() => navigation.navigate("Detail", {word})}
+                        onPress={() => navigation.navigate("Detail", { word })}
                         name="arrow-right-circle" size={24} color="white"
                         style={{ marginTop: 15 }} />
                 </View>

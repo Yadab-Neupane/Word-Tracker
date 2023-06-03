@@ -3,12 +3,13 @@ import styles from './styles'
 import { useState } from "react";
 
 
-export default function Form({ onAddNewWord, writeToJSONFile }) {
+export default function Form({ navigation, route, onAddNewWord, writeToJSONFile }) {
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
 
     const [errorMessage, setErrorMessage] = useState([])
+    const [saving, setSaving] = useState(false)
 
 
     const handleSaveButton = () => {
@@ -26,15 +27,26 @@ export default function Form({ onAddNewWord, writeToJSONFile }) {
             setErrorMessage(messageValidate)
         }
         else {
-            // console.log("Save button pressed " + title + " " + description)
+            setSaving(true)
+
             onAddNewWord(title, description)
-            // writeToJSONFile(data)
+
 
             setTitle('')
             setDescription('')
             setErrorMessage([])
+
+            navigation.navigate("WordLists")
+
         }
 
+        if (saving) {
+            return (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" />
+                </View>
+            )
+        }
     }
     return (
         <View
@@ -80,6 +92,7 @@ export default function Form({ onAddNewWord, writeToJSONFile }) {
                     onChangeText={setDescription}
                 />
             </View>
+
             <TouchableOpacity
                 onPress={() => handleSaveButton()}
                 style={styles.touchableButton}
@@ -90,6 +103,8 @@ export default function Form({ onAddNewWord, writeToJSONFile }) {
                     Save
                 </Text>
             </TouchableOpacity>
+
+
         </View>
     )
 }

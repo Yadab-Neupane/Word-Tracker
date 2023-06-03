@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export default function WordListScreen({ words, onAddNewWord, writeToJSONFile }) {
+export default function WordListScreen({ words, onAddNewWord, onEditWord, onEditDescription, onDeleteWord }) {
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -21,7 +21,7 @@ export default function WordListScreen({ words, onAddNewWord, writeToJSONFile })
                         <WordList
                             {...props}
                             words={words}
-
+                            onDeleteWord={onDeleteWord}
                         />
                     )
                 }}
@@ -30,12 +30,15 @@ export default function WordListScreen({ words, onAddNewWord, writeToJSONFile })
             <Stack.Screen
                 name="Detail"
                 options={{
-                    headerTitle: "Defination"
+                    headerTitle: "Definition"
                 }}
             >
                 {(props) => {
                     return <Detail
                         {...props}
+                        onEditWord={onEditWord}
+                        onEditDescription={onEditDescription}
+                        onDeleteWord={onDeleteWord}
                     />
                 }}
             </Stack.Screen>
@@ -48,7 +51,6 @@ export default function WordListScreen({ words, onAddNewWord, writeToJSONFile })
                     return <Form
                         {...props}
                         onAddNewWord={onAddNewWord}
-                    // writeToJSONFile={writeToJSONFile}
                     />
                 }}
             </Stack.Screen>

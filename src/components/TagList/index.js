@@ -8,6 +8,7 @@ import { labelWhiteColor } from '../../common/includes';
 
 export default function TagList({ tags }) {
     const tempTagList = tags;
+    console.log("Temp tag list", tempTagList)
 
     const [showAddModal, setShowAddModal] = useState(false);
 
@@ -26,6 +27,7 @@ export default function TagList({ tags }) {
     return (
         <>
             <View style={styles.container}>
+
                 {tempTagList.map((item, index) => {
                     return (
                         <View key={index} style={styles.tag}>
