@@ -3,36 +3,75 @@ import Tag from "./Tag/index";
 import styles from './styles';
 import { AntDesign } from '@expo/vector-icons';
 import { secondaryColor } from '../../common/includes';
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { labelWhiteColor } from '../../common/includes';
+import { useSelector, useDispatch } from 'react-redux';
+import { setIsUpdated } from '../../redux/tagUpdateSlice';
 
-export default function TagList({ tags }) {
-    const tempTagList = tags;
-    console.log("Temp tag list", tempTagList)
+import * as database from '../../database/index';
+
+export default function TagList({ wordId }) {
+
+    const firstUpdate = useRef(true);
+    const dispatch = useDispatch();
+    const isTagUpdated= useSelector((state) => state.tagUpdate.isUpdated);
+    const [tagList, setTagList] = useState([])
+
+    useEffect(() => {
+        if(firstUpdate.current || isTagUpdated){
+            firstUpdate.current = false;
+            (async () => {
+                try {
+                    const getAllData = await database.getAllTagsByWordId(wordId);
+                    console.log(getAllData);
+                    setTagList(getAllData);
+                    dispatch(setIsUpdated(false));
+                } catch (error) {
+                    setTagList([]);
+                    console.log(error);
+                }
+            })();
+        }
+    }, [isTagUpdated]);
+
 
     const [showAddModal, setShowAddModal] = useState(false);
+    const [tag, setTag] = useState('');
 
     const onAddTagButtonPress = () => {
         setShowAddModal(!showAddModal);
-    };
+    }
+
+    const onSaveModalPress = () => {
+        (async () => {
+            try {
+               await database.addTag(wordId,tag);
+               setTag('');
+               dispatch(setIsUpdated(true));
+            } catch (error) {
+                console.log(error);
+            }
+            setShowAddModal(!showAddModal);
+        })();
+    }
 
     const closeAddModalPress = () => {
         setShowAddModal(!showAddModal);
     }
 
-    const onTagChange = () => {
-        console.log("Tag detail changed");
+    const onTagChange = (val) => {
+        setTag(val);
     }
 
     return (
         <>
             <View style={styles.container}>
-
-                {tempTagList.map((item, index) => {
+                {tagList.map((item, index) => {
                     return (
                         <View key={index} style={styles.tag}>
                             <Tag
-                                tag={item}
+                                tag = {item.tag}
+                                id = {item.id}
                             />
                         </View>);
                 })}
@@ -59,7 +98,7 @@ export default function TagList({ tags }) {
                         <View style={styles.buttonContainer}>
                             <TouchableOpacity
                                 style={styles.button}
-                                onPress={closeAddModalPress}
+                                onPress={onSaveModalPress}
                                 underlayColor={labelWhiteColor}>
                                 <Text style={styles.buttonText}>Save</Text>
                             </TouchableOpacity>

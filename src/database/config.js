@@ -1,35 +1,57 @@
 import { openDatabase } from "expo-sqlite";
-export const db = openDatabase("dbtest66");
+export const db = openDatabase("dbtest60");
 
 
-export const createDb = () => {
+export const createWordDb = async () => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                "create table if not exists Words (id text primary key not null, title text, description text);",
+                "create table if not exists Words (id text primary key not null, title text, defination text);",
                 [],
-                (tx, results) => resolve(results),
-                () => reject("Db connection failed!")
+                (tx, results) => {
+                    console.log(results);
+                    resolve(true);
+                },
+                (tx, error) => {
+                    console.log(`Error creating words db ${error}`);
+                    reject(false)
+                }
             );
-
-            // tx.executeSql(
-            //     "create table if not exists Tags (id text primary key not null, wordId text not null, tag text not null);",
-            //     []
-            // );
         })
     });
 };
 
-export const deleteDb = () => {
-    db.transaction(tx => {
-        tx.executeSql(
-            "delete table Words;",
-            []
-        );
-
-        // tx.executeSql(
-        //     "delete table Tags;",
-        //     []
-        // );
+export const createTagDb = async () => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "create table if not exists Tags (id text primary key not null, wordId text not null, tag text not null);",
+                [],
+                (tx, results) => {
+                    console.log(results);
+                    resolve(true);
+                },
+                (tx, error) => {
+                    console.log(`Error creating tags db ${error}`);
+                    reject(false)
+                }
+            );
+        })
     });
 };
+
+// export const deleteDb = async () => {
+//     return new Promise((resolve, reject) => {
+//         db.transaction(tx => {
+//             tx.executeSql(
+//                 "delete table Words;",
+//                 []
+//             );
+
+//             // tx.executeSql(
+//             //     "delete table Tags;",
+//             //     []
+//             // );
+//         });
+//     });
+// };

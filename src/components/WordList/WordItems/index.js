@@ -38,7 +38,7 @@ export default function WordItems({ navigation, route, word }) {
                         {[styles.cardDescription,
                         { fontSize: 18 }]}
                     >
-                        {word.description}
+                        {word.defination}
                     </Text>
                 </View>
 

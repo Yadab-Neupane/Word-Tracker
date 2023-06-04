@@ -3,14 +3,14 @@ import { createSlice } from '@reduxjs/toolkit';
 export const tagUpdateSlice = createSlice({
     name: 'tagUpdate',
     initialState: {
-        isUpdating: false,
+        isUpdated: false,
     },
     reducers: {
-        setIsUpdating: (state, action) => {
-            state.isUpdating = action.payload;
+        setIsUpdated: (state, action) => {
+            state.isUpdated = action.payload;
         }
     },
 })
 
-export const { setIsUpdating } = tagUpdateSlice.actions;
+export const { setIsUpdated } = tagUpdateSlice.actions;
 export default tagUpdateSlice.reducer;

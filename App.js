@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { View } from 'react-native';
+import { View, Alert } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import mainStyle from './src/common/mainStyles';
 import Header from './src/components/Header';
@@ -17,44 +17,34 @@ const Stack = createNativeStackNavigator();
 export default function App() {
 
 	useEffect(() => {
-		//database.deleteDb();
-		const db = database.createDb();
-
 		(async () => {
+			try {
+				// to create or check if db exist
+				const wordDbExists = await database.createWordDb();
+				const TagDbExists = await database.createTagDb();
+				if (wordDbExists && TagDbExists) {
 
-			//to delete word
-			//let del = await database.deleteAllWords();
-			//console.log("Delete", del);
-
-			//to add word
-			// const addData1 = await database.addWord("bmw", "its a carr");
-			// console.log(addData1);
-
-			//to add word
-			// const addData2 = await database.addWord("cat", "meowwww");
-			// console.log(addData2);
-
-			//to get all the words
-			//const getAllData = await database.getAllWords();
-			//console.log(getAllData);
-
-			//to get word by id
-			//const getDataById = await database.getWordById('ac59e31b-e429-4689-ba12-84b622081d8d');
-			//console.log(getDataById);
-
-			//to udpate word
-			//const updateData = await database.updateWord('ac59e31b-e429-4689-ba12-84b622081d8d', 'chicken', 'I am a chicken');
-			//console.log(updateData);
-
-			//to get word
-			//const getUpdatedDataById = await database.getWordById('ac59e31b-e429-4689-ba12-84b622081d8d');
-			//console.log(getUpdatedDataById);
+				}
+				else{
+					Alert.alert(
+						'Error',
+						`Error connecting to db`,
+						[
+							
+						]
+					);
+				}
+			} catch (error) {
+				Alert.alert(
+					'Error',
+					`Error connecting to db`,
+					[
+						
+					]
+				);
+			}
 		})();
 	}, []);
-
-
-
-
 
 	return (
 		<Provider store={store}>

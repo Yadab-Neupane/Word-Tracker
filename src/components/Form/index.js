@@ -2,30 +2,35 @@ import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "reac
 import styles from './styles'
 import { useEffect, useState } from "react";
 import * as database from "./../../database/index"
-import uuid from 'react-native-uuid';
 
 
 
 export default function Form({ navigation, route, onAddNewWord, writeToJSONFile }) {
 
 
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+    const [word, setWord] = useState('')
+    const [defination, setDefination] = useState('')
 
     const [errorMessage, setErrorMessage] = useState([])
 
-    const [result, setResult] = useState([])
-
     const [saving, setSaving] = useState(false)
+
+    const onWordChange = (val) => {
+        setWord(val);
+    }
+
+    const onDefinationChange = (val) => {
+        setDefination(val);
+    }
 
     const handleSaveButton = async () => {
         const messageValidate = []
 
-        if (title === '') {
+        if (word === '') {
             messageValidate.push("Title is required")
         }
 
-        if (description === '') {
+        if (defination === '') {
             messageValidate.push("Description is required")
         }
 
@@ -34,26 +39,15 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
         }
         else {
             setSaving(true)
-            const data = await database.addWord(title, description)
-                .catch((err) => {
-                    console.error(err)
-                })
-            console.log("Break Point")
-
-            const updatedWord = []
-            updatedWord.push(data);
-            console.log("Saving Btn", updatedWord)
-
-            if (updatedWord) {
-                setTitle('')
-                setDescription('')
+            try {
+                const data = await database.addWord(word, defination);
+                console.log(data);
+                setWord('')
+                setDefination('')
                 setErrorMessage([])
                 navigation.navigate('WordLists')
-                setResult(updatedWord)
-
-            }
-            else {
-                setErrorMessage(['Error Saving Data.'])
+            } catch (error) {
+                console.log(error)
             }
         }
 
@@ -92,8 +86,7 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
                 <TextInput
                     style={styles.wordTF}
                     placeholder="Enter new word"
-                    value={title}
-                    onChangeText={setTitle}
+                    onChangeText={onWordChange}
                 />
 
                 <Text
@@ -105,8 +98,7 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
                     multiline={true}
                     style={styles.wordTF}
                     placeholder="Enter description for word..."
-                    value={description}
-                    onChangeText={setDescription}
+                    onChangeText={onDefinationChange}
                 />
             </View>
 

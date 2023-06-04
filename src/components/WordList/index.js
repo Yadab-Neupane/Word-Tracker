@@ -1,19 +1,22 @@
-import { ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles'
 import WordItems from './WordItems'
-import { useEffect } from 'react';
-import * as database from "./../../database/index"
+import { useEffect, useState } from 'react';
+import * as database from "./../../database/index";
+import { useIsFocused } from "@react-navigation/native";
 
 
 export default function WordList({ navigation, route, words, onDeleteWord }) {
+    const isFocused = useIsFocused();
+    const [listOfWords, setListOfWords] = useState([]); 
     useEffect(() => {
         (async () => {
             // to get all the words
             const getAllData = await database.getAllWords();
-            console.log("All Data", getAllData);
+            setListOfWords(getAllData);
         })();
-    }, []);
+    }, [isFocused]);
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -25,11 +28,9 @@ export default function WordList({ navigation, route, words, onDeleteWord }) {
                     </TouchableOpacity>
                 </View>
 
-                {words.map((word, index) => {
+                {listOfWords && listOfWords.map((word, index) => {
                     return (<WordItems
                         key={index}
-                        id={word.id}
-                        {...word}
                         word={word}
                         navigation={navigation}
                         onDeleteWord={onDeleteWord}
