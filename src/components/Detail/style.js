@@ -3,6 +3,8 @@ import { fontFamilyPlatform } from "../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
+        // backgroundColor: 'cyan',
+        flex: 1,
         flexDirection: 'column',
         padding: 15,
         marginTop: 10
@@ -38,8 +40,10 @@ export default styles = StyleSheet.create({
         fontFamily: fontFamilyPlatform
     },
     title: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
         fontFamily: fontFamilyPlatform,
-        fontSize: 30,
+        fontSize: 22,
     },
     fields_buttons: {
         padding: 20
@@ -51,6 +55,7 @@ export default styles = StyleSheet.create({
 
     },
     loadingContainer: {
+        marginTop: 150,
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
@@ -105,5 +110,41 @@ export default styles = StyleSheet.create({
     },
     deleteBtnText: {
         color: 'white'
+    },
+
+    // detail word description
+    titleView: {
+        flexDirection: 'row',
+        paddingLeft: 0,
+        marginTop: 20,
+    },
+    titleDescription: {
+        fontWeight: 'bold',
+        textTransform: 'uppercase',
+        marginTop: 20,
+        fontFamily: fontFamilyPlatform,
+        fontSize: 22,
+    },
+
+    descriptionView: {
+        paddingLeft: 10,
+        paddingRight: 10,
+    },
+    description: {
+        fontSize: 18,
+        fontFamily: fontFamilyPlatform,
+        textAlign: 'justify',
+        textTransform: 'lowercase',
+
+    },
+    descriptionScrollView: {
+        marginTop: 20,
+    },
+
+    titleContent: {
+        textTransform: 'capitalize',
+        paddingLeft: 10,
+        fontFamily: fontFamilyPlatform,
+        fontSize: 22,
     },
 })

@@ -1,29 +1,26 @@
-import { View, Text, Alert, Modal, Pressable, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Alert, Modal, Pressable, TextInput, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
 import TagList from "../TagList";
 import styles from "./style";
 import { useState } from "react";
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-export default function Detail({ navigation, route, onEditWord, onEditDescription, onDeleteWord }) {
+export default function Detail({ navigation, route, onEditWord, onEditDescription, onDeleteWord, onUpdateButtonPressed }) {
 
     const word = route.params.word;
 
+    const [title, setTitle] = useState(word.title)
+    const [desc, setDesc] = useState(word.defination)
+
     const [deleteWord, setDeleteWord] = useState(false)
     const [modalVisible, setModalVisible] = useState(false)
-    
+
     const onEditButtonPressed = () => {
         setModalVisible(true)
     }
 
-    const onUpdateTitleHandler = (value) => {
-        onEditWord(value, word.id)
-    }
-    const onUpdateDescriptionHandler = (value) => {
-        onEditDescription(value, word.id)
-    }
-
-    const onUpdateButtonPressed = () => {
+    const onUpdateButtonPressedHandler = () => {
+        onUpdateButtonPressed(word.id, title, desc)
         navigation.navigate('WordLists')
     }
 
@@ -32,7 +29,7 @@ export default function Detail({ navigation, route, onEditWord, onEditDescriptio
         Alert.alert(`Do you want to delete a word "${word.title}"`, 'Are you sure?', [
             {
                 text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
+                onPress: () => { navigation.navigate('WordLists') },
                 style: 'cancel',
             },
             {
@@ -40,16 +37,48 @@ export default function Detail({ navigation, route, onEditWord, onEditDescriptio
                 onPress: () => {
                     onDeleteWord(word.id)
                     navigation.navigate('WordLists')
+
                     setDeleteWord(false)
                 }
             },
         ]);
     }
-    return (
-        <View style={styles.container}>
-            <View>
-                <Text>{word.defination}</Text>
+
+    if (deleteWord) {
+        return (
+            <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#0000ff" />
+                <Text style={styles.loadingText}>Deleting {word.title}, Please Wait...</Text>
             </View>
+        )
+    }
+
+    return (
+
+        <View style={styles.container}>
+            <View
+                style={styles.titleView}>
+
+                <Text
+                    style={styles.title}
+                >
+                    Title:
+                </Text>
+                <Text
+                    style={styles.titleContent}
+                >
+                    {word.title}
+                </Text>
+            </View>
+            <Text style={styles.titleDescription}>Description</Text>
+            <ScrollView
+                style={styles.descriptionScrollView}
+
+            >
+                <View style={styles.descriptionView}>
+                    <Text style={styles.description}>{word.defination}</Text>
+                </View>
+            </ScrollView>
             <View style={styles.actionBtns}>
                 <TouchableOpacity
                     style={styles.deleteButtonTouch}
@@ -100,9 +129,10 @@ export default function Detail({ navigation, route, onEditWord, onEditDescriptio
                             </Text>
                             <TextInput
                                 style={styles.wordTF}
-                                placeholder="Enter new word"
-                                value={word.title}
-                                onChangeText={(value) => onUpdateTitleHandler(value)}
+                                placeholder={`Update word ${word.title}`}
+                                value={title}
+                                onChangeText={(title) => setTitle(title)}
+                                defaultValue={word.title}
                             />
 
                             <Text
@@ -113,13 +143,16 @@ export default function Detail({ navigation, route, onEditWord, onEditDescriptio
                             <TextInput
                                 multiline={true}
                                 style={styles.wordTF}
-                                placeholder="Enter description for word..."
-                                value={word.description}
-                                onChangeText={(value) => onUpdateDescriptionHandler(value)}
+                                placeholder={`Update defination ${word.defination}`}
+                                value={desc}
+                                onChangeText={(desc) => setDesc(desc)}
+                                defaultValue={desc}
+                                maxLength={150}
                             />
+                            <Text style={{ fontSize: 10, marginTop: -10 }}>Number of characters: {150 - desc.length}</Text>
                             <TouchableOpacity
                                 style={styles.updateBtn}
-                                onPress={onUpdateButtonPressed}
+                                onPress={() => onUpdateButtonPressedHandler()}
                             >
                                 <Text style={styles.updateBtnText}>Update</Text>
                             </TouchableOpacity>
@@ -128,6 +161,6 @@ export default function Detail({ navigation, route, onEditWord, onEditDescriptio
                 </View>
 
             </Modal>
-        </View>
+        </View >
     )
 }

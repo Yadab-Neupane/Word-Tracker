@@ -3,11 +3,7 @@ import styles from './styles'
 import { useEffect, useState } from "react";
 import * as database from "./../../database/index"
 
-
-
 export default function Form({ navigation, route, onAddNewWord, writeToJSONFile }) {
-
-
     const [word, setWord] = useState('')
     const [defination, setDefination] = useState('')
 
