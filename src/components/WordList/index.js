@@ -2,10 +2,33 @@ import { ScrollView, Text, TouchableHighlight, TouchableOpacity, View } from 're
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles'
 import WordItems from './WordItems'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+// import { useIsFocused } from "@react-navigation/native";
+import * as database from "./../../database/index"
 
 
 export default function WordList({ navigation, route, words, onDeleteWord }) {
+    // const isFocused = useIsFocused()
+
+    useEffect(() => {
+        // (async () => {
+        //     let arr = [];
+        //     const wordLists = await database.getAllCategories();
+        //     for (let index = 0; index < categories.length; index++) {
+        //         const cat = categories[index];
+        //         arr.push({
+        //             key: cat.id,
+        //             value: cat.name
+        //         });
+        //     }
+        //     setCategoriesSelectList(arr);
+        // })();
+        (async () => {
+            // to get all the words
+            const getAllData = await database.getAllWords();
+            console.log(getAllData);
+        })();
+    }, []);
     return (
         <ScrollView>
             <View style={styles.container}>

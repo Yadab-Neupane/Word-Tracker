@@ -1,6 +1,9 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from './styles'
 import { useState } from "react";
+import * as database from "./../../database/index"
+import uuid from 'react-native-uuid';
+
 
 
 export default function Form({ navigation, route, onAddNewWord, writeToJSONFile }) {
@@ -9,10 +12,12 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
     const [description, setDescription] = useState('')
 
     const [errorMessage, setErrorMessage] = useState([])
+
+    const [result, setResult] = useState([])
+
     const [saving, setSaving] = useState(false)
 
-
-    const handleSaveButton = () => {
+    const handleSaveButton = async () => {
         const messageValidate = []
 
         if (title === '') {
@@ -29,14 +34,42 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
         else {
             setSaving(true)
 
-            onAddNewWord(title, description)
+            // onAddNewWord(title, description)
+
+            // setTitle('')
+            // setDescription('')
+            // setErrorMessage([])
+
+            // navigation.navigate("WordLists")
+
+            /* */
+            // const addNewWord = {
+            //     id: uuid.v4(),
+            //     title: title,
+            //     description: description,
+            // };
+            const addNewWord = onAddNewWord(title, description)
+            const data = await database.addWord(addNewWord)
+
+            const updatedWord = []
+            updatedWord.push(data);
+            console.log("Saving Btn", updatedWord)
+            setSaving(false)
 
 
-            setTitle('')
-            setDescription('')
-            setErrorMessage([])
+            if (updatedWord) {
+                // onAddNewWord(title, description)
+                setTitle('')
+                setDescription('')
+                setErrorMessage([])
+                navigation.navigate('WordLists');
 
-            navigation.navigate("WordLists")
+            }
+            else {
+                setErrorMessage(['Error Saving Data.'])
+            }
+            setResult(updatedWord)
+            /* */
 
         }
 
