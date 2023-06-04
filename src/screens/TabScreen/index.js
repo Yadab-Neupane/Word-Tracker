@@ -37,7 +37,6 @@ export default function TabScreen(props) {
 		// onAddNewWord(title, description)
 
 		const newWord = {
-			// id: uuid.v4(),
 			title: title,
 			description: description,
 		};

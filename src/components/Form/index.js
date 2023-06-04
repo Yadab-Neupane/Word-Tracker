@@ -1,12 +1,13 @@
 import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from './styles'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as database from "./../../database/index"
 import uuid from 'react-native-uuid';
 
 
 
 export default function Form({ navigation, route, onAddNewWord, writeToJSONFile }) {
+
 
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
@@ -33,44 +34,27 @@ export default function Form({ navigation, route, onAddNewWord, writeToJSONFile 
         }
         else {
             setSaving(true)
-
-            // onAddNewWord(title, description)
-
-            // setTitle('')
-            // setDescription('')
-            // setErrorMessage([])
-
-            // navigation.navigate("WordLists")
-
-            /* */
-            // const addNewWord = {
-            //     id: uuid.v4(),
-            //     title: title,
-            //     description: description,
-            // };
-            const addNewWord = onAddNewWord(title, description)
-            const data = await database.addWord(addNewWord)
+            const data = await database.addWord(title, description)
+                .catch((err) => {
+                    console.error(err)
+                })
+            console.log("Break Point")
 
             const updatedWord = []
             updatedWord.push(data);
             console.log("Saving Btn", updatedWord)
-            setSaving(false)
-
 
             if (updatedWord) {
-                // onAddNewWord(title, description)
                 setTitle('')
                 setDescription('')
                 setErrorMessage([])
-                navigation.navigate('WordLists');
+                navigation.navigate('WordLists')
+                setResult(updatedWord)
 
             }
             else {
                 setErrorMessage(['Error Saving Data.'])
             }
-            setResult(updatedWord)
-            /* */
-
         }
 
         if (saving) {
