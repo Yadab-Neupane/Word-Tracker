@@ -3,17 +3,17 @@ import {
     Text,
     Alert,
     Modal,
-    Pressable,
     TextInput,
     TouchableOpacity,
     ActivityIndicator,
-    ScrollView
+    ScrollView,
 } from "react-native";
 import TagList from "../TagList";
 import styles from "./style";
 import { useState } from "react";
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
 
 export default function Detail({ navigation, route, onDeleteWord, onUpdateButtonPressed }) {
 
@@ -124,10 +124,10 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
                     <View style={styles.modalGroup}>
                         <View style={styles.titleModal}>
                             <Text style={styles.title}>Update Form</Text>
-                            <Pressable
+                            <TouchableOpacity
                                 onPress={() => setModalVisible(!modalVisible)}>
-                                <Text>X</Text>
-                            </Pressable>
+                                <Entypo name="circle-with-cross" size={24} color="red" />
+                            </TouchableOpacity>
                         </View>
                         <View
                             style={styles.verticalOrientation}
