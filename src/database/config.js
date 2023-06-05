@@ -9,7 +9,6 @@ export const createWordDb = async () => {
                 "create table if not exists Words (id text primary key not null, title text, defination text);",
                 [],
                 (tx, results) => {
-                    console.log(results);
                     resolve(true);
                 },
                 (tx, error) => {
@@ -28,7 +27,6 @@ export const createTagDb = async () => {
                 "create table if not exists Tags (id text primary key not null, wordId text not null, tag text not null);",
                 [],
                 (tx, results) => {
-                    console.log(results);
                     resolve(true);
                 },
                 (tx, error) => {
