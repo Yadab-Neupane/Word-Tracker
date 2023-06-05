@@ -1,59 +1,47 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { lavenderColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
-import HomeScreen from '../HomeScreen';
+import HomeScreen from './../Homescreen';
+import * as database from "./../../database/index"
 
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
 
-
-	const [words, setWords] = useState([
-		{
-			title: 'Car',
-			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
-			tags:["bmw", "mercedesssss"]
-		},
-		{
-			title: 'Dog',
-			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
-			tags:["bmw", "mercedesssss"]
-		},
-		{
-			title: 'Cat',
-			description: 'four wheel vehicle lorem ipsum hehahahah lorem lorem',
-			tags:["bmw", "mercedesssss"]
-		},
-		// {
-		//   word: "Cow",
-		//   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-		// },
-		// {
-		//   word: "Hair",
-		//   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-		// },
-		// {
-		//   word: "Phone",
-		//   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-		// },
-		// {
-		//   word: "Mobile",
-		//   description: "four wheel vehicle lorem ipsum hehahahah lorem lorem",
-		// },
-	]);
+	// useEffect(() => {
+	// 	async () => {
+	// 		try {
+	// 			const data = await database.getAllWords()
+	// 		}
+	// 		catch (e) {
+	// 			console.log("Error", e)
+	// 		}
+	// 	}
+	// }, [])
+	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
 		const newWord = {
 			title: title,
 			description: description,
 		};
-		words.push(newWord);
-		console.log('New Word ', title);
-	};
+		const updatedWord = [...words]
+		updatedWord.push(newWord);
+		setWords(updatedWord)
+	}
 
+	const onUpdateButtonPressed = async (id, title, description) => {
+		const editWord = await database.updateWord(id, title, description)
+		setWords(editWord)
+	}
+
+	const onDeleteWord = async (id) => {
+		const data = await database.deleteWordById(id)
+		setWords(data)
+	}
 	return (
 		<Tab.Navigator>
 			<Tab.Screen
@@ -83,10 +71,15 @@ export default function TabScreen(props) {
 						return <MaterialIcons name={icon} size={size} color={color} />;
 					},
 				}}
-				// component={WordListScreen}
 			>
 				{(props) => {
-					return <WordListScreen {...props} words={words} onAddNewWord={onAddNewWord} />;
+					return <WordListScreen
+						{...props}
+						words={words}
+						onAddNewWord={onAddNewWord}
+						onDeleteWord={onDeleteWord}
+						onUpdateButtonPressed={onUpdateButtonPressed}
+					/>;
 				}}
 			</Tab.Screen>
 			<Tab.Screen

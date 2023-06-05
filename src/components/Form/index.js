@@ -1,24 +1,32 @@
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "react-native";
 import styles from './styles'
 import { useState } from "react";
+import * as database from "./../../database/index"
 
-
-export default function Form({ onAddNewWord }) {
-
-    const [title, setTitle] = useState('')
-    const [description, setDescription] = useState('')
+export default function Form({ navigation, route }) {
+    const [word, setWord] = useState('')
+    const [defination, setDefination] = useState('')
 
     const [errorMessage, setErrorMessage] = useState([])
 
+    const [saving, setSaving] = useState(false)
 
-    const handleSaveButton = () => {
+    const onWordChange = (val) => {
+        setWord(val);
+    }
+
+    const onDefinationChange = (val) => {
+        setDefination(val);
+    }
+
+    const handleSaveButton = async () => {
         const messageValidate = []
 
-        if (title === '') {
+        if (word === '') {
             messageValidate.push("Title is required")
         }
 
-        if (description === '') {
+        if (defination === '') {
             messageValidate.push("Description is required")
         }
 
@@ -26,14 +34,26 @@ export default function Form({ onAddNewWord }) {
             setErrorMessage(messageValidate)
         }
         else {
-            // console.log("Save button pressed " + title + " " + description)
-            onAddNewWord(title, description)
-
-            setTitle('')
-            setDescription('')
-            setErrorMessage([])
+            setSaving(true)
+            try {
+                const data = await database.addWord(word, defination);
+                console.log(data);
+                setWord('')
+                setDefination('')
+                setErrorMessage([])
+                navigation.navigate('WordLists')
+            } catch (error) {
+                console.log(error)
+            }
         }
 
+        if (saving) {
+            return (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" />
+                </View>
+            )
+        }
     }
     return (
         <View
@@ -62,8 +82,7 @@ export default function Form({ onAddNewWord }) {
                 <TextInput
                     style={styles.wordTF}
                     placeholder="Enter new word"
-                    value={title}
-                    onChangeText={setTitle}
+                    onChangeText={onWordChange}
                 />
 
                 <Text
@@ -75,10 +94,10 @@ export default function Form({ onAddNewWord }) {
                     multiline={true}
                     style={styles.wordTF}
                     placeholder="Enter description for word..."
-                    value={description}
-                    onChangeText={setDescription}
+                    onChangeText={onDefinationChange}
                 />
             </View>
+
             <TouchableOpacity
                 onPress={() => handleSaveButton()}
                 style={styles.touchableButton}
@@ -89,6 +108,8 @@ export default function Form({ onAddNewWord }) {
                     Save
                 </Text>
             </TouchableOpacity>
+
+
         </View>
     )
 }

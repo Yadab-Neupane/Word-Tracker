@@ -1,5 +1,9 @@
 import { StyleSheet } from "react-native";
-import { accentColor, fontFamilyPlatform, labelWhiteColor, secondaryColor } from "../../common/includes";
+import {
+    fontFamilyPlatform,
+    labelWhiteColor,
+    secondaryColor
+} from "../../common/includes";
 
 
 export default styles = StyleSheet.create({
@@ -16,7 +20,6 @@ export default styles = StyleSheet.create({
         fontFamily: fontFamilyPlatform,
     },
     wordTF: {
-        // borderBottomWidth: 0.2,
         padding: 5,
         marginTop: 10,
         borderWidth: 0.2,

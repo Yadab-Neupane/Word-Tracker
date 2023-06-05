@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import styles from './styles'
 import { Feather } from '@expo/vector-icons';
 
@@ -25,10 +25,14 @@ export default function WordItems({ navigation, route, word }) {
                     >
                         {word.title}
                     </Text>
-                    <Feather
-                        onPress={() => navigation.navigate("Detail", {word})}
-                        name="arrow-right-circle" size={24} color="white"
-                        style={{ marginTop: 15 }} />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate("Detail", { word })}
+                        style={{ marginTop: 15 }}
+                    >
+                        <Feather
+                            name="arrow-right-circle" size={24} color="white"
+                        />
+                    </TouchableOpacity>
                 </View>
                 <View
                     style={{ flexDirection: 'column' }}
@@ -38,7 +42,7 @@ export default function WordItems({ navigation, route, word }) {
                         {[styles.cardDescription,
                         { fontSize: 18 }]}
                     >
-                        {word.description}
+                        {word.defination}
                     </Text>
                 </View>
 

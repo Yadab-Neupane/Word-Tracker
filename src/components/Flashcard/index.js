@@ -1,4 +1,11 @@
-import { Animated, Text, TouchableOpacity, View, Modal, Pressable } from 'react-native';
+import {
+	Animated,
+	Text,
+	TouchableOpacity,
+	View,
+	Modal,
+	Pressable
+} from 'react-native';
 import styles from './styles';
 import { useRef, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';

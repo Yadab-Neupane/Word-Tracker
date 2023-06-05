@@ -1,27 +1,38 @@
-import { ScrollView, Text, TouchableHighlight, View } from 'react-native'
+import { ScrollView, TouchableOpacity, View } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles'
 import WordItems from './WordItems'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as database from "./../../database/index";
+import { useIsFocused } from "@react-navigation/native";
 
 
-export default function WordList({ navigation, route, words }) {
+export default function WordList({ navigation, route, onDeleteWord }) {
+    const isFocused = useIsFocused();
+    const [listOfWords, setListOfWords] = useState([]);
+    useEffect(() => {
+        (async () => {
+            const getAllData = await database.getAllWords();
+            setListOfWords(getAllData);
+        })();
+    }, [isFocused]);
     return (
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.addButton}>
-                    <TouchableHighlight
+                    <TouchableOpacity
                         onPress={() => navigation.navigate('Forms')}
                     >
                         <MaterialIcons name="add-to-photos" size={24} color="black" />
-                    </TouchableHighlight>
+                    </TouchableOpacity>
                 </View>
 
-                {words.map((item, index) => {
+                {listOfWords && listOfWords.map((word, index) => {
                     return (<WordItems
                         key={index}
-                        word = {item}
+                        word={word}
                         navigation={navigation}
+                        onDeleteWord={onDeleteWord}
                     />
                     )
                 })}

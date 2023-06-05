@@ -1,11 +1,13 @@
 import { StyleSheet } from "react-native"
-import { labelWhiteColor, fontFamilyPlatform, secondaryColor } from './../../common/includes'
+import {
+    labelWhiteColor,
+    fontFamilyPlatform,
+    secondaryColor
+} from './../../common/includes'
 
 export default styles = StyleSheet.create({
     container: {
         padding: 15,
-
-        // flexDirection: 'row'
     },
     card1: {
         flexDirection: 'row',

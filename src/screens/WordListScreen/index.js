@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 const Stack = createStackNavigator();
 
-export default function WordListScreen({ words, onAddNewWord }) {
+export default function WordListScreen({ words, onAddNewWord, onEditWord, onEditDescription, onDeleteWord, onUpdateButtonPressed }) {
     return (
         <Stack.Navigator>
             <Stack.Screen
@@ -21,7 +21,7 @@ export default function WordListScreen({ words, onAddNewWord }) {
                         <WordList
                             {...props}
                             words={words}
-
+                            onDeleteWord={onDeleteWord}
                         />
                     )
                 }}
@@ -30,12 +30,16 @@ export default function WordListScreen({ words, onAddNewWord }) {
             <Stack.Screen
                 name="Detail"
                 options={{
-                    headerTitle: "Defination"
+                    headerTitle: "Definition"
                 }}
             >
                 {(props) => {
                     return <Detail
                         {...props}
+                        onEditWord={onEditWord}
+                        onEditDescription={onEditDescription}
+                        onDeleteWord={onDeleteWord}
+                        onUpdateButtonPressed={onUpdateButtonPressed}
                     />
                 }}
             </Stack.Screen>
