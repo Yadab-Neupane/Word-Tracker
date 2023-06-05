@@ -1,16 +1,15 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { accentColor, lavenderColor, secondaryColor } from '../../common/includes';
+import { accentColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
 import HomeScreen from './../HomeScreen';
-import * as database from "./../../database/index"
+import * as database from './../../database/index';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
-
 	// useEffect(() => {
 	// 	async () => {
 	// 		try {
@@ -28,22 +27,25 @@ export default function TabScreen(props) {
 			title: title,
 			description: description,
 		};
-		const updatedWord = [...words]
+		const updatedWord = [...words];
 		updatedWord.push(newWord);
-		setWords(updatedWord)
-	}
+		setWords(updatedWord);
+	};
 
 	const onUpdateButtonPressed = async (id, title, description) => {
-		const editWord = await database.updateWord(id, title, description)
-		setWords(editWord)
-	}
+		const editWord = await database.updateWord(id, title, description);
+		setWords(editWord);
+	};
 
 	const onDeleteWord = async (id) => {
-		const data = await database.deleteWordById(id)
-		setWords(data)
-	}
+		const data = await database.deleteWordById(id);
+		setWords(data);
+	};
 	return (
-		<Tab.Navigator>
+		<Tab.Navigator
+			screenOptions={{
+				tabBarStyle: { paddingBottom: 10, paddingTop: 5, height: 60 },
+			}}>
 			<Tab.Screen
 				name="Home"
 				options={{
@@ -70,16 +72,17 @@ export default function TabScreen(props) {
 						const icon = focused ? 'category' : 'auto-awesome-mosaic';
 						return <MaterialIcons name={icon} size={size} color={color} />;
 					},
-				}}
-			>
+				}}>
 				{(props) => {
-					return <WordListScreen
-						{...props}
-						words={words}
-						onAddNewWord={onAddNewWord}
-						onDeleteWord={onDeleteWord}
-						onUpdateButtonPressed={onUpdateButtonPressed}
-					/>;
+					return (
+						<WordListScreen
+							{...props}
+							words={words}
+							onAddNewWord={onAddNewWord}
+							onDeleteWord={onDeleteWord}
+							onUpdateButtonPressed={onUpdateButtonPressed}
+						/>
+					);
 				}}
 			</Tab.Screen>
 			<Tab.Screen
@@ -91,7 +94,7 @@ export default function TabScreen(props) {
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
 						const icon = focused ? 'ios-school' : 'ios-school-outline';
-						return <Ionicons name={icon} size={size} color={color} />
+						return <Ionicons name={icon} size={size} color={color} />;
 					},
 				}}
 			/>
