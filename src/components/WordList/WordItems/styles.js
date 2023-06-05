@@ -10,7 +10,7 @@ export default styles = StyleSheet.create({
         backgroundColor: secondaryColor,
         flexDirection: 'column',
         padding: 20,
-        borderRadius: 4,
+        borderRadius: 10,
         marginTop: 10,
         marginBottom: 20
     },
