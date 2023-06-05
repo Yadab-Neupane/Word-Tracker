@@ -1,5 +1,5 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { lavenderColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
@@ -10,6 +10,17 @@ import * as database from "./../../database/index"
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
+
+	// useEffect(() => {
+	// 	async () => {
+	// 		try {
+	// 			const data = await database.getAllWords()
+	// 		}
+	// 		catch (e) {
+	// 			console.log("Error", e)
+	// 		}
+	// 	}
+	// }, [])
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {

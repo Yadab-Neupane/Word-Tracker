@@ -7,12 +7,11 @@ import * as database from "./../../database/index";
 import { useIsFocused } from "@react-navigation/native";
 
 
-export default function WordList({ navigation, route, words, onDeleteWord }) {
+export default function WordList({ navigation, route, onDeleteWord }) {
     const isFocused = useIsFocused();
-    const [listOfWords, setListOfWords] = useState([]); 
+    const [listOfWords, setListOfWords] = useState([]);
     useEffect(() => {
         (async () => {
-            // to get all the words
             const getAllData = await database.getAllWords();
             setListOfWords(getAllData);
         })();

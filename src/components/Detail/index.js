@@ -1,11 +1,21 @@
-import { View, Text, Alert, Modal, Pressable, TextInput, TouchableOpacity, ActivityIndicator, ScrollView } from "react-native";
+import {
+    View,
+    Text,
+    Alert,
+    Modal,
+    Pressable,
+    TextInput,
+    TouchableOpacity,
+    ActivityIndicator,
+    ScrollView
+} from "react-native";
 import TagList from "../TagList";
 import styles from "./style";
 import { useState } from "react";
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 
-export default function Detail({ navigation, route, onEditWord, onEditDescription, onDeleteWord, onUpdateButtonPressed }) {
+export default function Detail({ navigation, route, onDeleteWord, onUpdateButtonPressed }) {
 
     const word = route.params.word;
 

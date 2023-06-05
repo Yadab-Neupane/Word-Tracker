@@ -3,7 +3,6 @@ import { fontFamilyPlatform } from "../../common/includes"
 
 export default styles = StyleSheet.create({
     container: {
-        // backgroundColor: 'cyan',
         flex: 1,
         flexDirection: 'column',
         padding: 15,
