@@ -9,7 +9,6 @@ export const addWord = async (title, description) => {
                 "insert into Words (id, title, defination) values (?, ?, ?)",
                 [id, title, description],
                 (tx, results) => {
-                    console.log(results);
                     resolve(id);
                 },
                 (tx, error) => { reject(`Error while adding data: ${error}`) }
