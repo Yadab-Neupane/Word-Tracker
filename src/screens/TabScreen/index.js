@@ -1,7 +1,7 @@
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { lavenderColor, secondaryColor } from '../../common/includes';
+import { accentColor, lavenderColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
 import HomeScreen from './../Homescreen';
@@ -47,7 +47,7 @@ export default function TabScreen(props) {
 			<Tab.Screen
 				name="Home"
 				options={{
-					tabBarInactiveTintColor: lavenderColor,
+					tabBarInactiveTintColor: accentColor,
 					tabBarActiveTintColor: secondaryColor,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
@@ -63,11 +63,11 @@ export default function TabScreen(props) {
 			<Tab.Screen
 				name="Word"
 				options={{
-					tabBarInactiveTintColor: lavenderColor,
+					tabBarInactiveTintColor: accentColor,
 					tabBarActiveTintColor: secondaryColor,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
-						const icon = focused ? 'category' : 'category';
+						const icon = focused ? 'category' : 'auto-awesome-mosaic';
 						return <MaterialIcons name={icon} size={size} color={color} />;
 					},
 				}}
@@ -86,12 +86,12 @@ export default function TabScreen(props) {
 				name="Test"
 				component={TestScreen}
 				options={{
-					tabBarInactiveTintColor: lavenderColor,
+					tabBarInactiveTintColor: accentColor,
 					tabBarActiveTintColor: secondaryColor,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
-						const icon = focused ? 'category' : 'category';
-						return <MaterialIcons name={icon} size={size} color={color} />;
+						const icon = focused ? 'ios-school' : 'ios-school-outline';
+						return <Ionicons name={icon} size={size} color={color} />
 					},
 				}}
 			/>
