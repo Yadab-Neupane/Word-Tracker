@@ -30,7 +30,13 @@ export default styles = StyleSheet.create({
         paddingLeft: 30,
         paddingRight: 30,
         borderRadius: 12,
-        backgroundColor: 'white'
+        backgroundColor: 'white',
+        display: 'flex',
+        justifyContent: 'space-between',
+        flexDirection: 'row',
+        alignItems: 'center',
+        borderWidth: 2,
+        borderColor: 'white'
     },
     optionText: {
         fontSize: 18,
@@ -47,5 +53,11 @@ export default styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         fontSize: 18
+    },
+    clickedCorrect: {
+        borderColor: 'green',
+    },
+    clickedIncorrect: {
+        borderColor: 'red',
     }
 })

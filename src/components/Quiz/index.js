@@ -1,6 +1,7 @@
 import { Animated, Easing, Text, TouchableHighlight, View } from 'react-native';
 import styles from './styles';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { Ionicons, Entypo } from '@expo/vector-icons';
 
 export default function QuizComponent(props) {
 	const list = [
@@ -49,6 +50,8 @@ export default function QuizComponent(props) {
 
 	const slideAnim = useRef(new Animated.Value(0)).current;
 	const [count, setCount] = useState(0);
+	const [showNextBtn, setShowNextBtn] = useState(false);
+	const [ansIndex, setAnsIndex] = useState(2);
 
 	const quizLength = 5;
 
@@ -81,6 +84,7 @@ export default function QuizComponent(props) {
 		} else {
 			// show results
 		}
+		setShowNextBtn(false);
 	};
 
 	const updateWordAndOptions = () => {
@@ -114,6 +118,11 @@ export default function QuizComponent(props) {
 		Animated.sequence([outAnimation, Animated.delay(200), inAnimation]).start();
 	};
 
+	const answerClick = (ans, index) => {
+		setAnsIndex(index);
+		setShowNextBtn(true);
+	};
+
 	const [word, setWord] = useState(getRandomWord());
 	const [options, setOptions] = useState(getOptions(word));
 
@@ -137,20 +146,53 @@ export default function QuizComponent(props) {
 				<View style={styles.options}>
 					{options?.map((opt, index) => {
 						return (
-							<TouchableHighlight key={index}>
-								<View style={styles.option}>
-									<Text style={styles.optionText}>{`A: ${opt.title}`}</Text>
+							<TouchableHighlight
+								key={index}
+								onPress={() => {
+									answerClick(opt, index);
+								}}>
+								<View
+									style={[
+										styles.option,
+										ansIndex === index &&
+										word.title === opt.title &&
+										showNextBtn
+											? styles.clickedCorrect
+											: '',
+										ansIndex === index &&
+										word.title !== opt.title &&
+										showNextBtn
+											? styles.clickedIncorrect
+											: '',
+										word.title === opt.title && showNextBtn
+											? styles.clickedCorrect
+											: '',
+									]}>
+									<Text style={styles.optionText}>{`${String.fromCharCode(
+										0x0041 + index
+									)}:   ${opt.title}`}</Text>
+									{word.title === opt.title && showNextBtn && (
+										<Ionicons name="checkmark-circle-outline" size={20} color="green" />
+									)}
+									{(ansIndex === index &&
+										word.title !== opt.title &&
+										showNextBtn) && 
+										(
+											<Entypo name="circle-with-cross" size={20} color="red" />
+										)}
 								</View>
 							</TouchableHighlight>
 						);
 					})}
 				</View>
 			</View>
-			<View style={{ marginTop: 30 }}>
-				<TouchableHighlight style={styles.nextBtn} onPress={handleButtonClick}>
-					<Text style={styles.nextBtnText}>Next</Text>
-				</TouchableHighlight>
-			</View>
+			{showNextBtn && (
+				<View style={{ marginTop: 30 }}>
+					<TouchableHighlight style={styles.nextBtn} onPress={handleButtonClick}>
+						<Text style={styles.nextBtnText}>Next</Text>
+					</TouchableHighlight>
+				</View>
+			)}
 		</Animated.View>
 	);
 }
