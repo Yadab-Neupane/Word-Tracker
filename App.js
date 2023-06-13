@@ -11,6 +11,7 @@ import TabScreen from './src/screens/TabScreen';
 import { useEffect } from 'react';
 
 import * as database from './src/database/index';
+import QuizComponent from './src/components/Quiz';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,11 @@ export default function App() {
 						<Stack.Screen name="Memory">
 							{(props) => {
 								return <MemoryComponent {...props} />;
+							}}
+						</Stack.Screen>
+						<Stack.Screen name="Quiz">
+							{(props) => {
+								return <QuizComponent {...props} />;
 							}}
 						</Stack.Screen>
 					</Stack.Navigator>
