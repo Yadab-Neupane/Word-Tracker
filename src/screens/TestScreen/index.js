@@ -4,8 +4,8 @@ import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 
 export default function TestScreen(props) {
-	const onMemoryPressed = () => {
-		props.navigation.push('Memory');
+	const navigateTo = (path) => {
+		props.navigation.push(path);
 	};
 	let [modalVisible, setModalVisible] = useState(false);
 
@@ -22,7 +22,7 @@ export default function TestScreen(props) {
 			<TouchableHighlight
 				activeOpacity={0.6}
 				underlayColor="#DDDDDD"
-				onPress={onMemoryPressed}>
+				onPress={() => { navigateTo('Memory')}}>
 				<View style={styles.box}>
 					<ImageBackground
 						source={require('../../../assets/flashcards.png')}
@@ -76,6 +76,38 @@ export default function TestScreen(props) {
 					</View>
 				</View>
 			</Modal>
+			<TouchableHighlight
+				activeOpacity={0.6}
+				underlayColor="#DDDDDD"
+				style={{marginTop: 20}}
+				onPress={() => { navigateTo('Quiz')}}>
+				<View style={styles.box}>
+					<ImageBackground
+						source={require('../../../assets/flashcards.png')}
+						style={styles.image}>
+						<View style={{ padding: 30 }}>
+							<View style={styles.boxHeader}>
+								<Text style={styles.title}>Quiz</Text>
+								<TouchableHighlight onPress={showMemoryInfo}>
+									<Feather
+										style={styles.info}
+										name="info"
+										size={30}
+										color="black"
+									/>
+								</TouchableHighlight>
+							</View>
+							<View style={styles.boxBody}>
+								<View>
+									<Text style={styles.content}>Quiz yourself and</Text>
+									<Text style={styles.content}>expand your </Text>
+									<Text style={styles.flashcard}>knoweledge.</Text>
+								</View>
+							</View>
+						</View>
+					</ImageBackground>
+				</View>
+			</TouchableHighlight>
 		</View>
 	);
 }
