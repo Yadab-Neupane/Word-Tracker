@@ -37,6 +37,25 @@ export const getAllWords = async () => {
     })
 };
 
+export const getAllWordsByTitle = async (title) => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "select * from Words w where w.title LIKE (?)",
+                [`${title}%`],
+                (tx, results) => {
+                    var temp = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                    resolve(temp);
+                },
+                (tx, error) => { reject(`Error while fetching data: ${error}`) }
+            );
+
+        });
+    })
+};
+
 export const getWordById = async (id) => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
