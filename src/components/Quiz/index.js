@@ -1,10 +1,12 @@
 import { Animated, Easing, Text, TouchableHighlight, View } from 'react-native';
 import styles from './styles';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import * as database from "../../database/index";
+
 
 export default function QuizComponent(props) {
-	const list = [
+	let  list = [
 		{
 			title: 'Scripturient',
 			definition: 'having a consuming passion to write',
@@ -122,6 +124,22 @@ export default function QuizComponent(props) {
 		setAnsIndex(index);
 		setShowNextBtn(true);
 	};
+
+	useEffect(() => {
+		console.log('asdf')
+		fetchData(); // Call the API when the component mounts
+	  }, []);
+	
+	  const fetchData = async () => {
+		try {
+			const words = await database.getRandomWords(1);
+			list = words;
+			newList = [...list];
+			console.log(list)
+		} catch (error) {
+		  console.error('Error fetching data:', error);
+		}
+	  };
 
 	const [word, setWord] = useState(getRandomWord());
 	const [options, setOptions] = useState(getOptions(word));
