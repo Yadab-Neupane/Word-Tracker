@@ -7,48 +7,48 @@ import { secondaryColor } from '../../common/includes';
 
 export default function QuizComponent(props) {
 	const [list, setList] = useState([]);
-	// const list = [
-	// 	// {
-	// 	// 	title: 'Scripturient',
-	// 	// 	definition: 'having a consuming passion to write',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Abience',
-	// 	// 	definition: 'strong urge to avoid someone or something',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Abscond',
-	// 	// 	definition: 'to secretly depart and hide oneself',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Apricity',
-	// 	// 	definition: 'the warmth of sun in the winter',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Solivagant',
-	// 	// 	definition: 'wandering alone',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Sauhuta',
-	// 	// 	definition: 'to give off smoke',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Redolent',
-	// 	// 	definition: 'having a strong distinctive fragrance',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Fulminate',
-	// 	// 	definition: 'cause to explode violently',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Discarnate',
-	// 	// 	definition: 'having no body',
-	// 	// },
-	// 	// {
-	// 	// 	title: 'Irenic',
-	// 	// 	definition: 'promoting peace',
-	// 	// },
-	// ];
+	const predefinedList = [
+		{
+			title: 'Scripturient',
+			definition: 'having a consuming passion to write',
+		},
+		{
+			title: 'Abience',
+			definition: 'strong urge to avoid someone or something',
+		},
+		{
+			title: 'Abscond',
+			definition: 'to secretly depart and hide oneself',
+		},
+		{
+			title: 'Apricity',
+			definition: 'the warmth of sun in the winter',
+		},
+		{
+			title: 'Solivagant',
+			definition: 'wandering alone',
+		},
+		{
+			title: 'Sauhuta',
+			definition: 'to give off smoke',
+		},
+		{
+			title: 'Redolent',
+			definition: 'having a strong distinctive fragrance',
+		},
+		{
+			title: 'Fulminate',
+			definition: 'cause to explode violently',
+		},
+		{
+			title: 'Discarnate',
+			definition: 'having no body',
+		},
+		{
+			title: 'Irenic',
+			definition: 'promoting peace',
+		},
+	];
 
 	const slideAnim = useRef(new Animated.Value(0)).current;
 	const [count, setCount] = useState(0);
@@ -71,13 +71,16 @@ export default function QuizComponent(props) {
 	const fetchData = async () => {
 		setIsLoading(true);
 		try {
-			const words = await database.getRandomWords(10);
-			if (words.length >= 5) {
-				setList(words);
+			let words = await database.getRandomWords(10);
+			if (words.length < 5) {
+				// TODO: show message
+				// set predefined list because the length is less than 5
+				words = [...predefinedList];
 			}
-			setIsLoading(false);
+			setList(words);
 			setNewList(words);
 			updateWordAndOptions(words);
+			setIsLoading(false);
 		} catch (error) {
 			setIsLoading(false);
 			console.error('Error fetching data:', error);
