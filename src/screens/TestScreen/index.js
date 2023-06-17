@@ -4,10 +4,11 @@ import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
 
 export default function TestScreen(props) {
+	let [modalVisible, setModalVisible] = useState(false);
+
 	const navigateTo = (path) => {
 		props.navigation.push(path);
 	};
-	let [modalVisible, setModalVisible] = useState(false);
 
 	const showMemoryInfo = () => {
 		setModalVisible(true);
@@ -22,7 +23,9 @@ export default function TestScreen(props) {
 			<TouchableHighlight
 				activeOpacity={0.6}
 				underlayColor="#DDDDDD"
-				onPress={() => { navigateTo('Memory')}}>
+				onPress={() => {
+					navigateTo('Memory');
+				}}>
 				<View style={styles.box}>
 					<ImageBackground
 						source={require('../../../assets/flashcards.png')}
@@ -79,8 +82,10 @@ export default function TestScreen(props) {
 			<TouchableHighlight
 				activeOpacity={0.6}
 				underlayColor="#DDDDDD"
-				style={{marginTop: 20}}
-				onPress={() => { navigateTo('Quiz')}}>
+				style={{ marginTop: 20 }}
+				onPress={() => {
+					navigateTo('Quiz');
+				}}>
 				<View style={styles.box}>
 					<ImageBackground
 						source={require('../../../assets/flashcards.png')}
