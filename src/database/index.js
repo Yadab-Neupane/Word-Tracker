@@ -6,8 +6,9 @@ export {
 	deleteAllWords,
 	deleteWordById,
 	updateWord,
-    getRandomWords,
-	addWords
+	getRandomWords,
+	addWords,
+	getAllWordsByTitle,
 } from '../database/Word/index';
 export {
 	addTag,
