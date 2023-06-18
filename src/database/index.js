@@ -9,6 +9,7 @@ export {
 	getRandomWords,
 	addWords,
 	getAllWordsByTitle,
+	updateBookmark
 } from '../database/Word/index';
 export {
 	addTag,

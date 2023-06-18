@@ -11,8 +11,7 @@ export default styles = StyleSheet.create({
         flexDirection: 'column',
         padding: 20,
         borderRadius: 10,
-        marginTop: 10,
-        marginBottom: 20
+        marginTop: 10
     },
     card: {
         padding: 20
@@ -24,5 +23,11 @@ export default styles = StyleSheet.create({
     cardDescription: {
         color: labelWhiteColor,
         fontFamily: fontFamilySerif
+    },
+    bookmarkButton: {
+        marginTop: -15, 
+        marginBottom: 5, 
+        alignSelf: 'flex-end', 
+        marginRight: 10
     }
 })

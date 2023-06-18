@@ -1,12 +1,12 @@
 import { openDatabase } from "expo-sqlite";
-export const db = openDatabase("dbtest60");
+export const db = openDatabase("dbtest78");
 
 
 export const createWordDb = async () => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                "create table if not exists Words (id text primary key not null, title text, defination text, createdAt text);",
+                "create table if not exists Words (id text primary key not null, title text, defination text, createdAt text, isBookmarked int);",
                 [],
                 (tx, results) => {
                     resolve(true);

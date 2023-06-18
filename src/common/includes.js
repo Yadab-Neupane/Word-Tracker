@@ -9,6 +9,7 @@ export const blackShadeColor = "#393646"
 export const lavenderColor = "#BA90C6"
 export const labelWhiteColor = "#fff"
 export const blueColor = "#5783db"
+export const lightYellowColor = "#fffdaf"
 
 
 export const appTitle = 'Word Tracker App'
