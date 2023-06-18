@@ -1,12 +1,16 @@
-import { Animated, Text, TouchableOpacity, View, Modal, Pressable } from 'react-native';
+import { Animated, Text, TouchableOpacity, View, Modal, Pressable, ActivityIndicator } from 'react-native';
 import styles from './styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
+import * as database from '../../database/index';
+import { secondaryColor } from '../../common/includes';
 
 export default function Flashcard(props) {
 	const quizLength = 5;
 
-	const list = [
+	const [list, setList] = useState([]);
+
+	const predefinedList = [
 		{
 			title: 'Scripturient',
 			definition: 'having a consuming passion to write',
@@ -49,19 +53,40 @@ export default function Flashcard(props) {
 		},
 	];
 
-	const getRandomWord = () => {
-		return list[Math.floor(Math.random() * list.length)];
-	};
-
 	let [count, setCount] = useState(0);
 	let [flipValue, setFlipValue] = useState(new Animated.Value(0));
-	let [word, setWord] = useState(getRandomWord());
+	let [word, setWord] = useState({});
 	let [isFlipped, setIsFlipped] = useState(false);
 	let [score, setScore] = useState({
 		correct: 0,
 		incorrect: 0,
 	});
 	const [modalVisible, setModalVisible] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		(async () => {
+			fetchData();
+		})();
+	}, []);
+
+	const fetchData = async () => {
+		setIsLoading(true);
+		try {
+			let words = await database.getRandomWords(5);
+			if (words.length < 5) {
+				// TODO: show message
+				// set predefined list because the length is less than 5
+				words = [...predefinedList];
+			}
+			setList(words);
+			setWord(words[0])
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false);
+			console.error('Error fetching data:', error);
+		}
+	};
 
 	const frontFlip = {
 		transform: [
@@ -117,7 +142,7 @@ export default function Flashcard(props) {
 			flipDefToBack();
 			setTimeout(() => {
 				setCount(count + 1);
-				setWord(getRandomWord());
+				setWord(list[count + 1]);
 			}, 100);
 			setIsFlipped(false);
 		} else {
@@ -161,64 +186,84 @@ export default function Flashcard(props) {
 	};
 
 	return (
-		<View style={styles.container}>
-			<View style={styles.flipView}>
-				<Animated.View
-					style={[
-						{
-							...frontFlip,
-						},
-						styles.flipFront,
-					]}>
-					<View>
-						<Text style={styles.textFront}>{word.title}</Text>
-					</View>
-				</Animated.View>
-				<Animated.View
-					style={[
-						{
-							...backFlip,
-						},
-						styles.flipBack,
-					]}>
-					<View>
-						<Text style={styles.textBackTitle}>{word.title} :</Text>
-						<Text style={styles.textBackDef}>{word.definition}</Text>
-					</View>
-				</Animated.View>
-			</View>
-			<View style={styles.bottomView}>{renderButtons()}</View>
-			<Modal
-				animationType="slide"
-				transparent={true}
-				visible={modalVisible}
-				onRequestClose={() => {
-					Alert.alert('Modal has been closed.');
-					setModalVisible(!modalVisible);
-				}}>
-				<View style={styles.centeredView}>
-					<View style={styles.centeredView.modalView}>
-						<Text style={styles.centeredView.modalView.modalHeader}>Your Results</Text>
-						<View style={styles.centeredView.modalView.modalBody}>
-							<View style={styles.centeredView.modalView.modalBody.box}>
-								<Text>Correct</Text>
-								<Text style={styles.centeredView.modalView.modalBody.box.text}>
-									{score.correct}
-								</Text>
+		<>
+			{!isLoading ? (
+				<View style={styles.container}>
+					<View style={styles.flipView}>
+						<Animated.View
+							style={[
+								{
+									...frontFlip,
+								},
+								styles.flipFront,
+							]}>
+							<View>
+								<Text style={styles.textFront}>{word?.title}</Text>
 							</View>
-							<View style={styles.centeredView.modalView.modalBody.box}>
-								<Text>Incorrect</Text>
-								<Text style={styles.centeredView.modalView.modalBody.box.text}>
-									{score.incorrect}
+						</Animated.View>
+						<Animated.View
+							style={[
+								{
+									...backFlip,
+								},
+								styles.flipBack,
+							]}>
+							<View>
+								<Text style={styles.textBackTitle}>{word?.title} :</Text>
+								<Text style={styles.textBackDef}>{word?.defination}</Text>
+							</View>
+						</Animated.View>
+					</View>
+					<View style={styles.bottomView}>{renderButtons()}</View>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={modalVisible}
+						onRequestClose={() => {
+							Alert.alert('Modal has been closed.');
+							setModalVisible(!modalVisible);
+						}}>
+						<View style={styles.centeredView}>
+							<View style={styles.centeredView.modalView}>
+								<Text style={styles.centeredView.modalView.modalHeader}>
+									Your Results
 								</Text>
+								<View style={styles.centeredView.modalView.modalBody}>
+									<View style={styles.centeredView.modalView.modalBody.box}>
+										<Text>Correct</Text>
+										<Text
+											style={
+												styles.centeredView.modalView.modalBody.box.text
+											}>
+											{score.correct}
+										</Text>
+									</View>
+									<View style={styles.centeredView.modalView.modalBody.box}>
+										<Text>Incorrect</Text>
+										<Text
+											style={
+												styles.centeredView.modalView.modalBody.box.text
+											}>
+											{score.incorrect}
+										</Text>
+									</View>
+								</View>
+								<Pressable
+									style={styles.centeredView.modalView.button}
+									onPress={closeModal}>
+									<Text style={styles.centeredView.modalView.button.textStyle}>
+										OK
+									</Text>
+								</Pressable>
 							</View>
 						</View>
-						<Pressable style={styles.centeredView.modalView.button} onPress={closeModal}>
-							<Text style={styles.centeredView.modalView.button.textStyle}>OK</Text>
-						</Pressable>
-					</View>
+					</Modal>
 				</View>
-			</Modal>
-		</View>
+			) : (
+				<View style={{ flex: 1, justifyContent: 'center' }}>
+					<ActivityIndicator size="large" color={secondaryColor} />
+				</View>
+			)}
+		</>
 	);
 }
