@@ -1,10 +1,13 @@
-import { Animated, Easing, Text, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Animated, Easing, Text, TouchableHighlight, View } from 'react-native';
 import styles from './styles';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
+import * as database from '../../database/index';
+import { secondaryColor } from '../../common/includes';
 
 export default function QuizComponent(props) {
-	const list = [
+	const [list, setList] = useState([]);
+	const predefinedList = [
 		{
 			title: 'Scripturient',
 			definition: 'having a consuming passion to write',
@@ -46,7 +49,6 @@ export default function QuizComponent(props) {
 			definition: 'promoting peace',
 		},
 	];
-	let newList = [...list];
 
 	const slideAnim = useRef(new Animated.Value(0)).current;
 	const [count, setCount] = useState(0);
@@ -55,17 +57,50 @@ export default function QuizComponent(props) {
 
 	const quizLength = 5;
 
-	const getOptions = (wor) => {
+	const [word, setWord] = useState();
+	const [options, setOptions] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [newList, setNewList] = useState([]);
+
+	useEffect(() => {
+		(async () => {
+			fetchData();
+		})();
+	}, []);
+
+	const fetchData = async () => {
+		setIsLoading(true);
+		try {
+			let words = await database.getRandomWords(10);
+			if (words.length < 5) {
+				// TODO: show message
+				// set predefined list because the length is less than 5
+				words = [...predefinedList];
+			}
+			setList(words);
+			setNewList(words);
+			updateWordAndOptions(words);
+			setIsLoading(false);
+		} catch (error) {
+			setIsLoading(false);
+			console.error('Error fetching data:', error);
+		}
+	};
+
+	const getOptions = (curWord, words) => {
 		let opt = [];
 
-		opt.push(wor);
-		while (opt.length < 4) {
-			const random = Math.floor(Math.random() * list.length);
-			if (opt.findIndex((i) => i.title === list[random].title) === -1) {
-				opt.push(list[random]);
+		if (curWord) {
+			opt.push(curWord);
+			while (opt.length < 4) {
+				const random = Math.floor(Math.random() * words.length);
+				if (opt.findIndex((i) => i.title === words[random].title) === -1) {
+					opt.push(words[random]);
+				}
 			}
+			return shuffleArray(opt);
 		}
-		return shuffleArray(opt);
+		return [];
 	};
 
 	function shuffleArray(array) {
@@ -80,26 +115,27 @@ export default function QuizComponent(props) {
 		if (count + 1 < quizLength) {
 			setCount(count + 1);
 			animateScreen();
-			updateWordAndOptions();
+			setTimeout(() => {
+				updateWordAndOptions(newList);
+			}, 280);
 		} else {
 			// show results
 		}
 		setShowNextBtn(false);
 	};
 
-	const updateWordAndOptions = () => {
-		setTimeout(() => {
-			const currentWord = getRandomWord();
-			setWord(currentWord);
-			setOptions(getOptions(currentWord));
-		}, 280);
+	const updateWordAndOptions = (words) => {
+		const currentWord = getRandomWord(words);
+		setWord(currentWord);
+		setOptions(getOptions(currentWord, list.length > 0 ? list : words));
 	};
 
-	const getRandomWord = () => {
+	const getRandomWord = (words) => {
 		if (word) {
-			newList = newList.filter((i) => i.title !== word.title);
+			setNewList(words.filter((i) => i.title !== word.title));
 		}
-		return newList[Math.floor(Math.random() * newList.length)];
+		const newWord = words[Math.floor(Math.random() * words.length)];
+		return newWord;
 	};
 
 	const animateScreen = () => {
@@ -123,76 +159,96 @@ export default function QuizComponent(props) {
 		setShowNextBtn(true);
 	};
 
-	const [word, setWord] = useState(getRandomWord());
-	const [options, setOptions] = useState(getOptions(word));
-
 	return (
-		<Animated.View
-			style={[
-				styles.container,
-				{
-					opacity: slideAnim.interpolate({
-						inputRange: [0, 1],
-						outputRange: [1, 0],
-					}),
-				},
-			]}>
-			<View>
+		<>
+			{!isLoading ? (
 				<View>
-					<View style={styles.question}>
-						<Text style={styles.questionText}>{word?.definition}</Text>
-					</View>
-				</View>
-				<View style={styles.options}>
-					{options?.map((opt, index) => {
-						return (
-							<TouchableHighlight
-								key={index}
-								onPress={() => {
-									answerClick(opt, index);
-								}}>
-								<View
-									style={[
-										styles.option,
-										ansIndex === index &&
-										word.title === opt.title &&
-										showNextBtn
-											? styles.clickedCorrect
-											: '',
-										ansIndex === index &&
-										word.title !== opt.title &&
-										showNextBtn
-											? styles.clickedIncorrect
-											: '',
-										word.title === opt.title && showNextBtn
-											? styles.clickedCorrect
-											: '',
-									]}>
-									<Text style={styles.optionText}>{`${String.fromCharCode(
-										0x0041 + index
-									)}:   ${opt.title}`}</Text>
-									{word.title === opt.title && showNextBtn && (
-										<Ionicons name="checkmark-circle-outline" size={20} color="green" />
-									)}
-									{(ansIndex === index &&
-										word.title !== opt.title &&
-										showNextBtn) && 
-										(
-											<Entypo name="circle-with-cross" size={20} color="red" />
-										)}
+					<Animated.View
+						style={[
+							styles.container,
+							{
+								opacity: slideAnim.interpolate({
+									inputRange: [0, 1],
+									outputRange: [1, 0],
+								}),
+							},
+						]}>
+						<View>
+							<View>
+								<View style={styles.question}>
+									<Text style={styles.questionText}>{word?.defination}</Text>
 								</View>
-							</TouchableHighlight>
-						);
-					})}
+							</View>
+							<View style={styles.options}>
+								{options?.map((opt, index) => {
+									return (
+										<TouchableHighlight
+											disabled={showNextBtn}
+											key={index}
+											onPress={() => {
+												answerClick(opt, index);
+											}}>
+											<View
+												style={[
+													styles.option,
+													ansIndex === index &&
+													word?.title === opt.title &&
+													showNextBtn
+														? styles.clickedCorrect
+														: '',
+													ansIndex === index &&
+													word?.title !== opt.title &&
+													showNextBtn
+														? styles.clickedIncorrect
+														: '',
+													word?.title === opt.title && showNextBtn
+														? styles.clickedCorrect
+														: '',
+												]}>
+												<Text
+													style={
+														styles.optionText
+													}>{`${String.fromCharCode(0x0041 + index)}:   ${
+													opt.title
+												}`}</Text>
+												{word?.title === opt.title && showNextBtn && (
+													<Ionicons
+														name="checkmark-circle-outline"
+														size={20}
+														color="green"
+													/>
+												)}
+												{ansIndex === index &&
+													word?.title !== opt.title &&
+													showNextBtn && (
+														<Entypo
+															name="circle-with-cross"
+															size={20}
+															color="red"
+														/>
+													)}
+											</View>
+										</TouchableHighlight>
+									);
+								})}
+							</View>
+						</View>
+						{showNextBtn && (
+							<View style={{ marginTop: 30 }}>
+								<TouchableHighlight
+									style={styles.nextBtn}
+									onPress={handleButtonClick}>
+									<Text style={styles.nextBtnText}>Next</Text>
+								</TouchableHighlight>
+							</View>
+						)}
+					</Animated.View>
 				</View>
-			</View>
-			{showNextBtn && (
-				<View style={{ marginTop: 30 }}>
-					<TouchableHighlight style={styles.nextBtn} onPress={handleButtonClick}>
-						<Text style={styles.nextBtnText}>Next</Text>
-					</TouchableHighlight>
+			) : (
+				<View style={{ flex: 1, justifyContent: 'center' }}>
+					<ActivityIndicator size="large" color={secondaryColor} />
 				</View>
 			)}
-		</Animated.View>
+		</>
 	);
 }
