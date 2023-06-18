@@ -28,7 +28,6 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 setListOfWords(getAllData);
             })();
         }
-       
     }, [isFocused, searchPhrase]);
 
     const onSearchCancelled = () => {

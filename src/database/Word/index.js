@@ -6,7 +6,7 @@ export const addWord = async (title, description) => {
         const id = uuid.v4();
         db.transaction(tx => {
             tx.executeSql(
-                "insert into Words (id, title, defination) values (?, ?, ?)",
+                "insert into Words (id, title, defination, isBookmarked) values (?, ?, ?, 0)",
                 [id, title, description],
                 (tx, results) => {
                     resolve(id);
@@ -42,7 +42,7 @@ export const getAllWordsByTitle = async (title) => {
         db.transaction(tx => {
             tx.executeSql(
                 "select * from Words w where w.title LIKE (?)",
-                [`${title}%`],
+                [`%${title}%`],
                 (tx, results) => {
                     var temp = [];
                     for (let i = 0; i < results.rows.length; ++i)
@@ -78,6 +78,22 @@ export const updateWord = async (id, title, description) => {
             tx.executeSql(
                 "update Words set title = (?), defination = (?) where id = (?)",
                 [title, description, id],
+                (tx, results) => {
+                    resolve("Updated successfully");
+                },
+                (tx, error) => { reject(`Error while updaing data: ${error}`) }
+            );
+
+        });
+    })
+};
+
+export const updateBookmark = async (id, bookmark) => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "update Words set isBookmarked = (?) where id = (?)",
+                [bookmark, id],
                 (tx, results) => {
                     resolve("Updated successfully");
                 },
