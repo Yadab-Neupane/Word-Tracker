@@ -1,4 +1,4 @@
-import { ActivityIndicator, Animated, Easing, Text, TouchableHighlight, View } from 'react-native';
+import { ActivityIndicator, Animated, Easing, Text, TouchableHighlight, View, Modal, Pressable } from 'react-native';
 import styles from './styles';
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
@@ -61,6 +61,11 @@ export default function QuizComponent(props) {
 	const [options, setOptions] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 	const [newList, setNewList] = useState([]);
+	let [score, setScore] = useState({
+		correct: 0,
+		incorrect: 0,
+	});
+	const [modalVisible, setModalVisible] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -111,7 +116,7 @@ export default function QuizComponent(props) {
 		return array;
 	}
 
-	const handleButtonClick = () => {
+	const handleButtonClick = (clickedAnswer) => {
 		if (count + 1 < quizLength) {
 			setCount(count + 1);
 			animateScreen();
@@ -119,7 +124,7 @@ export default function QuizComponent(props) {
 				updateWordAndOptions(newList);
 			}, 280);
 		} else {
-			// show results
+			setModalVisible(true);
 		}
 		setShowNextBtn(false);
 	};
@@ -156,94 +161,147 @@ export default function QuizComponent(props) {
 
 	const answerClick = (ans, index) => {
 		setAnsIndex(index);
+		updateScore(ans);
 		setShowNextBtn(true);
+	};
+
+	const updateScore = (answer) => {
+		if (answer.title === word.title) {
+			setScore({
+				correct: score.correct + 1,
+				incorrect: score.incorrect,
+			});
+			return;
+		}
+		setScore({
+			correct: score.correct,
+			incorrect: score.incorrect + 1,
+		});
+	};
+
+	const closeModal = () => {
+		setModalVisible(!modalVisible);
+		props.navigation.goBack();
 	};
 
 	return (
 		<>
 			{!isLoading ? (
-				<View>
-					<Animated.View
-						style={[
-							styles.container,
-							{
-								opacity: slideAnim.interpolate({
-									inputRange: [0, 1],
-									outputRange: [1, 0],
-								}),
-							},
-						]}>
-						<View>
+				<>
+					<View>
+						<Animated.View
+							style={[
+								styles.container,
+								{
+									opacity: slideAnim.interpolate({
+										inputRange: [0, 1],
+										outputRange: [1, 0],
+									}),
+								},
+							]}>
 							<View>
-								<View style={styles.question}>
-									<Text style={styles.questionText}>{word?.defination}</Text>
+								<View>
+									<View style={styles.question}>
+										<Text style={styles.questionText}>{word?.defination}</Text>
+									</View>
 								</View>
-							</View>
-							<View style={styles.options}>
-								{options?.map((opt, index) => {
-									return (
-										<TouchableHighlight
-											disabled={showNextBtn}
-											key={index}
-											onPress={() => {
-												answerClick(opt, index);
-											}}>
-											<View
-												style={[
-													styles.option,
-													ansIndex === index &&
-													word?.title === opt.title &&
-													showNextBtn
-														? styles.clickedCorrect
-														: '',
-													ansIndex === index &&
-													word?.title !== opt.title &&
-													showNextBtn
-														? styles.clickedIncorrect
-														: '',
-													word?.title === opt.title && showNextBtn
-														? styles.clickedCorrect
-														: '',
-												]}>
-												<Text
-													style={
-														styles.optionText
-													}>{`${String.fromCharCode(0x0041 + index)}:   ${
-													opt.title
-												}`}</Text>
-												{word?.title === opt.title && showNextBtn && (
-													<Ionicons
-														name="checkmark-circle-outline"
-														size={20}
-														color="green"
-													/>
-												)}
-												{ansIndex === index &&
-													word?.title !== opt.title &&
-													showNextBtn && (
-														<Entypo
-															name="circle-with-cross"
+								<View style={styles.options}>
+									{options?.map((opt, index) => {
+										return (
+											<TouchableHighlight
+												disabled={showNextBtn}
+												key={index}
+												onPress={() => {
+													answerClick(opt, index);
+												}}>
+												<View
+													style={[
+														styles.option,
+														ansIndex === index &&
+														word?.title === opt.title &&
+														showNextBtn
+															? styles.clickedCorrect
+															: '',
+														ansIndex === index &&
+														word?.title !== opt.title &&
+														showNextBtn
+															? styles.clickedIncorrect
+															: '',
+														word?.title === opt.title && showNextBtn
+															? styles.clickedCorrect
+															: '',
+													]}>
+													<Text
+														style={
+															styles.optionText
+														}>{`${String.fromCharCode(
+														0x0041 + index
+													)}:   ${opt.title}`}</Text>
+													{word?.title === opt.title && showNextBtn && (
+														<Ionicons
+															name="checkmark-circle-outline"
 															size={20}
-															color="red"
+															color="green"
 														/>
 													)}
-											</View>
-										</TouchableHighlight>
-									);
-								})}
+													{ansIndex === index &&
+														word?.title !== opt.title &&
+														showNextBtn && (
+															<Entypo
+																name="circle-with-cross"
+																size={20}
+																color="red"
+															/>
+														)}
+												</View>
+											</TouchableHighlight>
+										);
+									})}
+								</View>
+							</View>
+							{showNextBtn && (
+								<View style={{ marginTop: 30 }}>
+									<TouchableHighlight
+										style={styles.nextBtn}
+										onPress={handleButtonClick}>
+										<Text style={styles.nextBtnText}>Next</Text>
+									</TouchableHighlight>
+								</View>
+							)}
+						</Animated.View>
+					</View>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={modalVisible}
+						onRequestClose={() => {
+							Alert.alert('Modal has been closed.');
+							setModalVisible(!modalVisible);
+						}}>
+						<View style={styles.centeredView}>
+							<View style={styles.centeredView.modalView}>
+								<Text style={styles.centeredView.modalView.modalHeader}>Your Results</Text>
+								<View style={styles.centeredView.modalView.modalBody}>
+									<View style={styles.centeredView.modalView.modalBody.box}>
+										<Text>Correct</Text>
+										<Text style={styles.centeredView.modalView.modalBody.box.text}>
+											{score.correct}
+										</Text>
+									</View>
+									<View style={styles.centeredView.modalView.modalBody.box}>
+										<Text>Incorrect</Text>
+										<Text style={styles.centeredView.modalView.modalBody.box.text}>
+											{score.incorrect}
+										</Text>
+									</View>
+								</View>
+								<Pressable style={styles.centeredView.modalView.button} onPress={closeModal}>
+									<Text style={styles.centeredView.modalView.button.textStyle}>OK</Text>
+								</Pressable>
 							</View>
 						</View>
-						{showNextBtn && (
-							<View style={{ marginTop: 30 }}>
-								<TouchableHighlight
-									style={styles.nextBtn}
-									onPress={handleButtonClick}>
-									<Text style={styles.nextBtnText}>Next</Text>
-								</TouchableHighlight>
-							</View>
-						)}
-					</Animated.View>
-				</View>
+					</Modal>
+				</>
 			) : (
 				<View style={{ flex: 1, justifyContent: 'center' }}>
 					<ActivityIndicator size="large" color={secondaryColor} />

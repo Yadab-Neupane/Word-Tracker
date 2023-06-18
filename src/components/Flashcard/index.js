@@ -197,24 +197,24 @@ export default function Flashcard(props) {
 					setModalVisible(!modalVisible);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
-						<Text style={styles.modalView.modalHeader}>Your Results</Text>
-						<View style={styles.modalView.modalBody}>
-							<View style={styles.modalView.modalBody.box}>
+					<View style={styles.centeredView.modalView}>
+						<Text style={styles.centeredView.modalView.modalHeader}>Your Results</Text>
+						<View style={styles.centeredView.modalView.modalBody}>
+							<View style={styles.centeredView.modalView.modalBody.box}>
 								<Text>Correct</Text>
-								<Text style={styles.modalView.modalBody.box.text}>
+								<Text style={styles.centeredView.modalView.modalBody.box.text}>
 									{score.correct}
 								</Text>
 							</View>
-							<View style={styles.modalView.modalBody.box}>
+							<View style={styles.centeredView.modalView.modalBody.box}>
 								<Text>Incorrect</Text>
-								<Text style={styles.modalView.modalBody.box.text}>
+								<Text style={styles.centeredView.modalView.modalBody.box.text}>
 									{score.incorrect}
 								</Text>
 							</View>
 						</View>
-						<Pressable style={styles.modalView.button} onPress={closeModal}>
-							<Text style={styles.modalView.button.textStyle}>OK</Text>
+						<Pressable style={styles.centeredView.modalView.button} onPress={closeModal}>
+							<Text style={styles.centeredView.modalView.button.textStyle}>OK</Text>
 						</Pressable>
 					</View>
 				</View>
