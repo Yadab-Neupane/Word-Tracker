@@ -1,5 +1,5 @@
 import { openDatabase } from "expo-sqlite";
-export const db = openDatabase("dbtest68");
+export const db = openDatabase("dbtest78");
 
 
 export const createWordDb = async () => {
