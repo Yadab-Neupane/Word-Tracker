@@ -21,6 +21,7 @@ export default function TabScreen(props) {
 	// 		}
 	// 	}
 	// }, [])
+
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
@@ -81,6 +82,7 @@ export default function TabScreen(props) {
 						onUpdateButtonPressed={onUpdateButtonPressed}
 					/>;
 				}}
+
 			</Tab.Screen>
 			<Tab.Screen
 				name="Test"

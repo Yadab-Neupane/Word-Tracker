@@ -4,10 +4,13 @@ import uuid from 'react-native-uuid';
 export const addWord = async (title, description) => {
     return new Promise((resolve, reject) => {
         const id = uuid.v4();
+        var strftime = require('strftime')
+        const createdAt = strftime('%H:%M:%S')
+        console.log("STRF", createdAt)
         db.transaction(tx => {
             tx.executeSql(
-                "insert into Words (id, title, defination) values (?, ?, ?)",
-                [id, title, description],
+                "insert into Words (id, title, defination, createdAt) values (?, ?, ?, ?)",
+                [id, title, description, createdAt],
                 (tx, results) => {
                     console.log(results);
                     resolve(id);

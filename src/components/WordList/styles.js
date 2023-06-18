@@ -11,8 +11,8 @@ export default styles = StyleSheet.create({
     addButton: {
         position: 'relative',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'flex-end',
     },
     wordListView: {

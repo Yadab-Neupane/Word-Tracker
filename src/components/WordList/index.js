@@ -16,17 +16,35 @@ export default function WordList({ navigation, route, onDeleteWord }) {
             setListOfWords(getAllData);
         })();
     }, [isFocused]);
+
+    const sortArray = async () => {
+        const sortAllData = await database.getAllWords();
+        sortAllData.sort((a, b) => b.createdAt - a.createdAt ? 1 : -1)
+        console.log("List", sortAllData)
+        setListOfWords(sortAllData)
+    }
     return (
         <ScrollView>
             <View style={styles.container}>
-                <View style={styles.addButton}>
+                <View
+                    style={styles.addButton}>
                     <TouchableOpacity
+
                         onPress={() => navigation.navigate('Forms')}
                     >
                         <MaterialIcons name="add-to-photos" size={24} color="black" />
                     </TouchableOpacity>
+
+                    {listOfWords.length > 0 &&
+                        <TouchableOpacity
+                            onPress={() => sortArray()}
+                        >
+                            <MaterialIcons name="sort" size={24} color="black" />
+                        </TouchableOpacity>
+                    }
                 </View>
 
+                {/* listOfWords &&  */}
                 {listOfWords && listOfWords.map((word, index) => {
                     return (<WordItems
                         key={index}
