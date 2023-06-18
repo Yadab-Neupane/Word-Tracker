@@ -1,16 +1,11 @@
-import {
-	Animated,
-	Text,
-	TouchableOpacity,
-	View,
-	Modal,
-	Pressable
-} from 'react-native';
+import { Animated, Text, TouchableOpacity, View, Modal, Pressable } from 'react-native';
 import styles from './styles';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 
 export default function Flashcard(props) {
+	const quizLength = 5;
+
 	const list = [
 		{
 			title: 'Scripturient',
@@ -32,10 +27,35 @@ export default function Flashcard(props) {
 			title: 'Solivagant',
 			definition: 'wandering alone',
 		},
+		{
+			title: 'Sauhuta',
+			definition: 'to give off smoke',
+		},
+		{
+			title: 'Redolent',
+			definition: 'having a strong distinctive fragrance',
+		},
+		{
+			title: 'Fulminate',
+			definition: 'cause to explode violently',
+		},
+		{
+			title: 'Discarnate',
+			definition: 'having no body',
+		},
+		{
+			title: 'Irenic',
+			definition: 'promoting peace',
+		},
 	];
-	let [index, setIndex] = useState(0);
+
+	const getRandomWord = () => {
+		return list[Math.floor(Math.random() * list.length)];
+	};
+
+	let [count, setCount] = useState(0);
 	let [flipValue, setFlipValue] = useState(new Animated.Value(0));
-	let [word, setWord] = useState(list[index]);
+	let [word, setWord] = useState(getRandomWord());
 	let [isFlipped, setIsFlipped] = useState(false);
 	let [score, setScore] = useState({
 		correct: 0,
@@ -93,11 +113,11 @@ export default function Flashcard(props) {
 				incorrect: score.incorrect + 1,
 			});
 		}
-		if (index + 1 < list.length) {
+		if (count + 1 < quizLength) {
 			flipDefToBack();
 			setTimeout(() => {
-				setIndex(index + 1);
-				setWord(list[index + 1]);
+				setCount(count + 1);
+				setWord(getRandomWord());
 			}, 100);
 			setIsFlipped(false);
 		} else {

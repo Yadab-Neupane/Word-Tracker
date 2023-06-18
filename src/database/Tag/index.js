@@ -9,7 +9,6 @@ export const addTag = async (wordId, tag) => {
                 "insert into Tags (id, wordId, tag) values (?, ?, ?)",
                 [id, wordId, tag],
                 (tx, results) => {
-                    console.log(results);
                     resolve(id);
                 },
                 (tx, error) => { reject(`Error while adding data: ${error}`)}

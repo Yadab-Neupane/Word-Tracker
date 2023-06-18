@@ -11,11 +11,11 @@ import TabScreen from './src/screens/TabScreen';
 import { useEffect } from 'react';
 
 import * as database from './src/database/index';
+import QuizComponent from './src/components/Quiz';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
 	useEffect(() => {
 		(async () => {
 			try {
@@ -23,25 +23,11 @@ export default function App() {
 				const wordDbExists = await database.createWordDb();
 				const TagDbExists = await database.createTagDb();
 				if (wordDbExists && TagDbExists) {
-
-				}
-				else{
-					Alert.alert(
-						'Error',
-						`Error connecting to db`,
-						[
-							
-						]
-					);
+				} else {
+					Alert.alert('Error', `Error connecting to db`, []);
 				}
 			} catch (error) {
-				Alert.alert(
-					'Error',
-					`Error connecting to db`,
-					[
-						
-					]
-				);
+				Alert.alert('Error', `Error connecting to db`, []);
 			}
 		})();
 	}, []);
@@ -61,6 +47,11 @@ export default function App() {
 						<Stack.Screen name="Memory">
 							{(props) => {
 								return <MemoryComponent {...props} />;
+							}}
+						</Stack.Screen>
+						<Stack.Screen name="Quiz" options={{ headerBackVisible: false }}>
+							{(props) => {
+								return <QuizComponent {...props} />;
 							}}
 						</Stack.Screen>
 					</Stack.Navigator>
