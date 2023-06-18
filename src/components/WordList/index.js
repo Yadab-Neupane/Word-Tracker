@@ -54,6 +54,18 @@ export default function WordList({ navigation, route, onDeleteWord }) {
         <ScrollView>
             <View style={styles.container}>
                 <View style={styles.searchContainer}>
+                    <View style={styles.sortButton}>
+
+
+                        {listOfWords.length > 0 &&
+                            <TouchableOpacity
+                                onPress={() => sortArray()}
+                            >
+                                <MaterialIcons name="sort" size={24} color="black" />
+                            </TouchableOpacity>
+                        }
+
+                    </View>
                     <View
                         style={
                             clicked
@@ -61,6 +73,8 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                                 : styles.searchBar__unclicked
                         }
                     >
+
+
                         <Feather
                             name="search"
                             size={20}
@@ -85,13 +99,6 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                             <MaterialIcons name="add-to-photos" size={24} color="black" />
                         </TouchableOpacity>
 
-                        {listOfWords.length > 0 &&
-                            <TouchableOpacity
-                                onPress={() => sortArray()}
-                            >
-                                <MaterialIcons name="sort" size={24} color="black" />
-                            </TouchableOpacity>
-                        }
                     </View>
 
                 </View>
