@@ -4,22 +4,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { accentColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
-import HomeScreen from './../HomeScreen';
+import HomeScreen from './../Homescreen';
 import * as database from './../../database/index';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
-	// useEffect(() => {
-	// 	async () => {
-	// 		try {
-	// 			const data = await database.getAllWords()
-	// 		}
-	// 		catch (e) {
-	// 			console.log("Error", e)
-	// 		}
-	// 	}
-	// }, [])
+
+
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
@@ -84,6 +76,7 @@ export default function TabScreen(props) {
 						/>
 					);
 				}}
+
 			</Tab.Screen>
 			<Tab.Screen
 				name="Test"

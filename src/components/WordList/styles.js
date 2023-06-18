@@ -11,10 +11,10 @@ export default styles = StyleSheet.create({
     addButton: {
         position: 'relative',
         display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-end',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'flex-end',
-        marginLeft: 25
+        marginLeft: 10
     },
     wordListView: {
         borderRadius: 5,
@@ -40,6 +40,11 @@ export default styles = StyleSheet.create({
         backgroundColor: "#d9dbda",
         borderRadius: 15,
         alignItems: "center",
+    },
+    sortButton: {
+        paddingRight: 10,
+        flexDirection: "row",
+        justifyContent: 'space-between',
     },
     searchBar__clicked: {
         padding: 10,

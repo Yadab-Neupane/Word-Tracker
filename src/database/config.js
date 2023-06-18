@@ -6,7 +6,7 @@ export const createWordDb = async () => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                "create table if not exists Words (id text primary key not null, title text, defination text);",
+                "create table if not exists Words (id text primary key not null, title text, defination text, createdAt text);",
                 [],
                 (tx, results) => {
                     resolve(true);
