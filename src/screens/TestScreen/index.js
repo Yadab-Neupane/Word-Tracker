@@ -5,12 +5,32 @@ import { useState } from 'react';
 
 export default function TestScreen(props) {
 	let [modalVisible, setModalVisible] = useState(false);
+	let [modalText, setModalText] = useState({
+		header: '',
+		textHead: '',
+		textBody: '',
+	});
 
 	const navigateTo = (path) => {
 		props.navigation.push(path);
 	};
 
-	const showMemoryInfo = () => {
+	const showMemoryInfo = (isMemory) => {
+		let header = 'Quiz';
+		let head = `You will be quizzed with 5 word one at a time. You can choose through 4 options. \n`;
+		let body = `Expand your knoweledge by completing the quiz`;
+		
+		if (isMemory) {
+			header = 'Memory';
+			head = `You will be tested with 5 word one at a time. You can view the definition by interacting with the flashcard. \n`;
+			body = `Test your memory and choose if you guessed it correctly or incorrectly.`;
+		}
+		setModalText({
+			header,
+			textHead: head,
+			textBody: body,
+		});
+
 		setModalVisible(true);
 	};
 
@@ -33,7 +53,10 @@ export default function TestScreen(props) {
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>
 								<Text style={styles.title}>Memory</Text>
-								<TouchableHighlight onPress={showMemoryInfo}>
+								<TouchableHighlight
+									onPress={() => {
+										showMemoryInfo(true);
+									}}>
 									<Feather
 										style={styles.info}
 										name="info"
@@ -62,16 +85,10 @@ export default function TestScreen(props) {
 				}}>
 				<View style={styles.centeredView}>
 					<View style={styles.modalView}>
-						<Text style={styles.modalView.modalHeader}>Memory</Text>
+						<Text style={styles.modalView.modalHeader}>{modalText.header}</Text>
 						<View style={styles.modalView.modalBody}>
-							<Text>
-								You will be tested with 5 word one at a time. You can view the
-								definition by interacting with the flashcard.
-							</Text>
-							<Text>
-								Test your memory and choose if you guessed it correctly or
-								incorrectly.
-							</Text>
+							<Text>{modalText.textHead}</Text>
+							<Text>{modalText.textBody}</Text>
 						</View>
 						<Pressable style={styles.modalView.button} onPress={closeModal}>
 							<Text style={styles.modalView.button.textStyle}>OK</Text>
@@ -88,12 +105,15 @@ export default function TestScreen(props) {
 				}}>
 				<View style={styles.box}>
 					<ImageBackground
-						source={require('../../../assets/flashcards.png')}
+						source={require('../../../assets/options.png')}
 						style={styles.image}>
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>
 								<Text style={styles.title}>Quiz</Text>
-								<TouchableHighlight onPress={showMemoryInfo}>
+								<TouchableHighlight
+									onPress={() => {
+										showMemoryInfo(false);
+									}}>
 									<Feather
 										style={styles.info}
 										name="info"
