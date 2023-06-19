@@ -8,6 +8,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { lavenderColor } from '../../common/includes';
 import Filter from './Filter';
+import DateFilter from './DateFilter';
 
 
 export default function WordList({ navigation, route, onDeleteWord }) {
@@ -22,6 +23,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const [tagsToBeFiltered, setTagsToBeFiltered] = useState([]);
     const [isTagFilterTabActive, setIsTagFilterTabActive] = useState(true);
 
+    const[startDateFromFilter, setStartDateFromFilter] = useState('');
+    const[endDateFromFilter, setEndDateFromFilter] = useState('');
+
 
     useEffect(() => {
         if (searchPhrase) {
@@ -30,11 +34,15 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 setListOfWords(getAllData);
             })();
         }
-        else if (tagsToBeFiltered.length > 0 && isFilterActive) {
+        else if (isFilterActive && tagsToBeFiltered.length > 0) {
             (async () => {
                 const getAllData = await database.getAllWordsByTagList(tagsToBeFiltered);
                 setListOfWords(getAllData);
             })();
+        }
+        else if(isFilterActive && startDateFromFilter && endDateFromFilter){
+            console.log("Start Date", startDateFromFilter);
+            console.log("End Date", endDateFromFilter);
         }
         else {
             (async () => {
@@ -113,6 +121,14 @@ export default function WordList({ navigation, route, onDeleteWord }) {
             setIsTagFilterTabActive(false);
             setTagsToBeFiltered([]);
         }
+    }
+
+    const onStartDateChange = (val) => {
+        setStartDateFromFilter(val);
+    }
+
+    const onEndDateChange = (val) => {
+        setEndDateFromFilter(val);
     }
 
     return (
@@ -236,7 +252,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                                     </View>
                                 </ScrollView>
                                 :
-                                <></>
+                                <View style={styles.modalView.container}>
+                                    <DateFilter onStartDateChange={onStartDateChange} onEndDateChange={onEndDateChange}></DateFilter>
+                                </View>
                             }
 
                         </View>

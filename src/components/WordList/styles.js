@@ -1,8 +1,7 @@
 import { StyleSheet } from "react-native"
 import {
     labelWhiteColor,
-    secondaryColor,
-    lavenderColor
+    secondaryColor
 } from "../../common/includes"
 
 export default styles = StyleSheet.create({
@@ -98,7 +97,7 @@ export default styles = StyleSheet.create({
         },
         modalBody: {
             padding: 20,
-            height: '80%'
+            height: '70%'
         },
         container: {
             flex: 1,
