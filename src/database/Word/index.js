@@ -39,6 +39,32 @@ export const getAllWords = async () => {
     })
 };
 
+export const getAllWordsByTagList = async (tagList) => {
+    let query = "select w.* from Tags t inner join Words w on t.wordId = w.id where t.tag in (";
+    for (let i = 1; i <= tagList.length; i++) {
+        if (i == tagList.length) query += "?)";
+        else query += "?,";
+    }
+
+    console.log("query is :", query, tagList);
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                query,
+                tagList,
+                (tx, results) => {
+                    var temp = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                    resolve(temp);
+                },
+                (tx, error) => { reject(`Error while fetching data: ${error}`) }
+            );
+
+        });
+    })
+};
+
 export const getAllWordsByTitle = async (title) => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
@@ -165,7 +191,7 @@ export const addWords = async (words) => {
         words.forEach((element, index) => {
             const id = uuid.v4();
             sql += '(?, ?, ?)'
-            if(index < words.length - 1) {
+            if (index < words.length - 1) {
                 sql += ','
             }
             arry.push(id)
