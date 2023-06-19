@@ -20,6 +20,8 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const [tagsToBeFiltered, setTagsToBeFiltered] = useState([]);
+    const [isTagFilterTabActive, setIsTagFilterTabActive] = useState(true);
+
 
     useEffect(() => {
         if (searchPhrase) {
@@ -45,8 +47,6 @@ export default function WordList({ navigation, route, onDeleteWord }) {
             (async () => {
                 const getAllTags = await database.getAllTags();
                 setListOfTags(getAllTags);
-
-                console.log(getAllTags);
             })();
         }
 
@@ -89,11 +89,11 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
     const addTagsToBeFiltered = (tag) => {
         const index = tagsToBeFiltered.findIndex(q => q == tag);
-        if(index > -1){
+        if (index > -1) {
             const removedExisting = tagsToBeFiltered.filter(q => q !== tag);
             setTagsToBeFiltered(removedExisting);
         }
-        else{
+        else {
             const newTagsToBeFiltered = [tag, ...tagsToBeFiltered];
             setTagsToBeFiltered(newTagsToBeFiltered);
         }
@@ -103,6 +103,17 @@ export default function WordList({ navigation, route, onDeleteWord }) {
         setIsFilterActive(true);
         setModalVisible(false);
     };
+
+
+    const onHeaderToggle = (state) => {
+        if (state == 'tag') {
+            setIsTagFilterTabActive(true);
+
+        } else {
+            setIsTagFilterTabActive(false);
+            setTagsToBeFiltered([]);
+        }
+    }
 
     return (
         <>
@@ -193,17 +204,41 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalView.modalHeader}>Apply Filter</Text>
+                        <View
+                            style={styles.modalView.modalTabHeaderContainer}>
+                            <TouchableOpacity
+                                style={[styles.modalView.modalTabHeader,
+                                isTagFilterTabActive ? styles.modalView.modalTabHeader_Active : styles.modalView.modalTabHeader_Inactive]}
+                                onPress={() => {
+                                    onHeaderToggle('tag');
+                                }}>
+                                <Text style={styles.modalView.modalTabHeader_Text}>Tag Filter</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.modalView.modalTabHeader,
+                                isTagFilterTabActive ? styles.modalView.modalTabHeader_Inactive : styles.modalView.modalTabHeader_Active]}
+                                onPress={() => {
+                                    onHeaderToggle('date');
+                                }}>
+                                <Text style={styles.modalView.modalTabHeader_Text}>Date Filter</Text>
+                            </TouchableOpacity>
+                        </View>
+
                         <View style={styles.modalView.modalBody}>
-                            <ScrollView>
-                                <View style={styles.modalView.container}>
-                                    {listOfTags.map((item, index) => {
-                                        return (
-                                            <Filter key={index} tag={item} addTagsToBeFiltered={addTagsToBeFiltered}></Filter>
-                                        )
-                                    })}
-                                </View>
-                            </ScrollView>
+                            {isTagFilterTabActive ?
+                                <ScrollView>
+                                    <View style={styles.modalView.container}>
+                                        {listOfTags.map((item, index) => {
+                                            return (
+                                                <Filter key={index} tag={item} addTagsToBeFiltered={addTagsToBeFiltered}></Filter>
+                                            )
+                                        })}
+                                    </View>
+                                </ScrollView>
+                                :
+                                <></>
+                            }
+
                         </View>
                         <View style={styles.modalView.modalButtonContainer}>
                             <Pressable style={styles.modalView.button} onPress={onFilterApplyPress}>
