@@ -9,7 +9,6 @@ import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { lavenderColor } from '../../common/includes';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
-import TagFilter from './TagFilter';
 
 
 export default function WordList({ navigation, route, onDeleteWord }) {
@@ -50,6 +49,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 const getAllData = await database.getAllWords();
                 setListOfWords(getAllData);
             })();
+            setIsFilterActive(false);
         }
 
         if (isFocused) {
@@ -86,6 +86,8 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const onCancelFilterPress = () => {
         setIsFilterActive(false);
         setTagsToBeFiltered([]);
+        setStartDateFromFilter('');
+        setEndDateFromFilter('');
     };
 
     const onFilterPress = () => {
