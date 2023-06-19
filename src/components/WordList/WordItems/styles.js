@@ -8,26 +8,33 @@ import {
 export default styles = StyleSheet.create({
     container: {
         backgroundColor: secondaryColor,
-        flexDirection: 'column',
-        padding: 20,
+        padding: 15,
         borderRadius: 10,
-        marginTop: 10
+        marginTop: 10,
+        minHeight: 130
     },
     card: {
-        padding: 20
+        padding: 10
+    },
+    cardWrap: {
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     cardText: {
         color: labelWhiteColor,
-        fontFamily: fontFamilySerif
+        fontFamily: fontFamilySerif,
+        fontSize: 26,
+        fontWeight: 600
     },
     cardDescription: {
         color: labelWhiteColor,
-        fontFamily: fontFamilySerif
+        fontFamily: fontFamilySerif,
+        fontSize: 18,
+        padding: 5
     },
-    bookmarkButton: {
-        marginTop: -15, 
-        marginBottom: 5, 
-        alignSelf: 'flex-end', 
-        marginRight: 10
+    word: {
+        flexDirection: 'column',
+        flex: 1,
+        marginRight: 20
     }
 })
