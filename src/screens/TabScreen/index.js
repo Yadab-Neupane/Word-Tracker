@@ -1,4 +1,4 @@
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { accentColor, secondaryColor } from '../../common/includes';
@@ -61,8 +61,8 @@ export default function TabScreen(props) {
 					tabBarActiveTintColor: secondaryColor,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
-						const icon = focused ? 'category' : 'auto-awesome-mosaic';
-						return <MaterialIcons name={icon} size={size} color={color} />;
+						const icon = focused ? 'appstore1' : 'appstore-o';
+						return <AntDesign name={icon} size={size} color={color} />;
 					},
 				}}>
 				{(props) => {
