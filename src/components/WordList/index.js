@@ -7,8 +7,9 @@ import * as database from "./../../database/index";
 import { useIsFocused } from "@react-navigation/native";
 import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import { lavenderColor } from '../../common/includes';
-import Filter from './Filter';
+import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
+import TagFilter from './TagFilter';
 
 
 export default function WordList({ navigation, route, onDeleteWord }) {
@@ -246,7 +247,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                                     <View style={styles.modalView.container}>
                                         {listOfTags.map((item, index) => {
                                             return (
-                                                <Filter key={index} tag={item} addTagsToBeFiltered={addTagsToBeFiltered}></Filter>
+                                                <TagFilter key={index} tag={item} addTagsToBeFiltered={addTagsToBeFiltered}></TagFilter>
                                             )
                                         })}
                                     </View>
