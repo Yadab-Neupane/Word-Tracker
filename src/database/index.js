@@ -9,7 +9,8 @@ export {
 	getRandomWords,
 	addWords,
 	getAllWordsByTitle,
-	updateBookmark
+	updateBookmark,
+	getAllWordsByTagList
 } from '../database/Word/index';
 export {
 	addTag,
@@ -17,4 +18,5 @@ export {
 	getTagByTagId,
 	deleteTagById,
 	updateTag,
+	getAllTags
 } from '../database/Tag/index';

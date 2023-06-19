@@ -37,6 +37,25 @@ export const getAllTagsByWordId = async (wordId) => {
     })
 };
 
+export const getAllTags = async () => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "select DISTINCT tag from Tags",
+                [],
+                (tx, results) => {
+                    var temp = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                    resolve(temp);
+                },
+                (tx, error) => { reject(`Error while fetching data: ${error}`)}
+            );
+
+        });
+    })
+};
+
 export const getTagByTagId = async (id) => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
