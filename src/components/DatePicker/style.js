@@ -12,7 +12,8 @@ export default styles = StyleSheet.create({
     },
     input:{
         minWidth: '50%',
-        padding:10
+        padding:10,
+        color:'black'
     }
 
 })

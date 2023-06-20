@@ -1,15 +1,23 @@
-import { ScrollView, TouchableOpacity, View, TextInput, Modal, Text, Pressable } from 'react-native'
+import {
+    ScrollView,
+    TouchableOpacity,
+    View,
+    TextInput,
+    Modal,
+    Text,
+    Pressable,
+    Alert
+} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import styles from './styles'
-import WordItems from './WordItems'
+import styles from './styles';
+import WordItems from './WordItems';
 import { useEffect, useState } from 'react';
 import * as database from "./../../database/index";
 import { useIsFocused } from "@react-navigation/native";
-import { Feather, Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
-import { lavenderColor } from '../../common/includes';
+import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
+import { secondaryColor } from '../../common/includes';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
-
 
 export default function WordList({ navigation, route, onDeleteWord }) {
     const isFocused = useIsFocused();
@@ -23,9 +31,8 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const [tagsToBeFiltered, setTagsToBeFiltered] = useState([]);
     const [isTagFilterTabActive, setIsTagFilterTabActive] = useState(true);
 
-    const[startDateFromFilter, setStartDateFromFilter] = useState('');
-    const[endDateFromFilter, setEndDateFromFilter] = useState('');
-
+    const [startDateFromFilter, setStartDateFromFilter] = useState('');
+    const [endDateFromFilter, setEndDateFromFilter] = useState('');
 
     useEffect(() => {
         if (searchPhrase) {
@@ -40,9 +47,11 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 setListOfWords(getAllData);
             })();
         }
-        else if(isFilterActive && startDateFromFilter && endDateFromFilter){
-            console.log("Start Date", startDateFromFilter);
-            console.log("End Date", endDateFromFilter);
+        else if (isFilterActive && startDateFromFilter && endDateFromFilter) {
+            (async () => {
+                const getAllData = await database.getAllWordsByDateRange(startDateFromFilter, endDateFromFilter);
+                setListOfWords(getAllData);
+            })();
         }
         else {
             (async () => {
@@ -58,9 +67,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 setListOfTags(getAllTags);
             })();
         }
-
     }, [isFocused, searchPhrase, isFilterActive]);
-
 
     const onSearchCancelled = () => {
         setClicked(false);
@@ -78,9 +85,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
     const sortArray = async () => {
         const sortAllData = await database.getAllWords();
-        sortAllData.sort((a, b) => b.createdAt - a.createdAt ? 1 : -1)
-        console.log("List", sortAllData)
-        setListOfWords(sortAllData)
+        sortAllData.sort((a, b) => (b.createdAt - a.createdAt ? 1 : -1));
+        console.log('List', sortAllData);
+        setListOfWords(sortAllData);
     };
 
     const onCancelFilterPress = () => {
@@ -99,22 +106,27 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     };
 
     const addTagsToBeFiltered = (tag) => {
-        const index = tagsToBeFiltered.findIndex(q => q == tag);
+        const index = tagsToBeFiltered.findIndex((q) => q == tag);
         if (index > -1) {
-            const removedExisting = tagsToBeFiltered.filter(q => q !== tag);
+            const removedExisting = tagsToBeFiltered.filter((q) => q !== tag);
             setTagsToBeFiltered(removedExisting);
-        }
-        else {
+        } else {
             const newTagsToBeFiltered = [tag, ...tagsToBeFiltered];
             setTagsToBeFiltered(newTagsToBeFiltered);
         }
     };
 
     const onFilterApplyPress = async () => {
-        setIsFilterActive(true);
-        setModalVisible(false);
+        if (!isTagFilterTabActive && startDateFromFilter > endDateFromFilter) {
+            Alert.alert('Error!', 'Start date cannot be greater than end date!!', [
+                { text: 'OK' }
+            ]);
+        }
+        else {
+            setIsFilterActive(true);
+            setModalVisible(false);
+        }
     };
-
 
     const onHeaderToggle = (state) => {
         if (state == 'tag') {
@@ -136,82 +148,79 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
     return (
         <>
-            <ScrollView>
-                <View style={styles.container}>
-                    <View style={styles.searchContainer}>
-                        <View style={styles.sortButton}>
-
-
-                            {listOfWords.length > 0 &&
-                                <TouchableOpacity
-                                    onPress={() => sortArray()}
-                                >
-                                    <MaterialIcons name="sort" size={24} color="black" />
-                                </TouchableOpacity>
-                            }
-
-                        </View>
-                        <View
-                            style={
-                                clicked
-                                    ? styles.searchBar__clicked
-                                    : styles.searchBar__unclicked
-                            }
-                        >
-
-
-                            <Feather
-                                name="search"
+            <View style={styles.container}>
+                <TouchableOpacity
+                    onPress={() => {
+                        navigation.navigate('Forms');
+                    }}
+                    style={styles.addButton}>
+                    <FontAwesome5 name="plus" size={30} color="white" />
+                </TouchableOpacity>
+                <View style={styles.searchContainer}>
+                    <View style={clicked ? styles.searchBar__clicked : styles.searchBar__unclicked}>
+                        <Feather name="search" size={20} color="black" style={{ marginLeft: 1 }} />
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Search"
+                            value={searchPhrase}
+                            onChangeText={onSearchTextChange}
+                            onFocus={onSearchFocused}
+                        />
+                        {clicked && (
+                            <Entypo
+                                name="cross"
                                 size={20}
                                 color="black"
-                                style={{ marginLeft: 1 }}
+                                style={{ padding: 2 }}
+                                onPress={onSearchCancelled}
                             />
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Search"
-                                value={searchPhrase}
-                                onChangeText={onSearchTextChange}
-                                onFocus={onSearchFocused}
-                            />
-                            {clicked && (
-                                <Entypo name="cross" size={20} color="black" style={{ padding: 2 }} onPress={onSearchCancelled} />
-                            )}
-                        </View>
-                        <View style={styles.addButton}>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('Forms')}
-                            >
-                                <MaterialIcons name="add-to-photos" size={24} color="black" />
-                            </TouchableOpacity>
-
-                        </View>
-
+                        )}
                     </View>
-                    {listOfWords && listOfWords.map((word, index) => {
-                        return (<WordItems
-                            key={index}
-                            word={word}
-                            navigation={navigation}
-                            onDeleteWord={onDeleteWord}
-                        />
-                        )
-                    })}
+
+                    {listOfWords && listOfWords.length > -1 && (
+                        <View style={styles.actionContainer}>
+                            <View>
+                                {isFilterActive ? (
+                                    <TouchableOpacity onPress={onCancelFilterPress}>
+                                        <MaterialCommunityIcons
+                                            name="filter-remove"
+                                            size={30}
+                                            color={secondaryColor}
+                                        />
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity onPress={onFilterPress}>
+                                        <MaterialCommunityIcons
+                                            name="filter-plus"
+                                            size={30}
+                                            color={secondaryColor}
+                                        />
+                                    </TouchableOpacity>
+                                )}
+                            </View>
+                            <View>
+                                <TouchableOpacity onPress={() => sortArray()}>
+                                    <MaterialIcons name="sort" size={30} color={secondaryColor} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    )}
                 </View>
-            </ScrollView>
-            <View>
-                {isFilterActive ?
-                    <TouchableOpacity
-                        style={styles.touchableOpacityStyle}
-                        onPress={onCancelFilterPress}>
-                        <MaterialCommunityIcons name="filter-remove" size={35} color={lavenderColor} />
-                    </TouchableOpacity>
-                    :
-                    <TouchableOpacity
-                        style={styles.touchableOpacityStyle}
-                        onPress={onFilterPress}>
-                        <MaterialCommunityIcons name="filter-plus" size={35} color={lavenderColor} />
-                    </TouchableOpacity>
-                }
+                <ScrollView>
+                    <View style={{ paddingBottom: 50 }}>
+                        {listOfWords &&
+                            listOfWords.map((word, index) => {
+                                return (
+                                    <WordItems
+                                        key={index}
+                                        word={word}
+                                        navigation={navigation}
+                                        onDeleteWord={onDeleteWord}
+                                    />
+                                );
+                            })}
+                    </View>
+                </ScrollView>
             </View>
 
             <Modal
@@ -231,7 +240,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                                 onPress={() => {
                                     onHeaderToggle('tag');
                                 }}>
-                                <Text style={styles.modalView.modalTabHeader_Text}>Tag Filter</Text>
+                                <Text style={isTagFilterTabActive ? styles.modalView.modalTabHeader_Text_Inactive : styles.modalView.modalTabHeader_Text_Active}>Tag Filter</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={[styles.modalView.modalTabHeader,
@@ -274,5 +283,5 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 </View>
             </Modal>
         </>
-    )
+    );
 }

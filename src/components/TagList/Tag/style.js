@@ -11,7 +11,10 @@ export default styles = StyleSheet.create({
         marginRight: 5,
         backgroundColor: blueColor,
         borderRadius: 10,
-        padding: 5,
+        paddingRight: 20,
+        paddingLeft: 20,
+        paddingTop: 10,
+        paddingBottom: 10,
     },
     text: {
         fontSize: 20,

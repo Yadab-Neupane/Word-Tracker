@@ -15,13 +15,13 @@ export default function DatePicker({onDateChange}){
 
     const onStartDatePickerChange = ({ type }, selectedDate) => {
         if (type == "set") {
+            toggleStartDatePicker();
             const currentDate = selectedDate;
             setDate(currentDate);
 
             if (Platform.OS === 'android') {
                 setStartDate(currentDate.toDateString());
                 onDateChange(currentDate);
-                toggleStartDatePicker();
             }
         }
         else {

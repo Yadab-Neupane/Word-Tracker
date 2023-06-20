@@ -1,20 +1,24 @@
-import { StyleSheet } from "react-native"
-import {
-    labelWhiteColor,
-    secondaryColor
-} from "../../common/includes"
+import { StyleSheet } from 'react-native';
+import { labelWhiteColor, secondaryColor, lavenderColor, accentColor, primaryColor } from '../../common/includes';
 
 export default styles = StyleSheet.create({
     container: {
         padding: 20,
+        flex:1,
     },
     addButton: {
-        position: 'relative',
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'flex-end',
-        marginLeft: 10
+        borderWidth: 1,
+		borderColor: 'white',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 70,
+		position: 'absolute',
+		bottom: 20,
+		right: 20,
+		height: 70,
+		backgroundColor: lavenderColor,
+        zIndex: 99,
+		borderRadius: 35,
     },
     wordListView: {
         borderRadius: 5,
@@ -27,33 +31,33 @@ export default styles = StyleSheet.create({
     },
     searchContainer: {
         margin: 2,
-        justifyContent: "flex-start",
-        alignItems: "center",
-        flexDirection: "row",
-        width: "90%",
 
     },
+	actionContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'space-between',
+		padding: 10,
+	},
     searchBar__unclicked: {
         padding: 10,
-        flexDirection: "row",
-        width: "90%",
-        backgroundColor: "#d9dbda",
-        borderRadius: 15,
-        alignItems: "center",
+		flexDirection: 'row',
+		backgroundColor: '#d9dbda',
+		borderRadius: 15,
+		alignItems: 'center',
     },
-    sortButton: {
-        paddingRight: 10,
-        flexDirection: "row",
-        justifyContent: 'space-between',
-    },
+    // sortButton: {
+    //     paddingRight: 10,
+    //     flexDirection: "row",
+    //     justifyContent: 'space-between',
+    // },
     searchBar__clicked: {
         padding: 10,
-        flexDirection: "row",
-        width: "90%",
-        backgroundColor: "#d9dbda",
-        borderRadius: 15,
-        alignItems: "center",
-        justifyContent: "space-evenly",
+		flexDirection: 'row',
+		backgroundColor: '#d9dbda',
+		borderRadius: 15,
+		alignItems: 'center',
+		justifyContent: 'space-evenly',
     },
     input: {
         fontSize: 18,
@@ -69,58 +73,63 @@ export default styles = StyleSheet.create({
         left: 25,
         bottom: 60,
     },
-    centeredView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 22,
-        maxHeight: '70%'
-    },
+    input: {
+		fontSize: 18,
+		marginLeft: 10,
+		width: '90%',
+	},
+	centeredView: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		marginTop: 22,
+        maxHeight:'70%'
+	},
     modalView: {
-        marginTop: 90,
-        marginHorizontal: 10,
-        backgroundColor: 'white',
-        borderRadius: 20,
-        padding: 10,
-        alignItems: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
-        modalHeader: {
-            fontSize: 18,
-            fontWeight: 600,
-        },
-        modalBody: {
-            padding: 20,
-            height: '70%'
-        },
+		marginTop: 90,
+        marginHorizontal:10,
+		backgroundColor: 'white',
+		borderRadius: 20,
+		padding: 10,
+		alignItems: 'center',
+		shadowColor: '#000',
+		shadowOffset: {
+			width: 0,
+			height: 2,
+		},
+		shadowOpacity: 0.25,
+		shadowRadius: 4,
+		elevation: 5,
+		modalHeader: {
+			fontSize: 18,
+			fontWeight: 600,
+		},
+		modalBody: {
+			padding: 20,
+            height:'70%'
+		},
         container: {
             flex: 1,
             flexDirection: "row",
             flexWrap: 'wrap'
         },
-        tag: {
-            paddingTop: 10
+        tag:{
+            paddingTop:10
         },
-        modalButtonContainer: {
+        modalButtonContainer:{
             flexDirection: "row"
         },
-        button: {
-            borderRadius: 20,
-            padding: 10,
-            margin: 5,
-            elevation: 2,
-            backgroundColor: '#2196F3',
-            width: 100,
-            textStyle: {
-                textAlign: 'center',
-            },
-        },
+		button: {
+			borderRadius: 20,
+			padding: 10,
+            margin:5,
+			elevation: 2,
+			backgroundColor: '#2196F3',
+			width: 100,
+			textStyle: {
+				textAlign: 'center',
+			},
+		},
         modalTabHeaderContainer: {
             flexDirection: 'row',
             backgroundColor: '#2196F3',
@@ -141,8 +150,11 @@ export default styles = StyleSheet.create({
         modalTabHeader_Inactive:{
             backgroundColor: '#2196F3',
         },
-        modalTabHeader_Text:{
+        modalTabHeader_Text_Active:{
+            color: 'white',
+        },
+        modalTabHeader_Text_Inactive:{
             color: 'white',
         }
-    },
+	},
 })
