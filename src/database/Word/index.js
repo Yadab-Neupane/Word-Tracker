@@ -5,7 +5,7 @@ export const addWord = async (title, description) => {
     return new Promise((resolve, reject) => {
         const id = uuid.v4();
         var strftime = require('strftime')
-        const createdAt = strftime('%H:%M:%S')
+        const createdAt = strftime('%F%T');
         db.transaction(tx => {
             tx.executeSql(
                 "insert into Words (id, title, defination, createdAt, isBookmarked) values (?, ?, ?, ?, 0)",
@@ -45,13 +45,35 @@ export const getAllWordsByTagList = async (tagList) => {
         if (i == tagList.length) query += "?)";
         else query += "?,";
     }
-
-    console.log("query is :", query, tagList);
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
                 query,
                 tagList,
+                (tx, results) => {
+                    var temp = [];
+                    for (let i = 0; i < results.rows.length; ++i)
+                        temp.push(results.rows.item(i));
+                    resolve(temp);
+                },
+                (tx, error) => { reject(`Error while fetching data: ${error}`) }
+            );
+
+        });
+    })
+};
+
+export const getAllWordsByDateRange = async (startDate, endDate) => {
+    var strftime = require('strftime')
+    let query = `SELECT * FROM Words 
+                 WHERE strftime('%Y-%m-%d', createdAt) >= '${strftime('%F', startDate)}' 
+                 AND strftime('%Y-%m-%d', createdAt) <= '${strftime('%F', endDate)}'
+                 order by strftime('%Y-%m-%d %H:%M:%S', createdAt) desc`;
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                query,
+                [],
                 (tx, results) => {
                     var temp = [];
                     for (let i = 0; i < results.rows.length; ++i)

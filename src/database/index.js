@@ -10,7 +10,8 @@ export {
 	addWords,
 	getAllWordsByTitle,
 	updateBookmark,
-	getAllWordsByTagList
+	getAllWordsByTagList,
+	getAllWordsByDateRange
 } from '../database/Word/index';
 export {
 	addTag,

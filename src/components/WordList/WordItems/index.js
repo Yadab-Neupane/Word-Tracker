@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, View } from 'react-native';
 import styles from './styles';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 import { lavenderColor } from '../../../common/includes';
 import { useState } from 'react';
 import * as database from '../../../database/index';
