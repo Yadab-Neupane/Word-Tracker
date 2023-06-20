@@ -17,7 +17,7 @@ export default styles = StyleSheet.create({
 		right: 20,
 		height: 70,
 		backgroundColor: lavenderColor,
-        zIndex: 99,
+		zIndex: 99,
 		borderRadius: 35,
 	},
 	wordListView: {
@@ -66,6 +66,10 @@ export default styles = StyleSheet.create({
 		maxHeight: '70%',
 	},
 	modalView: {
+		backgroundColor: labelWhiteColor,
+		padding: 30,
+		borderRadius: 10,
+		width: '90%',
 		marginTop: 90,
 		marginHorizontal: 10,
 		backgroundColor: 'white',
@@ -111,4 +115,46 @@ export default styles = StyleSheet.create({
 			},
 		},
 	},
+	centeredView: {
+		flex: 1,
+		flexDirection: 'row',
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: 'rgba(0,0,0,0.7)'
+	},
+	labelAndCloseAction: {
+		flexDirection: 'row',
+		width: "100%",
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		padding: 20,
+	},
+	sortByTime: {
+		color: secondaryColor,
+		alignItems: 'center',
+		fontSize: 20,
+		backgroundColor: secondaryColor,
+		color: labelWhiteColor,
+		borderRadius: 8,
+		textAlign: 'center',
+		margin: 10,
+		width: "80%"
+	},
+	sortByTitle: {
+		color: secondaryColor,
+		alignItems: 'center',
+		fontSize: 20,
+		backgroundColor: secondaryColor,
+		color: labelWhiteColor,
+		borderRadius: 8,
+		textAlign: 'center',
+		margin: 10,
+		width: "80%"
+	},
+	textstyle: {
+		fontSize: 30,
+		color: secondaryColor,
+
+	},
+
 });

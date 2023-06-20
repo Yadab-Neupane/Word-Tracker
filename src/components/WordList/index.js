@@ -10,6 +10,7 @@ import {
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
 import WordItems from './WordItems';
+import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import * as database from './../../database/index';
 import { useIsFocused } from '@react-navigation/native';
@@ -227,6 +228,43 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 </View>
             </Modal>
 
+            {/* Modal  */}
+            <Modal
+                animationType="fade"
+
+                transparent={true}
+                visible={sortModal}
+                onRequestClose={() => {
+                    Alert.alert('Modal has been closed.');
+                    setSortModal(!sortModal);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <View style={styles.labelAndCloseAction}>
+                            <Text style={styles.textstyle}>Sort Wordlist</Text>
+                            <TouchableOpacity
+                                style={[styles.button, styles.buttonClose]}
+                                onPress={() => setSortModal(!sortModal)}>
+                                <AntDesign name="closecircle" size={20} color="red" />
+                            </TouchableOpacity>
+                        </View>
+                        <TouchableOpacity
+                            style={styles.sortByTime}
+                            onPress={() => sortArray()}>
+                            <Text style={styles.sortByTime}>Sort By Time</Text>
+
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.sortByTitle}
+                            onPress={() => sortArrayByTitle()}>
+                            <Text style={styles.sortByTitle}>Sort By Title</Text>
+
+                        </TouchableOpacity>
+
+                    </View>
+                </View>
+            </Modal>
+            {/* Modal End */}
 
 
         </>
