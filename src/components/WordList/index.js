@@ -295,8 +295,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
             {/* Modal  */}
             <Modal
-                animationType="fade"
-
+                animationType="slide"
                 transparent={true}
                 visible={sortModal}
                 onRequestClose={() => {
