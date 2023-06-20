@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import styles from "./style";
 import { useState } from "react";
 
-export default function Filter({ tag , addTagsToBeFiltered}) {
+export default function TagFilter({ tag , addTagsToBeFiltered}) {
     const [isTagSelected, setIsTagSelected] = useState(false);
     const onTagClick = () => {
         setIsTagSelected(!isTagSelected);

@@ -24,13 +24,14 @@ export default styles = StyleSheet.create({
 		borderRadius: 5,
 		marginTop: 10,
 		padding: 20,
-		backgroundColor: secondaryColor,
+		backgroundColor: secondaryColor
 	},
 	content: {
-		color: labelWhiteColor,
+		color: labelWhiteColor
 	},
 	searchContainer: {
-		padding: 2,
+		margin: 2,
+
 	},
 	actionContainer: {
 		flexDirection: 'row',
@@ -45,6 +46,11 @@ export default styles = StyleSheet.create({
 		borderRadius: 15,
 		alignItems: 'center',
 	},
+	// sortButton: {
+	//     paddingRight: 10,
+	//     flexDirection: "row",
+	//     justifyContent: 'space-between',
+	// },
 	searchBar__clicked: {
 		padding: 10,
 		flexDirection: 'row',
@@ -56,6 +62,20 @@ export default styles = StyleSheet.create({
 	input: {
 		fontSize: 18,
 		marginLeft: 10,
+		width: "90%",
+	},
+	touchableOpacityStyle: {
+		position: 'absolute',
+		width: 50,
+		height: 50,
+		alignItems: 'center',
+		justifyContent: 'center',
+		left: 25,
+		bottom: 60,
+	},
+	input: {
+		fontSize: 18,
+		marginLeft: 10,
 		width: '90%',
 	},
 	centeredView: {
@@ -63,7 +83,7 @@ export default styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: 22,
-		maxHeight: '70%',
+		maxHeight: '70%'
 	},
 	modalView: {
 		backgroundColor: labelWhiteColor,
@@ -90,18 +110,18 @@ export default styles = StyleSheet.create({
 		},
 		modalBody: {
 			padding: 20,
-			height: '80%',
+			height: '70%'
 		},
 		container: {
 			flex: 1,
-			flexDirection: 'row',
-			flexWrap: 'wrap',
+			flexDirection: "row",
+			flexWrap: 'wrap'
 		},
 		tag: {
-			paddingTop: 10,
+			paddingTop: 10
 		},
 		modalButtonContainer: {
-			flexDirection: 'row',
+			flexDirection: "row"
 		},
 		button: {
 			borderRadius: 20,
@@ -114,6 +134,32 @@ export default styles = StyleSheet.create({
 				textAlign: 'center',
 			},
 		},
+		modalTabHeaderContainer: {
+			flexDirection: 'row',
+			backgroundColor: '#2196F3',
+			borderRadius: 40,
+			marginLeft: 10,
+			marginRight: 10
+		},
+		modalTabHeader: {
+			width: '50%',
+			height: 60,
+			borderRadius: 40,
+			justifyContent: 'center',
+			alignItems: 'center',
+		},
+		modalTabHeader_Active: {
+			backgroundColor: '#BA90C6',
+		},
+		modalTabHeader_Inactive: {
+			backgroundColor: '#2196F3',
+		},
+		modalTabHeader_Text_Active: {
+			color: 'white',
+		},
+		modalTabHeader_Text_Inactive: {
+			color: 'white',
+		}
 	},
 	centeredView: {
 		flex: 1,

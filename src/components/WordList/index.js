@@ -6,17 +6,19 @@ import {
     Modal,
     Text,
     Pressable,
+    Alert
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import styles from './styles';
 import WordItems from './WordItems';
 import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
-import * as database from './../../database/index';
-import { useIsFocused } from '@react-navigation/native';
-import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import * as database from "./../../database/index";
+import { useIsFocused } from "@react-navigation/native";
+import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from "@expo/vector-icons";
 import { secondaryColor } from '../../common/includes';
-import Filter from './Filter';
+import TagFilter from './TagFilter';
+import DateFilter from './DateFilter';
 
 export default function WordList({ navigation, route, onDeleteWord }) {
     const isFocused = useIsFocused();
@@ -26,8 +28,13 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const [listOfTags, setListOfTags] = useState([]);
     const [isFilterActive, setIsFilterActive] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
+
     const [sortModal, setSortModal] = useState(false)
     const [tagsToBeFiltered, setTagsToBeFiltered] = useState([]);
+    const [isTagFilterTabActive, setIsTagFilterTabActive] = useState(true);
+
+    const [startDateFromFilter, setStartDateFromFilter] = useState('');
+    const [endDateFromFilter, setEndDateFromFilter] = useState('');
 
     useEffect(() => {
         if (searchPhrase) {
@@ -35,24 +42,31 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 const getAllData = await database.getAllWordsByTitle(searchPhrase);
                 setListOfWords(getAllData);
             })();
-        } else if (tagsToBeFiltered.length > 0 && isFilterActive) {
+        }
+        else if (isFilterActive && tagsToBeFiltered.length > 0) {
             (async () => {
                 const getAllData = await database.getAllWordsByTagList(tagsToBeFiltered);
                 setListOfWords(getAllData);
             })();
-        } else {
+        }
+        else if (isFilterActive && startDateFromFilter && endDateFromFilter) {
+            (async () => {
+                const getAllData = await database.getAllWordsByDateRange(startDateFromFilter, endDateFromFilter);
+                setListOfWords(getAllData);
+            })();
+        }
+        else {
             (async () => {
                 const getAllData = await database.getAllWords();
                 setListOfWords(getAllData);
             })();
+            setIsFilterActive(false);
         }
 
         if (isFocused) {
             (async () => {
                 const getAllTags = await database.getAllTags();
                 setListOfTags(getAllTags);
-
-                console.log(getAllTags);
             })();
         }
     }, [isFocused, searchPhrase, isFilterActive]);
@@ -88,6 +102,8 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     const onCancelFilterPress = () => {
         setIsFilterActive(false);
         setTagsToBeFiltered([]);
+        setStartDateFromFilter('');
+        setEndDateFromFilter('');
     };
 
     const onFilterPress = () => {
@@ -110,9 +126,34 @@ export default function WordList({ navigation, route, onDeleteWord }) {
     };
 
     const onFilterApplyPress = async () => {
-        setIsFilterActive(true);
-        setModalVisible(false);
+        if (!isTagFilterTabActive && startDateFromFilter > endDateFromFilter) {
+            Alert.alert('Error!', 'Start date cannot be greater than end date!!', [
+                { text: 'OK' }
+            ]);
+        }
+        else {
+            setIsFilterActive(true);
+            setModalVisible(false);
+        }
     };
+
+    const onHeaderToggle = (state) => {
+        if (state == 'tag') {
+            setIsTagFilterTabActive(true);
+
+        } else {
+            setIsTagFilterTabActive(false);
+            setTagsToBeFiltered([]);
+        }
+    }
+
+    const onStartDateChange = (val) => {
+        setStartDateFromFilter(val);
+    }
+
+    const onEndDateChange = (val) => {
+        setEndDateFromFilter(val);
+    }
 
     return (
         <>
@@ -145,7 +186,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                         )}
                     </View>
 
-                    {listOfWords && listOfWords.length > 0 && (
+                    {listOfWords && listOfWords.length > -1 && (
                         <View style={styles.actionContainer}>
                             <View>
                                 {isFilterActive ? (
@@ -171,9 +212,10 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                                     <MaterialIcons name="sort" size={30} color={secondaryColor} />
                                 </TouchableOpacity>
                             </View>
-                        </View>
-                    )}
-                </View>
+                        </View >
+                    )
+                    }
+                </View >
                 <ScrollView>
                     <View style={{ paddingBottom: 50 }}>
                         {listOfWords &&
@@ -189,7 +231,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                             })}
                     </View>
                 </ScrollView>
-            </View>
+            </View >
 
             <Modal
                 animationType="slide"
@@ -200,20 +242,43 @@ export default function WordList({ navigation, route, onDeleteWord }) {
                 }}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <Text style={styles.modalView.modalHeader}>Apply Filter</Text>
+                        <View
+                            style={styles.modalView.modalTabHeaderContainer}>
+                            <TouchableOpacity
+                                style={[styles.modalView.modalTabHeader,
+                                isTagFilterTabActive ? styles.modalView.modalTabHeader_Active : styles.modalView.modalTabHeader_Inactive]}
+                                onPress={() => {
+                                    onHeaderToggle('tag');
+                                }}>
+                                <Text style={isTagFilterTabActive ? styles.modalView.modalTabHeader_Text_Inactive : styles.modalView.modalTabHeader_Text_Active}>Tag Filter</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={[styles.modalView.modalTabHeader,
+                                isTagFilterTabActive ? styles.modalView.modalTabHeader_Inactive : styles.modalView.modalTabHeader_Active]}
+                                onPress={() => {
+                                    onHeaderToggle('date');
+                                }}>
+                                <Text style={styles.modalView.modalTabHeader_Text}>Date Filter</Text>
+                            </TouchableOpacity>
+                        </View>
+
                         <View style={styles.modalView.modalBody}>
-                            <ScrollView>
+                            {isTagFilterTabActive ?
+                                <ScrollView>
+                                    <View style={styles.modalView.container}>
+                                        {listOfTags.map((item, index) => {
+                                            return (
+                                                <TagFilter key={index} tag={item} addTagsToBeFiltered={addTagsToBeFiltered}></TagFilter>
+                                            )
+                                        })}
+                                    </View>
+                                </ScrollView>
+                                :
                                 <View style={styles.modalView.container}>
-                                    {listOfTags.map((item, index) => {
-                                        return (
-                                            <Filter
-                                                key={index}
-                                                tag={item}
-                                                addTagsToBeFiltered={addTagsToBeFiltered}></Filter>
-                                        );
-                                    })}
+                                    <DateFilter onStartDateChange={onStartDateChange} onEndDateChange={onEndDateChange}></DateFilter>
                                 </View>
-                            </ScrollView>
+                            }
+
                         </View>
                         <View style={styles.modalView.modalButtonContainer}>
                             <Pressable style={styles.modalView.button} onPress={onFilterApplyPress}>
