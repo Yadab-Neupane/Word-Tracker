@@ -4,7 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { accentColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
-import HomeScreen from './../Homescreen';
+import HomeScreen from './../HomeScreen';
 import * as database from './../../database/index';
 
 const Tab = createBottomTabNavigator();
