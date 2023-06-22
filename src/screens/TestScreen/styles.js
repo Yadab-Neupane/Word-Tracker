@@ -11,9 +11,6 @@ export default styles = StyleSheet.create({
 		overflow: 'hidden',
 	},
 	image: {
-		flex: 1,
-		resizeMode: 'cover',
-		height: '100%',
 		width: '100%',
 		zIndex: -1,
 	},

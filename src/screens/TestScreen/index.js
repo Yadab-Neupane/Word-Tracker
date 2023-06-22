@@ -49,6 +49,7 @@ export default function TestScreen(props) {
 				<View style={styles.box}>
 					<ImageBackground
 						source={require('../../../assets/flashcards.png')}
+						resizeMode='stretch'
 						style={styles.image}>
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>
@@ -106,6 +107,7 @@ export default function TestScreen(props) {
 				<View style={styles.box}>
 					<ImageBackground
 						source={require('../../../assets/options.png')}
+						resizeMode='stretch'
 						style={styles.image}>
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>

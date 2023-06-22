@@ -6,52 +6,52 @@ import * as database from '../../database/index';
 import { secondaryColor } from '../../common/includes';
 
 export default function Flashcard(props) {
-	const quizLength = 5;
-
-	const [list, setList] = useState([]);
-
 	const predefinedList = [
 		{
 			title: 'Scripturient',
-			definition: 'having a consuming passion to write',
+			defination: 'having a consuming passion to write',
 		},
 		{
 			title: 'Abience',
-			definition: 'strong urge to avoid someone or something',
+			defination: 'strong urge to avoid someone or something',
 		},
 		{
 			title: 'Abscond',
-			definition: 'to secretly depart and hide oneself',
+			defination: 'to secretly depart and hide oneself',
 		},
 		{
 			title: 'Apricity',
-			definition: 'the warmth of sun in the winter',
+			defination: 'the warmth of sun in the winter',
 		},
 		{
 			title: 'Solivagant',
-			definition: 'wandering alone',
+			defination: 'wandering alone',
 		},
 		{
 			title: 'Sauhuta',
-			definition: 'to give off smoke',
+			defination: 'to give off smoke',
 		},
 		{
 			title: 'Redolent',
-			definition: 'having a strong distinctive fragrance',
+			defination: 'having a strong distinctive fragrance',
 		},
 		{
 			title: 'Fulminate',
-			definition: 'cause to explode violently',
+			defination: 'cause to explode violently',
 		},
 		{
 			title: 'Discarnate',
-			definition: 'having no body',
+			defination: 'having no body',
 		},
 		{
 			title: 'Irenic',
-			definition: 'promoting peace',
+			defination: 'promoting peace',
 		},
 	];
+	
+	const quizLength = 5;
+
+	const [list, setList] = useState([]);
 
 	let [count, setCount] = useState(0);
 	let [flipValue, setFlipValue] = useState(new Animated.Value(0));

@@ -1,4 +1,13 @@
-import { ActivityIndicator, Animated, Easing, Text, TouchableHighlight, View, Modal, Pressable } from 'react-native';
+import {
+	ActivityIndicator,
+	Animated,
+	Easing,
+	Text,
+	TouchableHighlight,
+	View,
+	Modal,
+	Pressable,
+} from 'react-native';
 import styles from './styles';
 import { useEffect, useRef, useState } from 'react';
 import { Ionicons, Entypo } from '@expo/vector-icons';
@@ -10,43 +19,43 @@ export default function QuizComponent(props) {
 	const predefinedList = [
 		{
 			title: 'Scripturient',
-			definition: 'having a consuming passion to write',
+			defination: 'having a consuming passion to write',
 		},
 		{
 			title: 'Abience',
-			definition: 'strong urge to avoid someone or something',
+			defination: 'strong urge to avoid someone or something',
 		},
 		{
 			title: 'Abscond',
-			definition: 'to secretly depart and hide oneself',
+			defination: 'to secretly depart and hide oneself',
 		},
 		{
 			title: 'Apricity',
-			definition: 'the warmth of sun in the winter',
+			defination: 'the warmth of sun in the winter',
 		},
 		{
 			title: 'Solivagant',
-			definition: 'wandering alone',
+			defination: 'wandering alone',
 		},
 		{
 			title: 'Sauhuta',
-			definition: 'to give off smoke',
+			defination: 'to give off smoke',
 		},
 		{
 			title: 'Redolent',
-			definition: 'having a strong distinctive fragrance',
+			defination: 'having a strong distinctive fragrance',
 		},
 		{
 			title: 'Fulminate',
-			definition: 'cause to explode violently',
+			defination: 'cause to explode violently',
 		},
 		{
 			title: 'Discarnate',
-			definition: 'having no body',
+			defination: 'having no body',
 		},
 		{
 			title: 'Irenic',
-			definition: 'promoting peace',
+			defination: 'promoting peace',
 		},
 	];
 
@@ -60,12 +69,12 @@ export default function QuizComponent(props) {
 	const [word, setWord] = useState();
 	const [options, setOptions] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
-	const [newList, setNewList] = useState([]);
 	let [score, setScore] = useState({
 		correct: 0,
 		incorrect: 0,
 	});
 	const [modalVisible, setModalVisible] = useState(false);
+	const [lengthInfoModalVisible, setLengthInfoModalVisible] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -76,14 +85,14 @@ export default function QuizComponent(props) {
 	const fetchData = async () => {
 		setIsLoading(true);
 		try {
-			let words = await database.getRandomWords(10);
+			let words = await database.getRandomWords(5);
 			if (words.length < 5) {
-				// TODO: show message
+				// show count message
+				setLengthInfoModalVisible(true);
 				// set predefined list because the length is less than 5
 				words = [...predefinedList];
 			}
 			setList(words);
-			setNewList(words);
 			updateWordAndOptions(words);
 			setIsLoading(false);
 		} catch (error) {
@@ -116,12 +125,11 @@ export default function QuizComponent(props) {
 		return array;
 	}
 
-	const handleButtonClick = (clickedAnswer) => {
-		if (count + 1 < quizLength) {
-			setCount(count + 1);
+	const handleButtonClick = () => {
+		if (count < quizLength) {
 			animateScreen();
 			setTimeout(() => {
-				updateWordAndOptions(newList);
+				updateWordAndOptions(list);
 			}, 280);
 		} else {
 			setModalVisible(true);
@@ -130,17 +138,10 @@ export default function QuizComponent(props) {
 	};
 
 	const updateWordAndOptions = (words) => {
-		const currentWord = getRandomWord(words);
+		const currentWord = words[count];
+		setCount(count + 1);
 		setWord(currentWord);
-		setOptions(getOptions(currentWord, list.length > 0 ? list : words));
-	};
-
-	const getRandomWord = (words) => {
-		if (word) {
-			setNewList(words.filter((i) => i.title !== word.title));
-		}
-		const newWord = words[Math.floor(Math.random() * words.length)];
-		return newWord;
+		setOptions(getOptions(currentWord, words));
 	};
 
 	const animateScreen = () => {
@@ -280,23 +281,66 @@ export default function QuizComponent(props) {
 						}}>
 						<View style={styles.centeredView}>
 							<View style={styles.centeredView.modalView}>
-								<Text style={styles.centeredView.modalView.modalHeader}>Your Results</Text>
+								<Text style={styles.centeredView.modalView.modalHeader}>
+									Your Results
+								</Text>
 								<View style={styles.centeredView.modalView.modalBody}>
 									<View style={styles.centeredView.modalView.modalBody.box}>
 										<Text>Correct</Text>
-										<Text style={styles.centeredView.modalView.modalBody.box.text}>
+										<Text
+											style={
+												styles.centeredView.modalView.modalBody.box.text
+											}>
 											{score.correct}
 										</Text>
 									</View>
 									<View style={styles.centeredView.modalView.modalBody.box}>
 										<Text>Incorrect</Text>
-										<Text style={styles.centeredView.modalView.modalBody.box.text}>
+										<Text
+											style={
+												styles.centeredView.modalView.modalBody.box.text
+											}>
 											{score.incorrect}
 										</Text>
 									</View>
 								</View>
-								<Pressable style={styles.centeredView.modalView.button} onPress={closeModal}>
-									<Text style={styles.centeredView.modalView.button.textStyle}>OK</Text>
+								<Pressable
+									style={styles.centeredView.modalView.button}
+									onPress={closeModal}>
+									<Text style={styles.centeredView.modalView.button.textStyle}>
+										OK
+									</Text>
+								</Pressable>
+							</View>
+						</View>
+					</Modal>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={lengthInfoModalVisible}
+						onRequestClose={() => {
+							setLengthInfoModalVisible(false);
+						}}>
+						<View style={styles.centeredView}>
+							<View style={styles.centeredView.modalView}>
+								<Text style={styles.centeredView.modalView.modalHeader}>
+									Not Enough Words
+								</Text>
+								<View style={styles.centeredView.modalView.modalBody}>
+									<Text>
+										It seems you have less than 5 words in your database. The
+										quiz needs at least 5 words so we have collected random
+										words for you to practise.
+									</Text>
+								</View>
+								<Pressable
+									style={styles.centeredView.modalView.button}
+									onPress={() => {
+										setLengthInfoModalVisible(false);
+									}}>
+									<Text style={styles.centeredView.modalView.button.textStyle}>
+										OK
+									</Text>
 								</Pressable>
 							</View>
 						</View>
