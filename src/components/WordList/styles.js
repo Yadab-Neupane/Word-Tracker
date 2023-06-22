@@ -1,5 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { labelWhiteColor, secondaryColor, lavenderColor, accentColor, primaryColor } from '../../common/includes';
+import {
+	labelWhiteColor,
+	secondaryColor,
+	lavenderColor,
+	accentColor,
+	primaryColor,
+} from '../../common/includes';
 
 export default styles = StyleSheet.create({
 	container: {
@@ -24,14 +30,13 @@ export default styles = StyleSheet.create({
 		borderRadius: 5,
 		marginTop: 10,
 		padding: 20,
-		backgroundColor: secondaryColor
+		backgroundColor: secondaryColor,
 	},
 	content: {
-		color: labelWhiteColor
+		color: labelWhiteColor,
 	},
 	searchContainer: {
 		margin: 2,
-
 	},
 	actionContainer: {
 		flexDirection: 'row',
@@ -62,7 +67,7 @@ export default styles = StyleSheet.create({
 	input: {
 		fontSize: 18,
 		marginLeft: 10,
-		width: "90%",
+		width: '90%',
 	},
 	touchableOpacityStyle: {
 		position: 'absolute',
@@ -83,7 +88,7 @@ export default styles = StyleSheet.create({
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginTop: 22,
-		maxHeight: '70%'
+		maxHeight: '70%',
 	},
 	modalView: {
 		backgroundColor: labelWhiteColor,
@@ -110,18 +115,18 @@ export default styles = StyleSheet.create({
 		},
 		modalBody: {
 			padding: 20,
-			height: '70%'
+			height: '70%',
 		},
 		container: {
 			flex: 1,
-			flexDirection: "row",
-			flexWrap: 'wrap'
+			flexDirection: 'row',
+			flexWrap: 'wrap',
 		},
 		tag: {
-			paddingTop: 10
+			paddingTop: 10,
 		},
 		modalButtonContainer: {
-			flexDirection: "row"
+			flexDirection: 'row',
 		},
 		button: {
 			borderRadius: 20,
@@ -139,7 +144,7 @@ export default styles = StyleSheet.create({
 			backgroundColor: '#2196F3',
 			borderRadius: 40,
 			marginLeft: 10,
-			marginRight: 10
+			marginRight: 10,
 		},
 		modalTabHeader: {
 			width: '50%',
@@ -159,18 +164,18 @@ export default styles = StyleSheet.create({
 		},
 		modalTabHeader_Text_Inactive: {
 			color: 'white',
-		}
+		},
 	},
 	centeredView: {
 		flex: 1,
 		flexDirection: 'row',
 		justifyContent: 'center',
 		alignItems: 'center',
-		backgroundColor: 'rgba(0,0,0,0.7)'
+		backgroundColor: 'rgba(0,0,0,0.7)',
 	},
 	labelAndCloseAction: {
 		flexDirection: 'row',
-		width: "100%",
+		width: '100%',
 		justifyContent: 'space-between',
 		alignItems: 'center',
 		padding: 20,
@@ -184,7 +189,7 @@ export default styles = StyleSheet.create({
 		borderRadius: 8,
 		textAlign: 'center',
 		margin: 10,
-		width: "80%"
+		width: '80%',
 	},
 	sortByTitle: {
 		color: secondaryColor,
@@ -195,12 +200,10 @@ export default styles = StyleSheet.create({
 		borderRadius: 8,
 		textAlign: 'center',
 		margin: 10,
-		width: "80%"
+		width: '80%',
 	},
 	textstyle: {
 		fontSize: 30,
 		color: secondaryColor,
-
 	},
-
 });

@@ -36,6 +36,25 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	const [startDateFromFilter, setStartDateFromFilter] = useState('');
 	const [endDateFromFilter, setEndDateFromFilter] = useState('');
 
+	const sortOptions = [
+		{
+			title: 'Title A -> Z',
+			sort: 0,
+		},
+		{
+			title: 'Title Z -> A',
+			sort: 1,
+		},
+		{
+			title: 'Newest',
+			sort: 2,
+		},
+		{
+			title: 'Oldest',
+			sort: 3,
+		},
+	];
+
 	useEffect(() => {
 		if (searchPhrase) {
 			(async () => {
@@ -85,18 +104,36 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 		setClicked(true);
 	};
 
-	const sortArray = async () => {
-		const sortAllData = await database.getAllWords();
-		sortAllData.sort((a, b) => (b.createdAt - a.createdAt ? 1 : -1));
-		console.log('List', sortAllData);
-		setListOfWords(sortAllData);
-	};
+	const sortWords = (option) => {
+		console.log(option);
+		const wordList = [...listOfWords];
+		switch (option) {
+			case 0:
+				wordList.sort((a, b) => {
+					return a.title.localeCompare(b.title);
+				});
+				break;
+			case 1:
+				wordList.sort((a, b) => {
+					return b.title.localeCompare(a.title);
+				});
+				break;
+			case 2:
+				wordList.sort((a, b) => {
+					return a.createdAt.localeCompare(b.createdAt);
+				});
+				break;
+			case 3:
+				wordList.sort((a, b) => {
+					return b.createdAt.localeCompare(a.createdAt);
+				});
+				break;
 
-	const sortArrayByTitle = async () => {
-		const sortAllData = await database.getAllWords();
-		sortAllData.sort((a, b) => (a.title < b.title ? 1 : -1));
-		console.log('Title', sortAllData);
-		setListOfWords(sortAllData);
+			default:
+				break;
+		}
+		setListOfWords(wordList);
+		setSortModal(false);
 	};
 
 	const onCancelFilterPress = () => {
@@ -329,14 +366,25 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 								<AntDesign name="closecircle" size={20} color="red" />
 							</TouchableOpacity>
 						</View>
-						<TouchableOpacity style={styles.sortByTime} onPress={() => sortArray()}>
-							<Text style={styles.sortByTime}>Sort By Time</Text>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={styles.sortByTitle}
-							onPress={() => sortArrayByTitle()}>
-							<Text style={styles.sortByTitle}>Sort By Title</Text>
-						</TouchableOpacity>
+						<View style={{ width: '100%', padding: 10 }}>
+							{sortOptions.map((sort, index) => {
+								return (
+									<TouchableOpacity
+										key={index}
+										onPress={() => {
+											sortWords(sort.sort);
+										}}>
+										<View
+											style={{
+												padding: 10,
+												borderBottomWidth: 1,
+											}}>
+											<Text style={{ textAlign: 'left' }}>{sort.title}</Text>
+										</View>
+									</TouchableOpacity>
+								);
+							})}
+						</View>
 					</View>
 				</View>
 			</Modal>
