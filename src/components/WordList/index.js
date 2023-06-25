@@ -120,12 +120,12 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 				break;
 			case 2:
 				wordList.sort((a, b) => {
-					return a.createdAt.localeCompare(b.createdAt);
+					return b.createdAt.localeCompare(a.createdAt);
 				});
 				break;
 			case 3:
 				wordList.sort((a, b) => {
-					return b.createdAt.localeCompare(a.createdAt);
+					return a.createdAt.localeCompare(b.createdAt);
 				});
 				break;
 
@@ -219,7 +219,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 						)}
 					</View>
 
-					{listOfWords && listOfWords.length > 1 && (
+
+
+					{listOfWords && (listOfWords.length > 0 || isFilterActive) && (
 						<View style={styles.actionContainer}>
 							<View>
 								{isFilterActive ? (
@@ -246,6 +248,14 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 								</TouchableOpacity>
 							</View>
 						</View>
+					)}
+
+					{listOfWords < 1 && (
+						<>
+							<Text style={[styles.textstyle, { textAlign: 'center', marginTop: 60, fontSize: 25, marginBottom: 20 }]}>No record found.</Text>
+
+						</>
+
 					)}
 				</View>
 				<ScrollView>
