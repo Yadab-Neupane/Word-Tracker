@@ -62,9 +62,9 @@ export default function Form({ navigation, route }) {
             {errorMessage.length > 0 && (
                 <View style={styles.errorCard}>
                     <Text style={[styles.errorMessage, { fontSize: 20 }]}>Alert!! Please fill out the form</Text>
-                    {errorMessage.map((error) => {
+                    {errorMessage.map((error, index) => {
                         return (
-                            <Text style={styles.errorMessage}>{error}</Text>
+                            <Text key={index} style={styles.errorMessage}>{error}</Text>
                         )
                     })}
                 </View>

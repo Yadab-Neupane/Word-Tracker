@@ -19,7 +19,7 @@ export default function Tag({ tag, id }) {
     }, [isFocused]);
     const isTagDeleteInProcess = useSelector((state) => state.tagDelete.isDeleteInProcess);
 
-    const [newTag, setNewTag] = useState('');
+    const [newTag, setNewTag] = useState(tag);
     const [showEditModal, setShowEditModal] = useState(false);
     const [showDeleteJiggle, setShowDeleteJiggle] = useState(false);
 
@@ -37,6 +37,8 @@ export default function Tag({ tag, id }) {
 
     const closeEditModalPress = () => {
         setShowEditModal(!showEditModal);
+        setNewTag(tag);
+        dispatch(setIsDeleteInProcess(false));
     }
 
     const onTagChange = (val) => {
@@ -44,20 +46,26 @@ export default function Tag({ tag, id }) {
     }
 
     const onEditTagPressed = async () => {
-        try {
-            console.log("New tag is ,", newTag, id);
-            const update = await database.updateTag(id, newTag);
-            console.log(update);
-            dispatch(setIsUpdated(true));
-            dispatch(setIsDeleteInProcess(false));
-            setShowEditModal(!showEditModal);
-        } catch (error) {
-            console.log(error);
+        if(newTag){
+            try {
+                const update = await database.updateTag(id, newTag);
+                dispatch(setIsUpdated(true));
+                dispatch(setIsDeleteInProcess(false));
+                setShowEditModal(!showEditModal);
+            } catch (error) {
+                console.log(error);
+            }
         }
+        else {
+			Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
+				{
+					text: 'OK'
+				},
+			]);
+		}
     }
 
     const deleteTagPressed = () => {
-        console.log("Tag long pressed to delete");
         Alert.alert(
             'Delete tag',
             `Are you sure you want to delete "${tag}" tag?`,
@@ -116,7 +124,7 @@ export default function Tag({ tag, id }) {
                         <TextInput
                             style={styles.textbox}
                             onChangeText={onTagChange}
-                            defaultValue={tag}
+                            defaultValue={newTag}
                         />
 
                         <View style={styles.buttonContainer}>
