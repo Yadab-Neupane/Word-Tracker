@@ -1,4 +1,4 @@
-import { View, TouchableOpacity, Modal, TextInput, Text } from 'react-native'
+import { View, TouchableOpacity, Modal, TextInput, Text, Alert } from 'react-native'
 import Tag from "./Tag/index";
 import styles from './styles';
 import { AntDesign } from '@expo/vector-icons';
@@ -23,7 +23,6 @@ export default function TagList({ wordId }) {
             (async () => {
                 try {
                     const getAllData = await database.getAllTagsByWordId(wordId);
-                    console.log(getAllData);
                     setTagList(getAllData);
                     dispatch(setIsUpdated(false));
                 } catch (error) {
@@ -43,16 +42,25 @@ export default function TagList({ wordId }) {
     }
 
     const onSaveModalPress = () => {
-        (async () => {
-            try {
-               await database.addTag(wordId,tag);
-               setTag('');
-               dispatch(setIsUpdated(true));
-            } catch (error) {
-                console.log(error);
-            }
-            setShowAddModal(!showAddModal);
-        })();
+        if(tag){
+            (async () => {
+                try {
+                   await database.addTag(wordId,tag);
+                   setTag('');
+                   dispatch(setIsUpdated(true));
+                } catch (error) {
+                    console.log(error);
+                }
+                setShowAddModal(!showAddModal);
+            })();
+        }
+        else {
+			Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
+				{
+					text: 'OK'
+				},
+			]);
+		}
     }
 
     const closeAddModalPress = () => {

@@ -29,8 +29,17 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 	};
 
 	const onUpdateButtonPressedHandler = () => {
-		onUpdateButtonPressed(word.id, title, desc);
-		navigation.navigate('WordLists');
+		if (title && desc) {
+			onUpdateButtonPressed(word.id, title, desc);
+			navigation.navigate('WordLists');
+		}
+		else {
+			Alert.alert(`ERROR`, 'Title and description is required!!', [
+				{
+					text: 'OK'
+				},
+			]);
+		}
 	};
 
 	const onDeleteWordHandler = () => {
