@@ -250,7 +250,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 						</View>
 					)}
 
-					{listOfWords < 1 && (
+					{listOfWords && listOfWords.length == 0 && (
 						<>
 							<Text style={[styles.textstyle, { textAlign: 'center', marginTop: 60, fontSize: 25, marginBottom: 20 }]}>No record found.</Text>
 
@@ -261,10 +261,10 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 				<ScrollView>
 					<View style={{ paddingBottom: 50 }}>
 						{listOfWords &&
-							listOfWords.map((word, index) => {
+							listOfWords.map((word) => {
 								return (
 									<WordItems
-										key={index}
+										key={word.id}
 										word={word}
 										navigation={navigation}
 										onDeleteWord={onDeleteWord}
