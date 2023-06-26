@@ -63,6 +63,7 @@ export default function Flashcard(props) {
 	});
 	const [modalVisible, setModalVisible] = useState(false);
 	const [isLoading, setIsLoading] = useState(true);
+	const [lengthInfoModalVisible, setLengthInfoModalVisible] = useState(false);
 
 	useEffect(() => {
 		(async () => {
@@ -75,7 +76,8 @@ export default function Flashcard(props) {
 		try {
 			let words = await database.getRandomWords(5);
 			if (words.length < 5) {
-				// TODO: show message
+				// show count message
+				setLengthInfoModalVisible(true);
 				// set predefined list because the length is less than 5
 				words = [...predefinedList];
 			}
@@ -251,6 +253,37 @@ export default function Flashcard(props) {
 								<Pressable
 									style={styles.centeredView.modalView.button}
 									onPress={closeModal}>
+									<Text style={styles.centeredView.modalView.button.textStyle}>
+										OK
+									</Text>
+								</Pressable>
+							</View>
+						</View>
+					</Modal>
+					<Modal
+						animationType="slide"
+						transparent={true}
+						visible={lengthInfoModalVisible}
+						onRequestClose={() => {
+							setLengthInfoModalVisible(false);
+						}}>
+						<View style={styles.centeredView}>
+							<View style={styles.centeredView.modalView}>
+								<Text style={styles.centeredView.modalView.modalHeader}>
+									Not Enough Words
+								</Text>
+								<View style={styles.centeredView.modalView.modalBody}>
+									<Text>
+										It seems you have less than 5 words in your database. The
+										test needs at least 5 words so we have collected random
+										words for you to practise.
+									</Text>
+								</View>
+								<Pressable
+									style={styles.centeredView.modalView.button}
+									onPress={() => {
+										setLengthInfoModalVisible(false);
+									}}>
 									<Text style={styles.centeredView.modalView.button.textStyle}>
 										OK
 									</Text>
