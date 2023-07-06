@@ -1,5 +1,5 @@
 import { openDatabase } from "expo-sqlite";
-export const db = openDatabase("dbtest78");
+export const db = openDatabase("dbtest80");
 
 
 export const createWordDb = async () => {
@@ -25,6 +25,24 @@ export const createTagDb = async () => {
         db.transaction(tx => {
             tx.executeSql(
                 "create table if not exists Tags (id text primary key not null, wordId text not null, tag text not null);",
+                [],
+                (tx, results) => {
+                    resolve(true);
+                },
+                (tx, error) => {
+                    console.log(`Error creating tags db ${error}`);
+                    reject(false)
+                }
+            );
+        })
+    });
+};
+
+export const createQuizDb = async () => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "create table if not exists Quiz (id text primary key not null, correct integer not null, incorrect integer not null, createdAt text not null);",
                 [],
                 (tx, results) => {
                     resolve(true);

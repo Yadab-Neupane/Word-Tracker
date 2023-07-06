@@ -22,7 +22,8 @@ export default function App() {
 				// to create or check if db exist
 				const wordDbExists = await database.createWordDb();
 				const TagDbExists = await database.createTagDb();
-				if (wordDbExists && TagDbExists) {
+				const QuizDbExists = await database.createQuizDb();
+				if (wordDbExists && TagDbExists && QuizDbExists) {
 				} else {
 					Alert.alert('Error', `Error connecting to db`, []);
 				}
@@ -49,7 +50,9 @@ export default function App() {
 								return <MemoryComponent {...props} />;
 							}}
 						</Stack.Screen>
-						<Stack.Screen name="Quiz" options={{ headerBackVisible: false }}>
+						<Stack.Screen
+							name="Quiz"
+							options={{ headerBackVisible: false, gestureEnabled: false }}>
 							{(props) => {
 								return <QuizComponent {...props} />;
 							}}
