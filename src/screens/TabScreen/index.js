@@ -6,6 +6,8 @@ import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
 import HomeScreen from './../HomeScreen';
 import * as database from './../../database/index';
+import NotificationScreen from '../NotificationScreen';
+import Notification from '../../components/Notification';
 
 const Tab = createBottomTabNavigator();
 
@@ -91,6 +93,27 @@ export default function TabScreen(props) {
 					},
 				}}
 			/>
+			<Tab.Screen
+				name='Settings'
+				options={{
+					tabBarInactiveTintColor: accentColor,
+					tabBarActiveTintColor: secondaryColor,
+					headerShown: false,
+					tabBarIcon: ({ focused, size, color }) => {
+						const icon = focused ? 'settings-sharp' : 'settings-outline'
+						return <Ionicons name={icon} size={24} color={color} />
+					}
+				}}
+			>
+				{(props) => {
+					return <Notification
+						{...props}
+					/>
+				}}
+
+			</Tab.Screen>
+
+
 		</Tab.Navigator>
 	);
 }
