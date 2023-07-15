@@ -19,6 +19,7 @@ import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vec
 import { secondaryColor } from '../../common/includes';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function WordList({ navigation, route, onDeleteWord }) {
 	const isFocused = useIsFocused();
@@ -191,6 +192,15 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	return (
 		<>
 			<View style={styles.container}>
+				{/* <TouchableOpacity
+					onPress={() => {
+						navigation.navigate('Notification')
+
+					}}
+					style={styles.notificationButton}
+				>
+					<Ionicons name="notifications" size={24} color="white" />
+				</TouchableOpacity> */}
 				<TouchableOpacity
 					onPress={() => {
 						navigation.navigate('Forms');
@@ -314,7 +324,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 								onPress={() => {
 									onHeaderToggle('date');
 								}}>
-								<Text style={styles.modalView.modalTabHeader_Text}>
+								<Text style={styles.modalView.modalTabHeader_Text_Inactive}>
 									Date Filter
 								</Text>
 							</TouchableOpacity>

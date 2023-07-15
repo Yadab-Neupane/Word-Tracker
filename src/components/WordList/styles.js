@@ -12,6 +12,20 @@ export default styles = StyleSheet.create({
 		padding: 20,
 		flex: 1,
 	},
+	notificationButton: {
+		borderWidth: 1,
+		borderColor: 'white',
+		alignItems: 'center',
+		justifyContent: 'center',
+		width: 70,
+		position: 'absolute',
+		bottom: 20,
+		right: '85%',
+		height: 70,
+		backgroundColor: lavenderColor,
+		zIndex: 99,
+		borderRadius: 35,
+	},
 	addButton: {
 		borderWidth: 1,
 		borderColor: 'white',
@@ -137,6 +151,7 @@ export default styles = StyleSheet.create({
 			width: 100,
 			textStyle: {
 				textAlign: 'center',
+				color: 'white'
 			},
 		},
 		modalTabHeaderContainer: {
