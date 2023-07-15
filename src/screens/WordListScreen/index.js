@@ -1,6 +1,7 @@
 import Detail from "../../components/Detail";
 import Form from "../../components/Form";
 import WordList from "../../components/WordList";
+import ShareWords from "../../components/ShareWords";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -29,9 +30,12 @@ export default function WordListScreen({ words, onAddNewWord, onEditWord, onEdit
 
             <Stack.Screen
                 name="Detail"
-                options={{
-                    headerTitle: "Definition"
-                }}
+                options={({ route }) => ({
+                    headerTitle: "Definition",
+                    headerRight: () => (
+                        <ShareWords word={route.params.word} />
+                    ),
+                })}
             >
                 {(props) => {
                     return <Detail
