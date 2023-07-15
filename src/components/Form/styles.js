@@ -2,6 +2,7 @@ import { StyleSheet } from "react-native";
 import {
     fontFamilyPlatform,
     labelWhiteColor,
+    lavenderColor,
     secondaryColor
 } from "../../common/includes";
 
@@ -31,22 +32,23 @@ export default styles = StyleSheet.create({
         fontFamily: fontFamilyPlatform,
     },
     touchableButton: {
-
+        marginLeft: 'auto',
+        marginRight: 'auto',
         flexDirection: 'column',
-        alignSelf: 'flex-end',
+        width: 300,
         justifyContent: 'flex-end',
     },
     saveButton: {
-
-        backgroundColor: secondaryColor,
+        backgroundColor: lavenderColor,
         textAlign: 'center',
         borderRadius: 10,
-        padding: 20,
+        fontSize: 18,
+        padding: 15,
         color: labelWhiteColor,
     },
     errorCard: {
         padding: 20,
-        backgroundColor: 'black',
+        backgroundColor: labelWhiteColor,
         borderRadius: 8,
         marginBottom: 20
     },
