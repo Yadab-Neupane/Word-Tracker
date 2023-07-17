@@ -24,5 +24,7 @@ export {
 export {
 	addScore,
 	getScores,
-	getRecords
+	getRecords,
+	getWordCountByDay,
+	getQuizResults
 } from '../database/Quiz/index';

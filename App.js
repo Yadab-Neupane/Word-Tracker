@@ -20,9 +20,11 @@ export default function App() {
 		(async () => {
 			try {
 				// to create or check if db exist
-				const wordDbExists = await database.createWordDb();
-				const TagDbExists = await database.createTagDb();
-				const QuizDbExists = await database.createQuizDb();
+				const [wordDbExists, TagDbExists, QuizDbExists] = await Promise.all([
+					database.createWordDb(),
+					database.createTagDb(),
+					database.createQuizDb(),
+				  ]);
 				if (wordDbExists && TagDbExists && QuizDbExists) {
 				} else {
 					Alert.alert('Error', `Error connecting to db`, []);

@@ -58,3 +58,45 @@ export const getRecords = async () => {
 		});
 	});
 };
+
+export const getWordCountByDay = async () => {
+	return new Promise((resolve, reject) => {
+		var strftime = require('strftime');
+		let query = `SELECT COUNT(createdAt) as words, strftime('%Y-%m-%d', createdAt) as date FROM Words group by strftime('%Y-%m-%d', createdAt) LIMIT 5`;
+		db.transaction((tx) => {
+			tx.executeSql(
+				query,
+				[],
+				(tx, results) => {
+					var temp = [];
+					for (let i = 0; i < results.rows.length; ++i) temp.push(results.rows.item(i));
+					resolve(temp);
+				},
+				(tx, error) => {
+					reject(`Error while adding data: ${error}`);
+				}
+			);
+		});
+	});
+};
+
+export const getQuizResults = async () => {
+	return new Promise((resolve, reject) => {
+		var strftime = require('strftime');
+		let query = `SELECT * From Quiz order by strftime('%Y-%m-%d %H:%M:%S', createdAt) desc LIMIT 5`;
+		db.transaction((tx) => {
+			tx.executeSql(
+				query,
+				[],
+				(tx, results) => {
+					var temp = [];
+					for (let i = 0; i < results.rows.length; ++i) temp.push(results.rows.item(i));
+					resolve(temp);
+				},
+				(tx, error) => {
+					reject(`Error while adding data: ${error}`);
+				}
+			);
+		});
+	});
+};
