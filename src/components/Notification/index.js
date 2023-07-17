@@ -32,7 +32,7 @@ export default function Notification({ navigation, route }) {
             }
 
 
-            const interval = setInterval(onReminderPressHandler, 60000);
+            const interval = setInterval(onReminderPressHandler, 1200000);
 
             return () => {
                 clearInterval(interval);
