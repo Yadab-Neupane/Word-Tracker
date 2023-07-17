@@ -1,4 +1,4 @@
-export { createWordDb, createTagDb } from '../database/config';
+export { createWordDb, createTagDb, createQuizDb } from '../database/config';
 export {
 	addWord,
 	getAllWords,
@@ -21,3 +21,10 @@ export {
 	updateTag,
 	getAllTags
 } from '../database/Tag/index';
+export {
+	addScore,
+	getScores,
+	getRecords,
+	getWordCountByDay,
+	getQuizResults
+} from '../database/Quiz/index';

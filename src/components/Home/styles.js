@@ -9,15 +9,22 @@ export default styles = StyleSheet.create({
     container: {
         padding: 15,
     },
-    card1: {
-        flexDirection: 'row',
+    card: {
         padding: 20,
         backgroundColor: secondaryColor,
-        borderRadius: 10,
+        borderRadius: 12,
         marginBottom: 20,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        infoHeader: {
+            flex: 1,
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
+        info: {
+            flex: 1
+        }
     },
-
     cardLabelsTitle: {
         fontSize: 40,
         color: labelWhiteColor,
@@ -30,26 +37,7 @@ export default styles = StyleSheet.create({
         fontSize: 18
     },
     image: {
-        marginTop: 60,
-        // marginRight: -20,
-        marginLeft: -25,
         width: 60,
         height: 60,
-
-    },
-    card2: {
-        flexDirection: 'row',
-        padding: 20,
-        backgroundColor: secondaryColor,
-        borderRadius: 10,
-        justifyContent: 'space-between',
-        marginBottom: 20
-    },
-    card3: {
-        flexDirection: 'row',
-        padding: 20,
-        backgroundColor: secondaryColor,
-        borderRadius: 10,
-        justifyContent: 'space-between'
-    },
+    }
 })
