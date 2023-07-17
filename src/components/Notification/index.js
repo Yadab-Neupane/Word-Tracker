@@ -32,7 +32,7 @@ export default function Notification({ navigation, route }) {
             }
 
 
-            const interval = setInterval(onReminderPressHandler, 60000);
+            const interval = setInterval(onReminderPressHandler, 68400000);
 
             return () => {
                 clearInterval(interval);
@@ -196,7 +196,8 @@ async function onScheduleReminder(title, defination, colour) {
                 }
             },
             trigger: {
-                seconds: 60,
+                hour: 19,
+                minute: 45,
                 repeats: true,
             }
         })

@@ -6,10 +6,6 @@ const Stack = createStackNavigator();
 
 export default function NotificationScreen({ words }) {
     return (
-        // <Notification
-        //     words={words}
-
-        // />
         <Stack.Navigator>
 
             <Stack.Screen
