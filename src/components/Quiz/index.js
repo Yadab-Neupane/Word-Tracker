@@ -132,10 +132,16 @@ export default function QuizComponent(props) {
 				updateWordAndOptions(list);
 			}, 280);
 		} else {
-			setModalVisible(true);
+			// add quiz results to db
+			addResults();
 		}
 		setShowNextBtn(false);
 	};
+
+	const addResults = async () => {
+		await database.addScore(score.correct, score.incorrect);
+		setModalVisible(true);
+	}
 
 	const updateWordAndOptions = (words) => {
 		const currentWord = words[count];

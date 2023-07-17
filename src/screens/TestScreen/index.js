@@ -1,4 +1,4 @@
-import { ImageBackground, Text, TouchableHighlight, View, Modal, Pressable } from 'react-native';
+import { ImageBackground, Text, TouchableHighlight, TouchableOpacity, View, Modal, Pressable } from 'react-native';
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
@@ -54,7 +54,7 @@ export default function TestScreen(props) {
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>
 								<Text style={styles.title}>Memory</Text>
-								<TouchableHighlight
+								<TouchableOpacity
 									onPress={() => {
 										showMemoryInfo(true);
 									}}>
@@ -64,7 +64,7 @@ export default function TestScreen(props) {
 										size={30}
 										color="black"
 									/>
-								</TouchableHighlight>
+								</TouchableOpacity>
 							</View>
 							<View style={styles.boxBody}>
 								<View>
@@ -91,9 +91,9 @@ export default function TestScreen(props) {
 							<Text>{modalText.textHead}</Text>
 							<Text>{modalText.textBody}</Text>
 						</View>
-						<Pressable style={styles.modalView.button} onPress={closeModal}>
+						<TouchableOpacity style={styles.modalView.button} onPress={closeModal}>
 							<Text style={styles.modalView.button.textStyle}>OK</Text>
-						</Pressable>
+						</TouchableOpacity>
 					</View>
 				</View>
 			</Modal>
@@ -112,7 +112,7 @@ export default function TestScreen(props) {
 						<View style={{ padding: 30 }}>
 							<View style={styles.boxHeader}>
 								<Text style={styles.title}>Quiz</Text>
-								<TouchableHighlight
+								<TouchableOpacity
 									onPress={() => {
 										showMemoryInfo(false);
 									}}>
@@ -122,7 +122,7 @@ export default function TestScreen(props) {
 										size={30}
 										color="black"
 									/>
-								</TouchableHighlight>
+								</TouchableOpacity>
 							</View>
 							<View style={styles.boxBody}>
 								<View>
