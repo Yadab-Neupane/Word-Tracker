@@ -106,8 +106,11 @@ export default function TabScreen(props) {
 				}}
 			>
 				{(props) => {
-					return <Notification
+
+					return <NotificationScreen
 						{...props}
+						words={words}
+
 					/>
 				}}
 

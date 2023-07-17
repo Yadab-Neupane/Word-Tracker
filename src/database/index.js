@@ -11,7 +11,8 @@ export {
 	getAllWordsByTitle,
 	updateBookmark,
 	getAllWordsByTagList,
-	getAllWordsByDateRange
+	getAllWordsByDateRange,
+	getRandomWordsForNotification
 } from '../database/Word/index';
 export {
 	addTag,

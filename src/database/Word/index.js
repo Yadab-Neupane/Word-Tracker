@@ -39,6 +39,28 @@ export const getAllWords = async () => {
     })
 };
 
+
+export const getRandomWordsForNotification = async () => {
+    return new Promise((resolve, reject) => {
+        db.transaction(tx => {
+            tx.executeSql(
+                "select * from Words w ORDER BY RANDOM() LIMIT 1",
+                [],
+                (tx, result) => {
+                    if (result.rows.length > 0) {
+                        resolve(result.rows.item(0));
+                    } else {
+                        reject('There is no record for unsend notification.');
+                    }
+                },
+                error => {
+                    reject(error);
+                }
+            );
+        });
+    })
+};
+
 export const getAllWordsByTagList = async (tagList) => {
     let query = "select w.* from Tags t inner join Words w on t.wordId = w.id where t.tag in (";
     for (let i = 1; i <= tagList.length; i++) {

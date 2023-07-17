@@ -4,8 +4,11 @@
     "slug": "word-tracker",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/artificial-intelligence.png",
     "userInterfaceStyle": "light",
+    "notification": {
+      "icon": "./assets/artificial-intelligence.png"
+    },
     "splash": {
       "image": "./assets/artificial-intelligence.png",
       "resizeMode": "contain",

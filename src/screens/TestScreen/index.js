@@ -19,7 +19,7 @@ export default function TestScreen(props) {
 		let header = 'Quiz';
 		let head = `You will be quizzed with 5 word one at a time. You can choose through 4 options. \n`;
 		let body = `Expand your knoweledge by completing the quiz`;
-		
+
 		if (isMemory) {
 			header = 'Memory';
 			head = `You will be tested with 5 word one at a time. You can view the definition by interacting with the flashcard. \n`;
