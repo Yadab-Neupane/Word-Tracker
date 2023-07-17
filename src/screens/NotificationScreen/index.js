@@ -1,12 +1,15 @@
 import Notification from "../../components/Notification";
 import { createStackNavigator } from '@react-navigation/stack';
-import RadioButton from "../../components/RadioButton";
 
 
 const Stack = createStackNavigator();
 
-export default function NotificationScreen({ words, data }) {
+export default function NotificationScreen({ words }) {
     return (
+        // <Notification
+        //     words={words}
+
+        // />
         <Stack.Navigator>
 
             <Stack.Screen
@@ -20,8 +23,6 @@ export default function NotificationScreen({ words, data }) {
                         <Notification
                             {...props}
                             words={words}
-                            data={data}
-
                         />
                     )
                 }}
@@ -37,7 +38,7 @@ export default function NotificationScreen({ words, data }) {
                 {(props) => {
                     return (
                         <RadioButton
-                            data={data} />
+                        />
                     )
                 }}
 
