@@ -219,13 +219,13 @@ export default function QuizComponent(props) {
 													style={[
 														styles.option,
 														ansIndex === index &&
-														word?.title === opt.title &&
-														showNextBtn
+															word?.title === opt.title &&
+															showNextBtn
 															? styles.clickedCorrect
 															: '',
 														ansIndex === index &&
-														word?.title !== opt.title &&
-														showNextBtn
+															word?.title !== opt.title &&
+															showNextBtn
 															? styles.clickedIncorrect
 															: '',
 														word?.title === opt.title && showNextBtn
@@ -236,8 +236,8 @@ export default function QuizComponent(props) {
 														style={
 															styles.optionText
 														}>{`${String.fromCharCode(
-														0x0041 + index
-													)}:   ${opt.title}`}</Text>
+															0x0041 + index
+														)}:   ${opt.title}`}</Text>
 													{word?.title === opt.title && showNextBtn && (
 														<Ionicons
 															name="checkmark-circle-outline"
