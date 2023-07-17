@@ -1,6 +1,8 @@
 import Detail from "../../components/Detail";
 import Form from "../../components/Form";
+import Notification from "../../components/Notification";
 import WordList from "../../components/WordList";
+import ShareWords from "../../components/ShareWords";
 import { createStackNavigator } from '@react-navigation/stack';
 
 
@@ -29,9 +31,12 @@ export default function WordListScreen({ words, onAddNewWord, onEditWord, onEdit
 
             <Stack.Screen
                 name="Detail"
-                options={{
-                    headerTitle: "Definition"
-                }}
+                options={({ route }) => ({
+                    headerTitle: "Definition",
+                    headerRight: () => (
+                        <ShareWords word={route.params.word} />
+                    ),
+                })}
             >
                 {(props) => {
                     return <Detail
@@ -55,6 +60,17 @@ export default function WordListScreen({ words, onAddNewWord, onEditWord, onEdit
                     />
                 }}
             </Stack.Screen>
+
+            {/* <Stack.Screen
+                name="Notification"
+            >
+                {(props) => {
+                    return <Notification
+                        {...props}
+                    />
+                }}
+
+            </Stack.Screen> */}
 
         </Stack.Navigator >
     )
