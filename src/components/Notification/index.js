@@ -196,8 +196,6 @@ async function onScheduleReminder(title, defination, colour) {
                 }
             },
             trigger: {
-                // hour: 23,
-                // minute: 59,
                 seconds: 60,
                 repeats: true,
             }
