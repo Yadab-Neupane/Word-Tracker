@@ -13,11 +13,6 @@ const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
 
-	const data = [
-		{ value: 'Apple' },
-		{ value: 'Samsung' },
-		{ value: 'Blackberry' },
-	];
 
 	const [words, setWords] = useState([]);
 
@@ -115,8 +110,6 @@ export default function TabScreen(props) {
 					return <NotificationScreen
 						{...props}
 						words={words}
-						data={data}
-
 					/>
 				}}
 
