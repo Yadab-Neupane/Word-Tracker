@@ -1,13 +1,18 @@
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import Notification from '../../components/Notification';
-import { createStackNavigator } from '@react-navigation/stack';
 import styles from './styles';
 import { useState } from 'react';
-
-const Stack = createStackNavigator();
+import * as database from '../../database/index';
 
 export default function NotificationScreen() {
 	const [clearModalVisible, setClearModalVisible] = useState(false);
+
+	const clearAllData = async () => {
+		let res = await database.deleteAllTables();
+		if (res === true) {
+			setClearModalVisible(false);
+		}
+	};
 
 	return (
 		<View style={styles.container}>
@@ -56,9 +61,7 @@ export default function NotificationScreen() {
 						<View style={styles.modalView.buttonDiv}>
 							<TouchableOpacity
 								style={styles.modalView.button}
-								onPress={() => {
-									setClearModalVisible(false);
-								}}>
+								onPress={clearAllData}>
 								<Text style={styles.modalView.button.textStyle}>YES</Text>
 							</TouchableOpacity>
 							<TouchableOpacity
