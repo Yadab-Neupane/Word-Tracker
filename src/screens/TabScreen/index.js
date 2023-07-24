@@ -12,8 +12,6 @@ import Notification from '../../components/Notification';
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
-
-
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
@@ -78,7 +76,6 @@ export default function TabScreen(props) {
 						/>
 					);
 				}}
-
 			</Tab.Screen>
 			<Tab.Screen
 				name="Test"
@@ -94,29 +91,20 @@ export default function TabScreen(props) {
 				}}
 			/>
 			<Tab.Screen
-				name='Settings'
+				name="Settings"
 				options={{
 					tabBarInactiveTintColor: accentColor,
 					tabBarActiveTintColor: secondaryColor,
 					headerShown: false,
 					tabBarIcon: ({ focused, size, color }) => {
-						const icon = focused ? 'settings-sharp' : 'settings-outline'
-						return <Ionicons name={icon} size={24} color={color} />
-					}
-				}}
-			>
+						const icon = focused ? 'settings-sharp' : 'settings-outline';
+						return <Ionicons name={icon} size={24} color={color} />;
+					},
+				}}>
 				{(props) => {
-
-					return <NotificationScreen
-						{...props}
-						words={words}
-
-					/>
+					return <NotificationScreen {...props} words={words} />;
 				}}
-
 			</Tab.Screen>
-
-
 		</Tab.Navigator>
 	);
 }
