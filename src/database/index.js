@@ -1,4 +1,4 @@
-export { createWordDb, createTagDb, createQuizDb } from '../database/config';
+export { createWordDb, createTagDb, createQuizDb, deleteAllTables } from '../database/config';
 export {
 	addWord,
 	getAllWords,
