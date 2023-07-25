@@ -126,7 +126,7 @@ export default function Notification({ navigation, route }) {
 
             <View style={styles.appTheme}>
                 <TouchableOpacity
-                    onPress={() => console.log("App Theme ")}>
+                    onPress={toggleSwitch}>
                     <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Change Theme</Text>
                 </TouchableOpacity>
                 <Switch
