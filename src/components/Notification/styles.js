@@ -10,6 +10,7 @@ export default styles = StyleSheet.create({
         fontSize: 24,
         textAlign: 'center',
         marginTop: 20,
+        fontWeight: 'bold'
     },
     setNotification: {
         fontSize: 20,
@@ -90,5 +91,10 @@ export default styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         paddingBottom: 5
+    },
+    appTheme: {
+        padding: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     }
 })

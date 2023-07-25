@@ -9,16 +9,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setIsUpdated } from '../../redux/tagUpdateSlice';
 
 import * as database from '../../database/index';
+import { useTheme } from '@react-navigation/native';
 
 export default function TagList({ wordId }) {
 
+    const { colors } = useTheme()
     const firstUpdate = useRef(true);
     const dispatch = useDispatch();
-    const isTagUpdated= useSelector((state) => state.tagUpdate.isUpdated);
+    const isTagUpdated = useSelector((state) => state.tagUpdate.isUpdated);
     const [tagList, setTagList] = useState([])
 
     useEffect(() => {
-        if(firstUpdate.current || isTagUpdated){
+        if (firstUpdate.current || isTagUpdated) {
             firstUpdate.current = false;
             (async () => {
                 try {
@@ -42,12 +44,12 @@ export default function TagList({ wordId }) {
     }
 
     const onSaveModalPress = () => {
-        if(tag){
+        if (tag) {
             (async () => {
                 try {
-                   await database.addTag(wordId,tag);
-                   setTag('');
-                   dispatch(setIsUpdated(true));
+                    await database.addTag(wordId, tag);
+                    setTag('');
+                    dispatch(setIsUpdated(true));
                 } catch (error) {
                     console.log(error);
                 }
@@ -55,12 +57,12 @@ export default function TagList({ wordId }) {
             })();
         }
         else {
-			Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
-				{
-					text: 'OK'
-				},
-			]);
-		}
+            Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
+                {
+                    text: 'OK'
+                },
+            ]);
+        }
     }
 
     const closeAddModalPress = () => {
@@ -78,8 +80,8 @@ export default function TagList({ wordId }) {
                     return (
                         <View key={index} style={styles.tag}>
                             <Tag
-                                tag = {item.tag}
-                                id = {item.id}
+                                tag={item.tag}
+                                id={item.id}
                             />
                         </View>);
                 })}
@@ -87,7 +89,7 @@ export default function TagList({ wordId }) {
                 <View style={styles.addButton}>
                     <TouchableOpacity
                         onPress={onAddTagButtonPress}>
-                        <AntDesign name="pluscircle" size={30} color={secondaryColor} />
+                        <AntDesign name="pluscircle" size={30} color={colors.text} />
                     </TouchableOpacity>
                 </View>
             </View>

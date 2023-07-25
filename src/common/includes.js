@@ -10,6 +10,8 @@ export const lavenderColor = "#BA90C6"
 export const labelWhiteColor = "#fff"
 export const blueColor = "#5783db"
 export const lightYellowColor = "#fffdaf"
+export const maroonColor = "#99697c"
+export const greenColor = "#699986"
 
 
 export const appTitle = 'Word Tracker App'

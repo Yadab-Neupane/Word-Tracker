@@ -219,6 +219,5 @@ export default styles = StyleSheet.create({
 	},
 	textstyle: {
 		fontSize: 30,
-		color: secondaryColor,
 	},
 });

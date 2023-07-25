@@ -1,11 +1,26 @@
-import { useEffect, useState } from "react";
-import { Alert, Button, Modal, Platform, Pressable, ScrollView, Switch, Text, TouchableOpacity, View } from "react-native";
+import { useContext, useEffect, useState } from "react";
+import { Alert, Modal, Platform, Pressable, Switch, Text, TouchableOpacity, View, useColorScheme } from "react-native";
 import styles from "./styles.js";
 import * as Notifications from 'expo-notifications';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import * as database from '../../database/index';
+import { useTheme } from "@react-navigation/native";
+import ThemeContext from "../../themes/ThemeContext.js";
+import AppDarkTheme from "../../themes/AppDarkTheme.js";
+import AppLightTheme from "../../themes/AppLightTheme.js";
 
 export default function Notification({ navigation, route }) {
+    const { colors } = useTheme()
+    const { setTheme, theme } = useContext(ThemeContext);
+    console.log(theme)
+    const [isEnabled, setIsEnabled] = useState(false);
+
+    const toggleSwitch = () => {
+        setIsEnabled(prevState => !prevState);
+        // setIsEnabled(() => isEnabled == true ? 'dark' : 'light');
+        setTheme(() => theme === 'light' ? 'dark' : 'light')
+        console.log(theme)
+    };
 
     const data = [
         { value: 'red' },
@@ -28,7 +43,6 @@ export default function Notification({ navigation, route }) {
             setSchedule(previouslySchedule)
             if (previouslySchedule.find((item) => item.type === 'reminder')) {
                 setReminder(true)
-                // 86400000
             }
 
 
@@ -43,10 +57,7 @@ export default function Notification({ navigation, route }) {
     const onReminderPressHandler = async () => {
         if (!reminder) {
             const data = await database.getAllWords()
-
-            console.log("Data length actual", data.length)
             const rand = setRandom(Math.floor(Math.random() * data.length));
-
             const notification = await database.getRandomWordsForNotification();
             const { title, defination } = notification;
 
@@ -84,14 +95,14 @@ export default function Notification({ navigation, route }) {
         <View
             style={styles.mainContainer}>
             <Text
-                style={styles.title}>
+                style={[styles.title, { color: colors.text }]}>
                 Manage Notifications
             </Text>
             <View style={styles.content}>
                 <Pressable
                     onPress={onReminderPressHandler}
                 >
-                    <Text style={styles.setNotification}>Daily push notification </Text>
+                    <Text style={[styles.setNotification, { color: colors.text }]}>Daily push notification </Text>
                 </Pressable>
                 <Switch
                     trackColor={{ false: '#767577', true: '#81b0ff' }}
@@ -106,13 +117,28 @@ export default function Notification({ navigation, route }) {
             <View style={styles.content}>
                 <TouchableOpacity
                     onPress={() => setModalVisible(true)}>
-                    <Text style={styles.notificaionIconColor}>Notification icon color</Text>
+                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Notification icon color</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     onPress={() => setModalVisible(true)}>
-                    <Text style={styles.notificaionIconColor}>{!userChosen ? setUserChosen('black') : userChosen}</Text>
+                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>{!userChosen ? setUserChosen('black') : userChosen}</Text>
                 </TouchableOpacity>
             </View>
+
+            <View style={styles.appTheme}>
+                <TouchableOpacity
+                    onPress={() => console.log("App Theme ")}>
+                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Change Theme</Text>
+                </TouchableOpacity>
+                <Switch
+                    trackColor={{ false: '#767577', true: '#81b0ff' }}
+                    thumbColor={reminder ? '#f5dd4b' : '#f4f3f4'}
+                    ios_backgroundColor="#3e3e3e"
+                    value={isEnabled}
+                    onValueChange={toggleSwitch}
+                />
+            </View>
+
             <AlertNotificationRoot />
 
             <Modal

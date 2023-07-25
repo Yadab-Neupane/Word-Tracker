@@ -25,6 +25,7 @@ export default styles = StyleSheet.create({
         marginTop: 10,
         borderWidth: 0.2,
         marginBottom: 20,
+        borderRadius: 5,
     },
     wordDesc: {
         fontSize: 20,

@@ -3,13 +3,15 @@ import styles from './styles'
 import { PLATFORM_OS, appAuthor, appTitle } from '../../common/includes'
 import { AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 
 
 export default function Header() {
+    const { colors } = useTheme()
     const [modal, setModal] = useState(false)
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{appTitle}</Text>
+        <View style={[styles.container, { backgroundColor: colors.header }]}>
+            <Text style={[styles.title, { color: colors.color }]}>{appTitle}</Text>
             <View style={styles.authorAndPlatform}>
                 <TouchableOpacity
                     onPress={() => setModal(true)}

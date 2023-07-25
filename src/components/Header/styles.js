@@ -6,13 +6,14 @@ export default styles = StyleSheet.create({
                 padding: 10,
                 marginTop: 40,
                 flexDirection: 'row',
-                justifyContent: 'space-between'
+                justifyContent: 'space-between',
+
         },
         title: {
                 fontFamily: fontFamilyPlatform,
                 fontWeight: 'bold',
                 fontSize: 20,
-                color: secondaryColor
+                color: secondaryColor,
         },
         platform: {
                 alignSelf: 'flex-end',

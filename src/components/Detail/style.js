@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { fontFamilyPlatform, labelWhiteColor, secondaryColor } from '../../common/includes';
+import { accentColor, fontFamilyPlatform, greenColor, labelWhiteColor, lavenderColor, maroonColor, primaryColor, secondaryColor } from '../../common/includes';
 
 export default styles = StyleSheet.create({
 	container: {
@@ -91,19 +91,19 @@ export default styles = StyleSheet.create({
 		borderRadius: 35,
 		height: 70,
 		width: 70,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        zIndex: 99
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		zIndex: 99
 	},
 	deleteButton: {
-        left: 20,
-        backgroundColor: 'red'
-    },
+		left: 20,
+		backgroundColor: maroonColor
+	},
 	editButton: {
-        right: 20,
-        backgroundColor: 'blue'
-    },
+		right: 20,
+		backgroundColor: greenColor
+	},
 
 	// detail word description
 	title: {
