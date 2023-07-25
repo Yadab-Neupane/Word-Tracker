@@ -6,8 +6,6 @@ import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-a
 import * as database from '../../database/index';
 import { useTheme } from "@react-navigation/native";
 import ThemeContext from "../../themes/ThemeContext.js";
-import AppDarkTheme from "../../themes/AppDarkTheme.js";
-import AppLightTheme from "../../themes/AppLightTheme.js";
 
 export default function Notification({ navigation, route }) {
     const { colors } = useTheme()
@@ -17,7 +15,6 @@ export default function Notification({ navigation, route }) {
 
     const toggleSwitch = () => {
         setIsEnabled(prevState => !prevState);
-        // setIsEnabled(() => isEnabled == true ? 'dark' : 'light');
         setTheme(() => theme === 'light' ? 'dark' : 'light')
         console.log(theme)
     };
