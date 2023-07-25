@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
     Alert,
     Button,
@@ -16,6 +16,7 @@ import * as Notifications from 'expo-notifications';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import * as database from '../../database/index';
 import { lavenderColor, secondaryColor } from '../../common/includes.js';
+import { useTheme } from "@react-navigation/native";
 
 export default function Notification({ navigation, route }) {
     const data = [{ value: 'red' }, { value: 'blue' }, { value: 'black' }];
@@ -24,7 +25,6 @@ export default function Notification({ navigation, route }) {
 
     const { colors } = useTheme()
     const { setTheme, theme } = useContext(ThemeContext);
-    console.log(theme)
     const [isEnabled, setIsEnabled] = useState(false);
 
     const toggleSwitch = () => {
@@ -101,7 +101,7 @@ export default function Notification({ navigation, route }) {
             <View style={styles.content}>
                 <View>
                     <Pressable onPress={onReminderPressHandler}>
-                        <Text style={styles.setNotification}>Daily push notification </Text>
+                        <Text style={[styles.setNotification, { color: colors.text }]}>Daily push notification </Text>
                     </Pressable>
                 </View>
                 <Switch
@@ -115,10 +115,10 @@ export default function Notification({ navigation, route }) {
 
             <View style={styles.content}>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
-                    <Text style={styles.notificaionIconColor}>Notification icon color</Text>
+                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Notification icon color</Text>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={() => setModalVisible(true)}>
-                    <Text style={styles.notificaionIconColor}>
+                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>
                         {!userChosen ? setUserChosen('black') : userChosen}
                     </Text>
                 </TouchableOpacity>
@@ -130,6 +130,7 @@ export default function Notification({ navigation, route }) {
                     <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Change Theme</Text>
                 </TouchableOpacity>
                 <Switch
+
                     trackColor={{ false: '#767577', true: '#81b0ff' }}
                     thumbColor={reminder ? '#f5dd4b' : '#f4f3f4'}
                     ios_backgroundColor="#3e3e3e"

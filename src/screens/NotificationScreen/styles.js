@@ -12,7 +12,9 @@ export default styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	sectionHeader: {
-		fontSize: 18,
+		fontSize: 25,
+		marginLeft: 'auto',
+		marginRight: 'auto',
 		color: 'grey',
 	},
 	centeredView: {

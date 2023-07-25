@@ -91,8 +91,10 @@ export default styles = StyleSheet.create({
         paddingBottom: 5
     },
     appTheme: {
-        padding: 20,
+        paddingTop: 20,
+        paddingLeft: 0,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 })

@@ -13,6 +13,7 @@ export default AppDarkTheme = {
         card: '#191919',
         border: '#444859',
         primary: '#f9f9f9',
+        secondary: '#393646',
         background: "#000",
         textColorPlaceholder: labelWhiteColor,
         inactiveTab: "#fff",

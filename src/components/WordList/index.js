@@ -291,7 +291,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 					setModalVisible(!modalVisible);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
 						<View style={styles.modalView.modalTabHeaderContainer}>
 							<TouchableOpacity
 								style={[

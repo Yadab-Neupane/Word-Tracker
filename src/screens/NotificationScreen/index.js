@@ -1,10 +1,13 @@
-import { View, Text, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, Modal, useColorScheme } from 'react-native';
 import Notification from '../../components/Notification';
 import styles from './styles';
 import { useState } from 'react';
 import * as database from '../../database/index';
+import { useTheme } from "@react-navigation/native";
 
 export default function NotificationScreen() {
+	const { colors } = useTheme()
+
 	const [clearModalVisible, setClearModalVisible] = useState(false);
 
 	const clearAllData = async () => {
@@ -15,15 +18,15 @@ export default function NotificationScreen() {
 	};
 
 	return (
-		<View style={styles.container}>
+		<View style={[styles.container, { backgroundColor: colors.background }]}>
 			<View style={styles.section}>
-				<Text style={styles.sectionHeader}>Notification</Text>
+				<Text style={[styles.sectionHeader, { color: colors.text }]}>Notification</Text>
 				<View>
 					<Notification />
 				</View>
 			</View>
 			<View style={styles.section}>
-				<Text style={styles.sectionHeader}>Data</Text>
+				<Text style={[styles.sectionHeader, { color: colors.text }]}>Data</Text>
 				<View
 					style={{
 						paddingTop: 20,
@@ -35,6 +38,7 @@ export default function NotificationScreen() {
 						<Text
 							style={{
 								fontSize: 18,
+								color: colors.text
 							}}>
 							Clear All Data
 						</Text>
@@ -49,10 +53,10 @@ export default function NotificationScreen() {
 					setClearModalVisible(!clearModalVisible);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
-						<Text style={styles.modalView.modalHeader}>{'Clear All Data!!!'}</Text>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
+						<Text style={[styles.modalView.modalHeader, { color: colors.text }]}>{'Clear All Data!!!'}</Text>
 						<View style={styles.modalView.modalBody}>
-							<Text>
+							<Text style={{ color: colors.text }}>
 								{
 									'Are you sure you want to clear all data. This process is not reversible.'
 								}
