@@ -11,8 +11,11 @@ import { useTheme } from '@react-navigation/native';
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
+<<<<<<< HEAD
 	const { colors } = useTheme()
 
+=======
+>>>>>>> 781cf9551ce2c4f0ee06f8d4beb61ad26ce4aa4e
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
@@ -77,7 +80,6 @@ export default function TabScreen(props) {
 						/>
 					);
 				}}
-
 			</Tab.Screen>
 			<Tab.Screen
 				name="Test"
@@ -93,29 +95,20 @@ export default function TabScreen(props) {
 				}}
 			/>
 			<Tab.Screen
-				name='Settings'
+				name="Settings"
 				options={{
 					tabBarInactiveTintColor: colors.inactiveTab,
 					tabBarActiveTintColor: colors.activeTab,
 					headerShown: false,
 					tabBarIcon: ({ focused, size, color }) => {
-						const icon = focused ? 'settings-sharp' : 'settings-outline'
-						return <Ionicons name={icon} size={size} color={color} />
-					}
-				}}
-			>
+						const icon = focused ? 'settings-sharp' : 'settings-outline';
+						return <Ionicons name={icon} size={24} color={color} />;
+					},
+				}}>
 				{(props) => {
-
-					return <NotificationScreen
-						{...props}
-						words={words}
-
-					/>
+					return <NotificationScreen {...props} words={words} />;
 				}}
-
 			</Tab.Screen>
-
-
 		</Tab.Navigator>
 	);
 }

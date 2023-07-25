@@ -13,16 +13,14 @@ export default styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     setNotification: {
-        fontSize: 20,
-        textAlign: 'center'
+        fontSize: 18,
     },
     content: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 20,
+        paddingTop: 20
     },
-
     centeredView: {
         flex: 1,
         justifyContent: 'center',
@@ -75,7 +73,7 @@ export default styles = StyleSheet.create({
         textAlign: 'center',
     },
     notificaionIconColor: {
-        fontSize: 20,
+        fontSize: 18,
     },
     eachButton: {
         padding: 5,

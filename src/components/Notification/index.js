@@ -1,13 +1,27 @@
-import { useContext, useEffect, useState } from "react";
-import { Alert, Modal, Platform, Pressable, Switch, Text, TouchableOpacity, View, useColorScheme } from "react-native";
-import styles from "./styles.js";
+import { useEffect, useState } from 'react';
+import {
+    Alert,
+    Button,
+    Modal,
+    Platform,
+    Pressable,
+    ScrollView,
+    Switch,
+    Text,
+    TouchableOpacity,
+    View,
+} from 'react-native';
+import styles from './styles.js';
 import * as Notifications from 'expo-notifications';
 import { ALERT_TYPE, Dialog, AlertNotificationRoot, Toast } from 'react-native-alert-notification';
 import * as database from '../../database/index';
-import { useTheme } from "@react-navigation/native";
-import ThemeContext from "../../themes/ThemeContext.js";
+import { lavenderColor, secondaryColor } from '../../common/includes.js';
 
 export default function Notification({ navigation, route }) {
+    const data = [{ value: 'red' }, { value: 'blue' }, { value: 'black' }];
+
+    const [userChosen, setUserChosen] = useState('');
+
     const { colors } = useTheme()
     const { setTheme, theme } = useContext(ThemeContext);
     console.log(theme)
@@ -19,106 +33,94 @@ export default function Notification({ navigation, route }) {
         console.log(theme)
     };
 
-    const data = [
-        { value: 'red' },
-        { value: 'blue' },
-        { value: 'black' },
-    ];
+    const [reminder, setReminder] = useState(false);
+    const [schedule, setSchedule] = useState([]);
+    const [notificationData, setNotificationData] = useState('');
+    const [random, setRandom] = useState(0);
 
-    const [userChosen, setUserChosen] = useState('')
-
-    const [reminder, setReminder] = useState(false)
-    const [schedule, setSchedule] = useState([])
-    const [notificationData, setNotificationData] = useState('')
-    const [random, setRandom] = useState(0)
-
-    const [modalVisible, setModalVisible] = useState(false)
+    const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
         (async () => {
-            const previouslySchedule = await getSchedule()
-            setSchedule(previouslySchedule)
+            const previouslySchedule = await getSchedule();
+            setSchedule(previouslySchedule);
             if (previouslySchedule.find((item) => item.type === 'reminder')) {
-                setReminder(true)
+                setReminder(true);
+                // 86400000
             }
 
-
-            const interval = setInterval(onReminderPressHandler, 1200000);
+            const interval = setInterval(onReminderPressHandler, 68400000);
 
             return () => {
                 clearInterval(interval);
             };
-        })()
-    }, [])
+        })();
+    }, []);
 
     const onReminderPressHandler = async () => {
         if (!reminder) {
-            const data = await database.getAllWords()
+            const data = await database.getAllWords();
+
+            console.log('Data length actual', data.length);
             const rand = setRandom(Math.floor(Math.random() * data.length));
+
             const notification = await database.getRandomWordsForNotification();
             const { title, defination } = notification;
 
-            console.log("Random", random)
-            setNotificationData(data[random])
-            const scheduled = await onScheduleReminder(title, defination)
-            console.log("Data random", data[random])
+            console.log('Random', random);
+            setNotificationData(data[random]);
+            const scheduled = await onScheduleReminder(title, defination);
+            console.log('Data random', data[random]);
             if (scheduled) {
-                setReminder(true)
-                setSchedule(await getSchedule())
+                setReminder(true);
+                setSchedule(await getSchedule());
                 Dialog.show({
                     type: ALERT_TYPE.SUCCESS,
                     title: 'Success',
                     textBody: 'Notification Enabled',
                     button: 'close',
-                })
+                });
             }
-        }
-        else {
-            const cancelled = await onCancelReminder()
+        } else {
+            const cancelled = await onCancelReminder();
             if (cancelled) {
-                setReminder(false)
-                setSchedule(await getSchedule())
+                setReminder(false);
+                setSchedule(await getSchedule());
                 Dialog.show({
                     type: ALERT_TYPE.WARNING,
                     title: 'Warning',
                     textBody: 'Notification Disabled',
                     button: 'close',
-                })
+                });
             }
         }
-    }
+    };
 
     return (
-        <View
-            style={styles.mainContainer}>
-            <Text
-                style={[styles.title, { color: colors.text }]}>
-                Manage Notifications
-            </Text>
+        <View>
             <View style={styles.content}>
-                <Pressable
-                    onPress={onReminderPressHandler}
-                >
-                    <Text style={[styles.setNotification, { color: colors.text }]}>Daily push notification </Text>
-                </Pressable>
+                <View>
+                    <Pressable onPress={onReminderPressHandler}>
+                        <Text style={styles.setNotification}>Daily push notification </Text>
+                    </Pressable>
+                </View>
                 <Switch
-                    trackColor={{ false: '#767577', true: '#81b0ff' }}
-                    thumbColor={reminder ? '#f5dd4b' : '#f4f3f4'}
+                    trackColor={{ false: '#767577', true: lavenderColor }}
+                    thumbColor={'white'}
                     ios_backgroundColor="#3e3e3e"
                     onValueChange={onReminderPressHandler}
                     value={reminder}
                 />
-
             </View>
 
             <View style={styles.content}>
-                <TouchableOpacity
-                    onPress={() => setModalVisible(true)}>
-                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>Notification icon color</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style={styles.notificaionIconColor}>Notification icon color</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
-                    onPress={() => setModalVisible(true)}>
-                    <Text style={[styles.notificaionIconColor, { color: colors.text }]}>{!userChosen ? setUserChosen('black') : userChosen}</Text>
+                <TouchableOpacity onPress={() => setModalVisible(true)}>
+                    <Text style={styles.notificaionIconColor}>
+                        {!userChosen ? setUserChosen('black') : userChosen}
+                    </Text>
                 </TouchableOpacity>
             </View>
 
@@ -136,6 +138,7 @@ export default function Notification({ navigation, route }) {
                 />
             </View>
 
+
             <AlertNotificationRoot />
 
             <Modal
@@ -146,7 +149,6 @@ export default function Notification({ navigation, route }) {
                     Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
-
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
                         <Text style={styles.titleModal}>Select Notification Color</Text>
@@ -155,21 +157,17 @@ export default function Notification({ navigation, route }) {
                                 <TouchableOpacity
                                     key={index}
                                     style={styles.eachButton}
-                                    onPress={
-                                        () => {
-                                            setModalVisible(false)
-                                            setUserChosen(item.value)
-                                        }
-                                    }
-                                >
+                                    onPress={() => {
+                                        setModalVisible(false);
+                                        setUserChosen(item.value);
+                                    }}>
                                     {
-                                        <Text
-                                            key={index}
-                                            style={styles.selectText}
-                                        >{item.value}</Text>
+                                        <Text key={index} style={styles.selectText}>
+                                            {item.value}
+                                        </Text>
                                     }
                                 </TouchableOpacity>
-                            )
+                            );
                         })}
                         <TouchableOpacity
                             style={[styles.button, styles.buttonClose]}
@@ -180,14 +178,14 @@ export default function Notification({ navigation, route }) {
                 </View>
             </Modal>
         </View>
-    )
+    );
 }
 
 async function onScheduleReminder(title, defination, colour) {
-    console.log("Schedule Reminder", Platform.OS)
+    console.log('Schedule Reminder', Platform.OS);
 
     try {
-        const getPermission = await Notifications.getPermissionsAsync()
+        const getPermission = await Notifications.getPermissionsAsync();
 
         if (!getPermission.granted) {
             const requestPermission = await Notifications.requestPermissionsAsync({
@@ -195,15 +193,15 @@ async function onScheduleReminder(title, defination, colour) {
                     allowAlert: true,
                     allowBadge: true,
                     allowSound: true,
-                }
-            })
+                },
+            });
             if (!requestPermission.granted) {
-                return false
+                return false;
             }
         }
-        const kalar = colour
-        console.log("Word title", title)
-        console.log("Word desc", defination)
+        const kalar = colour;
+        console.log('Word title', title);
+        console.log('Word desc', defination);
 
         const id = await Notifications.scheduleNotificationAsync({
             content: {
@@ -215,51 +213,49 @@ async function onScheduleReminder(title, defination, colour) {
                 sound: true,
                 color: kalar,
                 data: {
-                    type: "reminder"
-                }
+                    type: 'reminder',
+                },
             },
             trigger: {
                 hour: 19,
                 minute: 45,
                 repeats: true,
-            }
-        })
+            },
+        });
 
-        console.log("Scheduling ID: ", id)
+        console.log('Scheduling ID: ', id);
         if (!id) {
-            return false
+            return false;
         }
-        return true
-    }
-    catch {
-        return false
+        return true;
+    } catch {
+        return false;
     }
 }
 
-
 async function onCancelReminder() {
-    console.log("Cancel Reminder", Platform.OS)
+    console.log('Cancel Reminder', Platform.OS);
 
-    let cancelled = false
+    let cancelled = false;
 
-    const schedule = await getSchedule()
+    const schedule = await getSchedule();
     for (const item of schedule) {
         if (item.type === 'reminder') {
-            await Notifications.cancelAllScheduledNotificationsAsync(item.id)
-            cancelled = true
+            await Notifications.cancelAllScheduledNotificationsAsync(item.id);
+            cancelled = true;
         }
     }
-    return cancelled
+    return cancelled;
 }
 
 async function getSchedule() {
-    const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync()
-    const schedule = []
+    const scheduledNotifications = await Notifications.getAllScheduledNotificationsAsync();
+    const schedule = [];
     scheduledNotifications.forEach((scheduledNotification) => {
         schedule.push({
             id: scheduledNotification.identifier,
-            type: scheduledNotification.content.data.type
-        })
-    })
-    return schedule
+            type: scheduledNotification.content.data.type,
+        });
+    });
+    return schedule;
 }
