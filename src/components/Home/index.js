@@ -3,11 +3,8 @@ import styles from './styles';
 import React, { useEffect, useState } from 'react';
 import * as database from '../../database/index';
 import { LineChart, BarChart } from 'react-native-chart-kit';
-<<<<<<< HEAD
 import { useTheme } from '@react-navigation/native';
-=======
 import Goals from '../Goals';
->>>>>>> 0ceb9e328f7bb4040d476962eff628ed8ecaa4d9
 
 export default function Home(props) {
 	const { colors } = useTheme()
@@ -205,7 +202,7 @@ export default function Home(props) {
 
 
 				<Goals refreshing={refreshing}></Goals>
-				
+
 				<View style={styles.card}>
 					<View style={styles.card.infoHeader}>
 						<View style={styles.card.info}>
