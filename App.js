@@ -28,7 +28,7 @@ export default function App() {
 					database.createWordDb(),
 					database.createTagDb(),
 					database.createQuizDb(),
-					database.createGoalDb(),
+					// database.createGoalDb(),
 				]);
 				if (wordDbExists && TagDbExists && QuizDbExists) {
 				} else {
