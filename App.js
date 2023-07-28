@@ -28,7 +28,12 @@ export default function App() {
 					database.createWordDb(),
 					database.createTagDb(),
 					database.createQuizDb(),
+<<<<<<< HEAD
 				]);
+=======
+					database.createGoalDb(),
+				  ]);
+>>>>>>> 0ceb9e328f7bb4040d476962eff628ed8ecaa4d9
 				if (wordDbExists && TagDbExists && QuizDbExists) {
 				} else {
 					Alert.alert('Error', `Error connecting to db`, []);
