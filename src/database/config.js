@@ -55,6 +55,24 @@ export const createQuizDb = async () => {
 	});
 };
 
+export const createGoalDb = async () => {
+	return new Promise((resolve, reject) => {
+		db.transaction((tx) => {
+			tx.executeSql(
+				'create table if not exists Goal (id text primary key not null, daily integer not null, weekly integer not null, monthly integer not null, createdAt text not null);',
+				[],
+				(tx, results) => {
+					resolve(true);
+				},
+				(tx, error) => {
+					console.log(`Error creating goal db ${error}`);
+					reject(false);
+				}
+			);
+		});
+	});
+};
+
 export const deleteAllTables = async () => {
 	return new Promise((resolve, reject) => {
 		db.exec(
@@ -62,6 +80,7 @@ export const deleteAllTables = async () => {
 				{ sql: 'Delete from Quiz;', args: [] },
 				{ sql: 'Delete from Words;', args: [] },
 				{ sql: 'Delete from Tags;', args: [] },
+				{ sql: 'Delete from Goal;', args: [] },
 			],
 			false,
 			(err, res) => {

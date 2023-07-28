@@ -3,6 +3,7 @@ import styles from './styles';
 import React, { useEffect, useState } from 'react';
 import * as database from '../../database/index';
 import { LineChart, BarChart } from 'react-native-chart-kit';
+import Goals from '../Goals';
 
 export default function Home(props) {
 	const [data, setData] = useState({
@@ -196,6 +197,9 @@ export default function Home(props) {
 					)}
 				</View>
 
+
+				<Goals refreshing={refreshing}></Goals>
+				
 				<View style={styles.card}>
 					<View style={styles.card.infoHeader}>
 						<View style={styles.card.info}>
