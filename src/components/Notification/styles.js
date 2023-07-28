@@ -3,15 +3,6 @@ import { fontFamilyPlatform, labelWhiteColor, secondaryColor } from "../../commo
 
 
 export default styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1
-    },
-    title: {
-        fontSize: 24,
-        textAlign: 'center',
-        marginTop: 20,
-        fontWeight: 'bold'
-    },
     setNotification: {
         fontSize: 18,
     },
