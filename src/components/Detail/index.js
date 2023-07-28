@@ -14,9 +14,12 @@ import { useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
+import { useTheme } from '@react-navigation/native';
 
 export default function Detail({ navigation, route, onDeleteWord, onUpdateButtonPressed }) {
 	const word = route.params.word;
+
+	const { colors } = useTheme()
 
 	const [title, setTitle] = useState(word.title);
 	const [desc, setDesc] = useState(word.defination);
@@ -85,7 +88,7 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 			</View>
 
 			<View style={styles.tag}>
-				<Text style={styles.tagHeader}>Tags:</Text>
+				<Text style={[styles.tagHeader, { color: colors.text }]}>Tags:</Text>
 				<View style={styles.taglistContainer}>
 					<TagList wordId={word.id}></TagList>
 				</View>

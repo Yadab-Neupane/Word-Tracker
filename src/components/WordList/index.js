@@ -14,14 +14,16 @@ import WordItems from './WordItems';
 import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import * as database from './../../database/index';
-import { useIsFocused } from '@react-navigation/native';
+import { useIsFocused, useTheme } from '@react-navigation/native';
 import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
-import { secondaryColor } from '../../common/includes';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
-import { Ionicons } from '@expo/vector-icons';
+import { CheckBox } from 'react-native-elements';
+
+
 
 export default function WordList({ navigation, route, onDeleteWord }) {
+	const { colors } = useTheme()
 	const isFocused = useIsFocused();
 	const [clicked, setClicked] = useState(false);
 	const [searchPhrase, setSearchPhrase] = useState('');
@@ -29,6 +31,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	const [listOfTags, setListOfTags] = useState([]);
 	const [isFilterActive, setIsFilterActive] = useState(false);
 	const [modalVisible, setModalVisible] = useState(false);
+
 
 	const [sortModal, setSortModal] = useState(false);
 	const [tagsToBeFiltered, setTagsToBeFiltered] = useState([]);
@@ -104,30 +107,32 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 		setSearchPhrase(val);
 		setClicked(true);
 	};
-
 	const sortWords = (option) => {
-		console.log(option);
 		const wordList = [...listOfWords];
 		switch (option) {
 			case 0:
 				wordList.sort((a, b) => {
 					return a.title.localeCompare(b.title);
 				});
+
 				break;
 			case 1:
 				wordList.sort((a, b) => {
 					return b.title.localeCompare(a.title);
 				});
+
 				break;
 			case 2:
 				wordList.sort((a, b) => {
 					return b.createdAt.localeCompare(a.createdAt);
 				});
+
 				break;
 			case 3:
 				wordList.sort((a, b) => {
 					return a.createdAt.localeCompare(b.createdAt);
 				});
+
 				break;
 
 			default:
@@ -189,18 +194,11 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 		setEndDateFromFilter(val);
 	};
 
+
+
 	return (
 		<>
 			<View style={styles.container}>
-				{/* <TouchableOpacity
-					onPress={() => {
-						navigation.navigate('Notification')
-
-					}}
-					style={styles.notificationButton}
-				>
-					<Ionicons name="notifications" size={24} color="white" />
-				</TouchableOpacity> */}
 				<TouchableOpacity
 					onPress={() => {
 						navigation.navigate('Forms');
@@ -239,7 +237,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 										<MaterialCommunityIcons
 											name="filter-remove"
 											size={30}
-											color={secondaryColor}
+											color={colors.text}
 										/>
 									</TouchableOpacity>
 								) : (
@@ -247,14 +245,14 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 										<MaterialCommunityIcons
 											name="filter-plus"
 											size={30}
-											color={secondaryColor}
+											color={colors.text}
 										/>
 									</TouchableOpacity>
 								)}
 							</View>
 							<View>
 								<TouchableOpacity onPress={() => setSortModal(true)}>
-									<MaterialIcons name="sort" size={30} color={secondaryColor} />
+									<MaterialIcons name="sort" size={30} color={colors.text} />
 								</TouchableOpacity>
 							</View>
 						</View>
@@ -262,7 +260,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
 					{listOfWords && listOfWords.length == 0 && (
 						<>
-							<Text style={[styles.textstyle, { textAlign: 'center', marginTop: 60, fontSize: 25, marginBottom: 20 }]}>No record found.</Text>
+							<Text style={[styles.textstyle, { textAlign: 'center', marginTop: 60, fontSize: 25, marginBottom: 20, color: colors.text }]}>No record found.</Text>
 
 						</>
 
@@ -293,7 +291,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 					setModalVisible(!modalVisible);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
 						<View style={styles.modalView.modalTabHeaderContainer}>
 							<TouchableOpacity
 								style={[
@@ -386,20 +384,30 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 								<AntDesign name="closecircle" size={20} color="red" />
 							</TouchableOpacity>
 						</View>
-						<View style={{ width: '100%', padding: 10 }}>
+						<View style={{
+							width: '100%', padding: 10,
+						}}>
+
 							{sortOptions.map((sort, index) => {
 								return (
 									<TouchableOpacity
 										key={index}
 										onPress={() => {
 											sortWords(sort.sort);
+
 										}}>
 										<View
 											style={{
 												padding: 10,
 												borderBottomWidth: 1,
+												flexDirection: 'row',
+												justifyContent: 'space-between'
 											}}>
-											<Text style={{ textAlign: 'left' }}>{sort.title}</Text>
+											<Text style={{ textAlign: 'left' }}>
+												{sort.title}
+											</Text>
+
+
 										</View>
 									</TouchableOpacity>
 								);

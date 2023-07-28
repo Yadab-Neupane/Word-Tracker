@@ -1,17 +1,18 @@
 import { Ionicons, AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { accentColor, secondaryColor } from '../../common/includes';
 import TestScreen from '../TestScreen';
 import WordListScreen from '../WordListScreen';
 import HomeScreen from './../HomeScreen';
 import * as database from './../../database/index';
 import NotificationScreen from '../NotificationScreen';
-import Notification from '../../components/Notification';
+import { useTheme } from '@react-navigation/native';
 
 const Tab = createBottomTabNavigator();
 
 export default function TabScreen(props) {
+	const { colors } = useTheme()
+
 	const [words, setWords] = useState([]);
 
 	const onAddNewWord = (title, description) => {
@@ -36,13 +37,13 @@ export default function TabScreen(props) {
 	return (
 		<Tab.Navigator
 			screenOptions={{
-				tabBarStyle: { paddingBottom: 10, paddingTop: 5, height: 60 },
+				tabBarStyle: { paddingBottom: 10, paddingTop: 5, height: 60, backgroundColor: colors.tab },
 			}}>
 			<Tab.Screen
 				name="Home"
 				options={{
-					tabBarInactiveTintColor: accentColor,
-					tabBarActiveTintColor: secondaryColor,
+					tabBarInactiveTintColor: colors.inactiveTab,
+					tabBarActiveTintColor: colors.activeTab,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
 						const icon = focused ? 'ios-home-sharp' : 'home-outline';
@@ -57,8 +58,8 @@ export default function TabScreen(props) {
 			<Tab.Screen
 				name="Word"
 				options={{
-					tabBarInactiveTintColor: accentColor,
-					tabBarActiveTintColor: secondaryColor,
+					tabBarInactiveTintColor: colors.inactiveTab,
+					tabBarActiveTintColor: colors.activeTab,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
 						const icon = focused ? 'appstore1' : 'appstore-o';
@@ -81,8 +82,8 @@ export default function TabScreen(props) {
 				name="Test"
 				component={TestScreen}
 				options={{
-					tabBarInactiveTintColor: accentColor,
-					tabBarActiveTintColor: secondaryColor,
+					tabBarInactiveTintColor: colors.inactiveTab,
+					tabBarActiveTintColor: colors.activeTab,
 					headerShown: false,
 					tabBarIcon: ({ focused, color, size }) => {
 						const icon = focused ? 'ios-school' : 'ios-school-outline';
@@ -93,8 +94,8 @@ export default function TabScreen(props) {
 			<Tab.Screen
 				name="Settings"
 				options={{
-					tabBarInactiveTintColor: accentColor,
-					tabBarActiveTintColor: secondaryColor,
+					tabBarInactiveTintColor: colors.inactiveTab,
+					tabBarActiveTintColor: colors.activeTab,
 					headerShown: false,
 					tabBarIcon: ({ focused, size, color }) => {
 						const icon = focused ? 'settings-sharp' : 'settings-outline';

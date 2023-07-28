@@ -1,11 +1,14 @@
-import { Dimensions, Image, ScrollView, Text, RefreshControl, View } from 'react-native';
+import { Dimensions, Image, ScrollView, Text, RefreshControl, View, useColorScheme } from 'react-native';
 import styles from './styles';
 import React, { useEffect, useState } from 'react';
 import * as database from '../../database/index';
 import { LineChart, BarChart } from 'react-native-chart-kit';
+import { useTheme } from '@react-navigation/native';
 import Goals from '../Goals';
 
 export default function Home(props) {
+	const { colors } = useTheme()
+
 	const [data, setData] = useState({
 		words: 0,
 		quiz: 0,
@@ -95,7 +98,7 @@ export default function Home(props) {
 	return (
 		<ScrollView
 			refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
-			<View style={styles.container}>
+			<View style={[styles.container, { backgroundColor: colors.background }]}>
 				<View style={styles.card}>
 					<View style={styles.card.infoHeader}>
 						<View style={styles.card.info}>
@@ -199,7 +202,7 @@ export default function Home(props) {
 
 
 				<Goals refreshing={refreshing}></Goals>
-				
+
 				<View style={styles.card}>
 					<View style={styles.card.infoHeader}>
 						<View style={styles.card.info}>

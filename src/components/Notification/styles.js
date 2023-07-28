@@ -80,5 +80,12 @@ export default styles = StyleSheet.create({
         padding: 10,
         borderRadius: 10,
         paddingBottom: 5
+    },
+    appTheme: {
+        paddingTop: 20,
+        paddingLeft: 0,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center'
     }
 })

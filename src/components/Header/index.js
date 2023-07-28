@@ -3,13 +3,15 @@ import styles from './styles'
 import { PLATFORM_OS, appAuthor, appTitle } from '../../common/includes'
 import { AntDesign } from '@expo/vector-icons';
 import { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
 
 
 export default function Header() {
+    const { colors } = useTheme()
     const [modal, setModal] = useState(false)
     return (
-        <View style={styles.container}>
-            <Text style={styles.title}>{appTitle}</Text>
+        <View style={[styles.container, { backgroundColor: colors.header }]}>
+            <Text style={[styles.title, { color: colors.color }]}>{appTitle}</Text>
             <View style={styles.authorAndPlatform}>
                 <TouchableOpacity
                     onPress={() => setModal(true)}
@@ -28,24 +30,24 @@ export default function Header() {
                             setModal(!modal);
                         }}>
                         <View style={styles.centeredView}>
-                            <View style={styles.modalView}>
+                            <View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
 
                                 {/* <View style={styles.labelAndCloseAction}> */}
-                                <Text style={styles.textStyle}>INFO</Text>
+                                <Text style={[styles.textStyle, { color: colors.text }]}>INFO</Text>
 
                                 {/* </View> */}
 
 
                                 <View style={{ width: '100%' }}>
 
-                                    <Text style={styles.appAuthors}>Authors</Text>
-                                    <Text style={styles.modalText}>{appAuthor}</Text>
+                                    <Text style={[styles.appAuthors, { color: colors.text }]}>Authors</Text>
+                                    <Text style={[styles.modalText, { color: colors.text }]}>{appAuthor}</Text>
                                 </View>
 
                                 <View >
 
-                                    <Text style={styles.appDescription}>Description</Text>
-                                    <Text style={styles.modalDescription}>This app keeps track of all the words, bookmark the word, update and delete the word, and user can also practice using memory feature and can give the test after practicing.</Text>
+                                    <Text style={[styles.appDescription, { color: colors.text }]}>Description</Text>
+                                    <Text style={[styles.modalDescription, { color: colors.text }]}>This app keeps track of all the words, bookmark the word, update and delete the word, and user can also practice using memory feature and can give the test after practicing.</Text>
                                 </View>
                                 <TouchableOpacity
                                     style={[styles.button, styles.buttonClose]}

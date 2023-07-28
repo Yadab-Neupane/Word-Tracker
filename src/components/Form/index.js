@@ -2,8 +2,10 @@ import { ActivityIndicator, Text, TextInput, TouchableOpacity, View } from "reac
 import styles from './styles'
 import { useState } from "react";
 import * as database from "./../../database/index"
+import { useTheme } from "@react-navigation/native";
 
 export default function Form({ navigation, route }) {
+    const { colors } = useTheme()
     const [word, setWord] = useState('')
     const [defination, setDefination] = useState('')
 
@@ -75,25 +77,27 @@ export default function Form({ navigation, route }) {
                 style={styles.verticalOrientation}
             >
                 <Text
-                    style={styles.wordLabel}
+                    style={[styles.wordLabel, { color: colors.text }]}
                 >
                     Word:
                 </Text>
                 <TextInput
-                    style={styles.wordTF}
+                    style={[styles.wordTF, { backgroundColor: colors.background, borderRadius: 5, color: colors.text, borderColor: colors.text }]}
                     placeholder="Enter new word"
+                    placeholderTextColor={colors.textColorPlaceholder}
                     onChangeText={onWordChange}
                 />
 
                 <Text
-                    style={styles.wordDesc}
+                    style={[styles.wordDesc, { color: colors.text }]}
                 >
                     Description:
                 </Text>
                 <TextInput
                     multiline={true}
-                    style={styles.wordTF}
+                    style={[styles.wordTF, { color: colors.text, borderColor: colors.text }]}
                     placeholder="Enter description for word..."
+                    placeholderTextColor={colors.textColorPlaceholder}
                     onChangeText={onDefinationChange}
                 />
             </View>
@@ -108,8 +112,6 @@ export default function Form({ navigation, route }) {
                     Save
                 </Text>
             </TouchableOpacity>
-
-
         </View>
     )
 }
