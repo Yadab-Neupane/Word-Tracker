@@ -90,12 +90,15 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 				</ScrollView>
 			</View>
 
-			<View style={styles.tag}>
-				<Text style={[styles.tagHeader, { color: colors.text }]}>Tags:</Text>
-				<View style={styles.taglistContainer}>
-					<TagList wordId={word.id}></TagList>
+			<ScrollView>
+				<View style={styles.tag}>
+					<Text style={[styles.tagHeader, { color: colors.text }]}>Tags:</Text>
+					<View style={styles.taglistContainer}>
+						<TagList wordId={word.id}></TagList>
+					</View>
 				</View>
-			</View>
+			</ScrollView>
+
 
 			<TouchableOpacity
 				style={[styles.deleteButton, styles.floatButton]}

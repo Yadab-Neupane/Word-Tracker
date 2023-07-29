@@ -19,6 +19,10 @@ export default function Goals(props) {
     const [weeklyGoal, setWeeklyGoal] = useState('');
     const [monthlyGoal, setMonthlyGoal] = useState('');
 
+    const [dailyGoalValid, setDailyGoalValid] = useState(false);
+    const [weeklyGoalValid, setWeeklyGoalValid] = useState(false);
+    const [monthlyGoalValid, setMonthlyGoalValid] = useState(false);
+
 
     const [records, setRecords] = useState({
         daily: 0,
@@ -47,17 +51,23 @@ export default function Goals(props) {
     const fetchData = async () => {
         try {
             let rec = await database.getGoals();
+
+            let tempRecords = {};
             if (rec) {
-                let tempRecords = {};
                 tempRecords.daily = rec.daily;
                 tempRecords.weekly = rec.weekly;
                 tempRecords.monthly = rec.monthly;
-                setRecords(tempRecords);
-
                 setDailyGoal(rec.daily);
                 setWeeklyGoal(rec.weekly);
                 setMonthlyGoal(rec.monthly);
-            };
+            }
+            else{
+                setDailyGoal(0);
+                setWeeklyGoal(0);
+                setMonthlyGoal(0);
+            }
+            setRecords(tempRecords);
+
             let tempCurrent = {};
             let getCurrentRecords = await database.getCurrentRecords();
             getCurrentRecords.forEach((element) => {
@@ -82,8 +92,7 @@ export default function Goals(props) {
 
     const handleSaveGoals = async () => {
         try {
-            console.log(dailyGoal);
-            if (!dailyGoal || parseInt(dailyGoal) < 0 || !weeklyGoal || parseInt(weeklyGoal) < 0 || !monthlyGoal || parseInt(monthlyGoal) < 0) {
+            if (!dailyGoalValid || !weeklyGoalValid || !monthlyGoalValid) {
                 Alert.alert(
                     'Warning',
                     'Cannot proceed!! Invalid data.',
@@ -107,14 +116,20 @@ export default function Goals(props) {
 
     const onDailyGoalChange = (text) => {
         setDailyGoal(text);
+        const isValid = text.trim() !== '' && /^[1-9]\d*(\.\d+)?$/.test(text);
+        setDailyGoalValid(isValid);
     }
 
     const onWeeklyGoalChange = (text) => {
         setWeeklyGoal(text);
+        const isValid = text.trim() !== '' && /^[1-9]\d*(\.\d+)?$/.test(text);
+        setWeeklyGoalValid(isValid);
     }
 
     const onMonthlyGoalChange = (text) => {
         setMonthlyGoal(text);
+        const isValid = text.trim() !== '' && /^[1-9]\d*(\.\d+)?$/.test(text);
+        setMonthlyGoalValid(isValid);
     }
 
     return (

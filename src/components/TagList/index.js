@@ -2,7 +2,6 @@ import { View, TouchableOpacity, Modal, TextInput, Text, Alert } from 'react-nat
 import Tag from "./Tag/index";
 import styles from './styles';
 import { AntDesign } from '@expo/vector-icons';
-import { secondaryColor } from '../../common/includes';
 import { useState, useEffect, useRef } from 'react';
 import { labelWhiteColor } from '../../common/includes';
 import { useSelector, useDispatch } from 'react-redux';

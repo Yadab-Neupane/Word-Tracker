@@ -18,7 +18,7 @@ import { useIsFocused, useTheme } from '@react-navigation/native';
 import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
-import { CheckBox } from 'react-native-elements';
+import FilterDetail from '../FilterDetail';
 
 
 
@@ -169,9 +169,16 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	};
 
 	const onFilterApplyPress = async () => {
-		if (!isTagFilterTabActive && startDateFromFilter > endDateFromFilter) {
+		if (!isTagFilterTabActive && (!startDateFromFilter || !endDateFromFilter)){
+			Alert.alert('Error!', 'Start date and end date is required!!', [{ text: 'OK' }]);
+		}
+		else if (!isTagFilterTabActive && startDateFromFilter > endDateFromFilter) {
 			Alert.alert('Error!', 'Start date cannot be greater than end date!!', [{ text: 'OK' }]);
-		} else {
+		}
+		else if(isTagFilterTabActive && tagsToBeFiltered.length < 1){
+			setModalVisible(false);
+		}
+		 else {
 			setIsFilterActive(true);
 			setModalVisible(false);
 		}
@@ -233,13 +240,24 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 						<View style={styles.actionContainer}>
 							<View>
 								{isFilterActive ? (
-									<TouchableOpacity onPress={onCancelFilterPress}>
-										<MaterialCommunityIcons
-											name="filter-remove"
-											size={30}
-											color={colors.text}
-										/>
-									</TouchableOpacity>
+									<>
+										<TouchableOpacity onPress={onCancelFilterPress}>
+											<MaterialCommunityIcons
+												name="filter-remove"
+												size={30}
+												color={colors.text}
+											/>
+										</TouchableOpacity>
+										{
+											isTagFilterTabActive && tagsToBeFiltered && tagsToBeFiltered.length > 0 ?
+												<FilterDetail tagList={tagsToBeFiltered}> </FilterDetail>
+												: <Text style={{fontSize: 10, color: colors.text}}>
+													{`Date: ${startDateFromFilter.toLocaleDateString()} to ${endDateFromFilter.toLocaleDateString()}`}
+												</Text>
+										}
+
+									</>
+
 								) : (
 									<TouchableOpacity onPress={onFilterPress}>
 										<MaterialCommunityIcons

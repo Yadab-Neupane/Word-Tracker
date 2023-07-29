@@ -62,7 +62,7 @@ export const getRandomWordsForNotification = async () => {
 };
 
 export const getAllWordsByTagList = async (tagList) => {
-    let query = "select w.* from Tags t inner join Words w on t.wordId = w.id where t.tag in (";
+    let query = "select Distinct w.* from Tags t inner join Words w on t.wordId = w.id where t.tag in (";
     for (let i = 1; i <= tagList.length; i++) {
         if (i == tagList.length) query += "?)";
         else query += "?,";

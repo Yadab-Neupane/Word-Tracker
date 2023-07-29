@@ -1,7 +1,7 @@
 import { Text, TouchableOpacity, View, Modal, TextInput, Alert, AppState } from 'react-native'
 import JiggleDeleteView from "react-native-jiggle-delete-view";
 import styles from "./style";
-import { labelWhiteColor } from '../../../common/includes';
+import { labelWhiteColor, maxCharacters } from '../../../common/includes';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { setIsUpdated } from '../../../redux/tagUpdateSlice';
@@ -46,7 +46,7 @@ export default function Tag({ tag, id }) {
     }
 
     const onEditTagPressed = async () => {
-        if(newTag){
+        if (newTag) {
             try {
                 const update = await database.updateTag(id, newTag);
                 dispatch(setIsUpdated(true));
@@ -57,12 +57,12 @@ export default function Tag({ tag, id }) {
             }
         }
         else {
-			Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
-				{
-					text: 'OK'
-				},
-			]);
-		}
+            Alert.alert(`ERROR`, 'Tag cannot be empty!!', [
+                {
+                    text: 'OK'
+                },
+            ]);
+        }
     }
 
     const deleteTagPressed = () => {
@@ -94,6 +94,7 @@ export default function Tag({ tag, id }) {
         );
     }
 
+
     return (
         <>
             <View style={styles.container}>
@@ -106,8 +107,11 @@ export default function Tag({ tag, id }) {
                         showDeleteJiggle={showDeleteJiggle}
                         onDelete={deleteTagPressed}
                     >
-                        <Text style={styles.text}>
-                            {tag}
+                        <Text numberOfLines={1} style={styles.text}>
+                            {tag.length > maxCharacters
+                                ? `${tag.substring(0, maxCharacters)}...`
+                                : tag
+                            }
                         </Text>
 
                     </JiggleDeleteView>

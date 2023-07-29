@@ -87,13 +87,13 @@ export default styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     buttonContainer: {
-        width: '40%',
+        width: '60%',
     },
     button: {
         backgroundColor: blueColor,
         paddingVertical: 12,
-        paddingHorizontal: 40,
-        borderRadius: 8
+        borderRadius: 8,
+        alignItems:"center"
     },
     buttonText: {
         color: 'white',
