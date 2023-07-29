@@ -15,11 +15,14 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
+import useHandleScroll from '../CustomHook';
 
 export default function Detail({ navigation, route, onDeleteWord, onUpdateButtonPressed }) {
 	const word = route.params.word;
 
 	const { colors } = useTheme()
+	const { handleScroll, showButton } = useHandleScroll();
+
 
 	const [title, setTitle] = useState(word.title);
 	const [desc, setDesc] = useState(word.defination);
@@ -90,7 +93,7 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 				</ScrollView>
 			</View>
 
-			<ScrollView>
+			<ScrollView onScroll={handleScroll}>
 				<View style={styles.tag}>
 					<Text style={[styles.tagHeader, { color: colors.text }]}>Tags:</Text>
 					<View style={styles.taglistContainer}>
@@ -99,12 +102,14 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 				</View>
 			</ScrollView>
 
+			{showButton &&
+				<TouchableOpacity
+					style={[styles.deleteButton, styles.floatButton]}
+					onPress={onDeleteWordHandler}>
+					<AntDesign name="delete" size={24} color="white" />
+				</TouchableOpacity>
 
-			<TouchableOpacity
-				style={[styles.deleteButton, styles.floatButton]}
-				onPress={onDeleteWordHandler}>
-				<AntDesign name="delete" size={24} color="white" />
-			</TouchableOpacity>
+			}
 			<TouchableOpacity
 				style={[styles.editButton, styles.floatButton]}
 				onPress={onEditButtonPressed}>
