@@ -1,4 +1,4 @@
-import { Text, TouchableOpacity, View } from 'react-native';
+import { Text, TouchableOpacity, View, ToastAndroid } from 'react-native';
 import styles from './styles';
 import { Ionicons } from '@expo/vector-icons';
 import { lavenderColor } from '../../../common/includes';
@@ -18,6 +18,7 @@ export default function WordItems({ navigation, route, word }) {
 
 		if (isBookmarked == 1) setIsBookMarked(0);
 		else setIsBookMarked(1);
+		ToastAndroid.show(`${word.title} ${isBookmarked == 0 ? "added to bookmark." : "removed from bookmark." }`, ToastAndroid.SHORT);
 	};
 
 	return (

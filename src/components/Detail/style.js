@@ -10,6 +10,7 @@ export default styles = StyleSheet.create({
 	},
 	tag: {
 		marginTop: 20,
+		marginBottom:60
 	},
 	tagHeader: {
 		fontSize: 20,
