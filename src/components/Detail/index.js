@@ -34,7 +34,8 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 	const onUpdateButtonPressedHandler = () => {
 		if (title && desc) {
 			onUpdateButtonPressed(word.id, title, desc);
-			navigation.navigate('WordLists');
+			setModalVisible(false)
+			navigation.goBack()
 		}
 		else {
 			Alert.alert(`ERROR`, 'Title and description is required!!', [
@@ -46,18 +47,20 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 	};
 
 	const onDeleteWordHandler = () => {
-		setDeleteWord(true);
+
 		Alert.alert(`Do you want to delete a word "${word.title}"`, 'Are you sure?', [
 			{
 				text: 'Cancel',
 				onPress: () => {
-					navigation.navigate('WordLists');
+					// navigation.navigate('WordLists');
+					console.log("Delete Cancelled")
 				},
 				style: 'cancel',
 			},
 			{
 				text: 'OK',
 				onPress: () => {
+					setDeleteWord(true)
 					onDeleteWord(word.id);
 					navigation.navigate('WordLists');
 

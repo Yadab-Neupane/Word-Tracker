@@ -126,7 +126,8 @@ export default styles = StyleSheet.create({
 				backgroundColor: '#2196F3',
 				width: 100,
 				textStyle: {
-					textAlign: 'center'
+					textAlign: 'center',
+					color: 'white',
 				}
 			},
 		},

@@ -11,12 +11,12 @@ export default function Header() {
     const [modal, setModal] = useState(false)
     return (
         <View style={[styles.container, { backgroundColor: colors.header }]}>
-            <Text style={[styles.title, { color: colors.color }]}>{appTitle}</Text>
+            <Text style={[styles.title, { color: colors.text }]}>{appTitle}</Text>
             <View style={styles.authorAndPlatform}>
                 <TouchableOpacity
                     onPress={() => setModal(true)}
                 >
-                    <AntDesign name="infocirlceo" size={24} color="black" />
+                    <AntDesign name="infocirlceo" size={24} color={colors.text} />
                 </TouchableOpacity>
 
                 <View style={styles.centeredView}>
@@ -31,14 +31,8 @@ export default function Header() {
                         }}>
                         <View style={styles.centeredView}>
                             <View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
-
-                                {/* <View style={styles.labelAndCloseAction}> */}
                                 <Text style={[styles.textStyle, { color: colors.text }]}>INFO</Text>
-
-                                {/* </View> */}
-
-
-                                <View style={{ width: '100%' }}>
+                                <View >
 
                                     <Text style={[styles.appAuthors, { color: colors.text }]}>Authors</Text>
                                     <Text style={[styles.modalText, { color: colors.text }]}>{appAuthor}</Text>
@@ -59,8 +53,6 @@ export default function Header() {
                         </View>
                     </Modal>
                 </View>
-                {/* <Text style={styles.platform}>{PLATFORM_OS}</Text>
-                <Text style={styles.author}>{appAuthor}</Text> */}
             </View>
         </View>
     )

@@ -375,9 +375,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 					setSortModal(!sortModal);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
 						<View style={styles.labelAndCloseAction}>
-							<Text style={styles.textstyle}>Sort Wordlist</Text>
+							<Text style={[styles.textstyle, { color: colors.text }]}>Sort Wordlist</Text>
 							<TouchableOpacity
 								style={[styles.button, styles.buttonClose]}
 								onPress={() => setSortModal(!sortModal)}>
@@ -403,11 +403,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 												flexDirection: 'row',
 												justifyContent: 'space-between'
 											}}>
-											<Text style={{ textAlign: 'left' }}>
+											<Text style={{ textAlign: 'left', color: colors.text }}>
 												{sort.title}
 											</Text>
-
-
 										</View>
 									</TouchableOpacity>
 								);

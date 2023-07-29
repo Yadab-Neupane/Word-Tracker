@@ -1,7 +1,5 @@
 import { DefaultTheme } from "@react-navigation/native";
-import { accentColor, labelWhiteColor, lavenderColor, primaryColor, secondaryColor } from "../common/includes";
-
-
+import { accentColor, labelWhiteColor, blackShadeColor, lavenderColor, primaryColor, secondaryColor } from "../common/includes";
 
 export default AppDarkTheme = {
     ...DefaultTheme,
@@ -18,7 +16,7 @@ export default AppDarkTheme = {
         textColorPlaceholder: labelWhiteColor,
         inactiveTab: "#fff",
         activeTab: "#fff",
-        header: '#fff',
+        header: "#282828",
         tab: "#000"
     },
 }

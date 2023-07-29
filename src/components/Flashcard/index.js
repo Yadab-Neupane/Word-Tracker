@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AntDesign } from '@expo/vector-icons';
 import * as database from '../../database/index';
 import { secondaryColor } from '../../common/includes';
+import { useTheme } from '@react-navigation/native';
 
 export default function Flashcard(props) {
 	const predefinedList = [
@@ -48,8 +49,10 @@ export default function Flashcard(props) {
 			defination: 'promoting peace',
 		},
 	];
-	
+
 	const quizLength = 5;
+
+	const { colors } = useTheme()
 
 	const [list, setList] = useState([]);
 
@@ -226,25 +229,25 @@ export default function Flashcard(props) {
 							setModalVisible(!modalVisible);
 						}}>
 						<View style={styles.centeredView}>
-							<View style={styles.centeredView.modalView}>
-								<Text style={styles.centeredView.modalView.modalHeader}>
+							<View style={[styles.centeredView.modalView, { backgroundColor: colors.secondary }]}>
+								<Text style={[styles.centeredView.modalView.modalHeader, { color: colors.text }]}>
 									Your Results
 								</Text>
 								<View style={styles.centeredView.modalView.modalBody}>
 									<View style={styles.centeredView.modalView.modalBody.box}>
-										<Text>Correct</Text>
+										<Text style={{ color: colors.text }}>Correct</Text>
 										<Text
 											style={
-												styles.centeredView.modalView.modalBody.box.text
+												[styles.centeredView.modalView.modalBody.box.text, { color: colors.text }]
 											}>
 											{score.correct}
 										</Text>
 									</View>
 									<View style={styles.centeredView.modalView.modalBody.box}>
-										<Text>Incorrect</Text>
+										<Text style={{ color: colors.text }}>Incorrect</Text>
 										<Text
 											style={
-												styles.centeredView.modalView.modalBody.box.text
+												[styles.centeredView.modalView.modalBody.box.text, { color: colors.text }]
 											}>
 											{score.incorrect}
 										</Text>
@@ -268,12 +271,12 @@ export default function Flashcard(props) {
 							setLengthInfoModalVisible(false);
 						}}>
 						<View style={styles.centeredView}>
-							<View style={styles.centeredView.modalView}>
-								<Text style={styles.centeredView.modalView.modalHeader}>
+							<View style={[styles.centeredView.modalView, { backgroundColor: colors.secondary }]}>
+								<Text style={[styles.centeredView.modalView.modalHeader, { color: colors.text }]}>
 									Not Enough Words
 								</Text>
 								<View style={styles.centeredView.modalView.modalBody}>
-									<Text>
+									<Text style={{ color: colors.text }}>
 										It seems you have less than 5 words in your database. The
 										test needs at least 5 words so we have collected random
 										words for you to practise.
