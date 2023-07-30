@@ -15,7 +15,8 @@ import { AntDesign } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import * as database from './../../database/index';
 import { useIsFocused, useTheme } from '@react-navigation/native';
-import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons';
+import { blueColor } from '../../common/includes';
+import { Feather, Entypo, MaterialCommunityIcons, FontAwesome5, Ionicons } from '@expo/vector-icons';
 import TagFilter from './TagFilter';
 import DateFilter from './DateFilter';
 import FilterDetail from '../FilterDetail';
@@ -39,23 +40,28 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 
 	const [startDateFromFilter, setStartDateFromFilter] = useState('');
 	const [endDateFromFilter, setEndDateFromFilter] = useState('');
+	const [selectedOption, setSelectedOption] = useState(2);
 
 	const sortOptions = [
 		{
 			title: 'Title A -> Z',
 			sort: 0,
+			isSelected: false
 		},
 		{
 			title: 'Title Z -> A',
 			sort: 1,
+			isSelected: false
 		},
 		{
 			title: 'Newest',
 			sort: 2,
+			isSelected: true
 		},
 		{
 			title: 'Oldest',
 			sort: 3,
+			isSelected: false
 		},
 	];
 
@@ -132,13 +138,13 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 				wordList.sort((a, b) => {
 					return a.createdAt.localeCompare(b.createdAt);
 				});
-
 				break;
 
 			default:
 				break;
 		}
 		setListOfWords(wordList);
+		setSelectedOption(option);
 		setSortModal(false);
 	};
 
@@ -169,16 +175,16 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	};
 
 	const onFilterApplyPress = async () => {
-		if (!isTagFilterTabActive && (!startDateFromFilter || !endDateFromFilter)){
+		if (!isTagFilterTabActive && (!startDateFromFilter || !endDateFromFilter)) {
 			Alert.alert('Error!', 'Start date and end date is required!!', [{ text: 'OK' }]);
 		}
 		else if (!isTagFilterTabActive && startDateFromFilter > endDateFromFilter) {
 			Alert.alert('Error!', 'Start date cannot be greater than end date!!', [{ text: 'OK' }]);
 		}
-		else if(isTagFilterTabActive && tagsToBeFiltered.length < 1){
+		else if (isTagFilterTabActive && tagsToBeFiltered.length < 1) {
 			setModalVisible(false);
 		}
-		 else {
+		else {
 			setIsFilterActive(true);
 			setModalVisible(false);
 		}
@@ -251,7 +257,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 										{
 											isTagFilterTabActive && tagsToBeFiltered && tagsToBeFiltered.length > 0 ?
 												<FilterDetail tagList={tagsToBeFiltered}> </FilterDetail>
-												: <Text style={{fontSize: 10, color: colors.text}}>
+												: <Text style={{ fontSize: 10, color: colors.text }}>
 													{`Date: ${startDateFromFilter.toLocaleDateString()} to ${endDateFromFilter.toLocaleDateString()}`}
 												</Text>
 										}
@@ -412,7 +418,6 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 										key={index}
 										onPress={() => {
 											sortWords(sort.sort);
-
 										}}>
 										<View
 											style={{
@@ -424,8 +429,13 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 											<Text style={{ textAlign: 'left' }}>
 												{sort.title}
 											</Text>
-
-
+											{sort.sort == selectedOption &&
+												<Ionicons
+													name="checkmark-circle-outline"
+													size={20}
+													color={blueColor}
+												/>
+											}
 										</View>
 									</TouchableOpacity>
 								);

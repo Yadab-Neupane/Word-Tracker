@@ -24,7 +24,7 @@ export const getAllWords = async () => {
     return new Promise((resolve, reject) => {
         db.transaction(tx => {
             tx.executeSql(
-                "select * from Words w",
+                "select * from Words w order by strftime('%Y-%m-%d %H:%M:%S', createdAt) desc",
                 [],
                 (tx, results) => {
                     var temp = [];
