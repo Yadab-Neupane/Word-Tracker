@@ -2,8 +2,13 @@ import { ImageBackground, Text, TouchableHighlight, TouchableOpacity, View, Moda
 import styles from './styles';
 import { Feather } from '@expo/vector-icons';
 import { useState } from 'react';
+import { useTheme } from '@react-navigation/native';
+
 
 export default function TestScreen(props) {
+
+	const { colors } = useTheme()
+
 	let [modalVisible, setModalVisible] = useState(false);
 	let [modalText, setModalText] = useState({
 		header: '',
@@ -14,6 +19,8 @@ export default function TestScreen(props) {
 	const navigateTo = (path) => {
 		props.navigation.push(path);
 	};
+
+
 
 	const showMemoryInfo = (isMemory) => {
 		let header = 'Quiz';
@@ -85,11 +92,11 @@ export default function TestScreen(props) {
 					setModalVisible(!modalVisible);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
-						<Text style={styles.modalView.modalHeader}>{modalText.header}</Text>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
+						<Text style={[styles.modalView.modalHeader, { color: colors.text }]}>{modalText.header}</Text>
 						<View style={styles.modalView.modalBody}>
-							<Text>{modalText.textHead}</Text>
-							<Text>{modalText.textBody}</Text>
+							<Text style={{ color: colors.text }}>{modalText.textHead}</Text>
+							<Text style={{ color: colors.text }}>{modalText.textBody}</Text>
 						</View>
 						<TouchableOpacity style={styles.modalView.button} onPress={closeModal}>
 							<Text style={styles.modalView.button.textStyle}>OK</Text>

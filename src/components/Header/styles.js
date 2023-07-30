@@ -68,7 +68,7 @@ export default styles = StyleSheet.create({
                 fontSize: 30,
         },
         appAuthors: {
-                minWidth: '95%',
+                minWidth: '100%',
                 fontFamily: fontFamilyPlatform,
                 fontSize: 20,
                 fontWeight: 'bold',
@@ -78,7 +78,7 @@ export default styles = StyleSheet.create({
                 textAlign: 'justify'
         },
         appDescription: {
-                minWidth: '95%',
+                minWidth: '100%',
                 fontFamily: fontFamilyPlatform,
                 fontSize: 20,
                 fontWeight: 'bold',
@@ -94,7 +94,6 @@ export default styles = StyleSheet.create({
         },
         closeModalTextstyle: {
                 paddingBottom: 30,
-
                 fontFamily: fontFamilyPlatform,
                 fontWeight: 'bold',
                 fontSize: 30,

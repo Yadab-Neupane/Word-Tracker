@@ -81,6 +81,7 @@ export default styles = StyleSheet.create({
 			width: 100,
 			textStyle: {
 				textAlign: 'center',
+				color: 'white'
 			},
 		},
 	},

@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { useTheme } from 'react-native-elements';
 
 export default styles = StyleSheet.create({
 	container: {
@@ -8,6 +9,7 @@ export default styles = StyleSheet.create({
 		margin: 20,
 		borderRadius: 12,
 	},
+
 	section: {
 		marginBottom: 20,
 	},

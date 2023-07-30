@@ -45,23 +45,19 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 	const sortOptions = [
 		{
 			title: 'Title A -> Z',
-			sort: 0,
-			isSelected: false
+			sort: 0
 		},
 		{
 			title: 'Title Z -> A',
-			sort: 1,
-			isSelected: false
+			sort: 1
 		},
 		{
 			title: 'Newest',
-			sort: 2,
-			isSelected: true
+			sort: 2
 		},
 		{
 			title: 'Oldest',
-			sort: 3,
-			isSelected: false
+			sort: 3
 		},
 	];
 
@@ -399,9 +395,9 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 					setSortModal(!sortModal);
 				}}>
 				<View style={styles.centeredView}>
-					<View style={styles.modalView}>
+					<View style={[styles.modalView, { backgroundColor: colors.secondary }]}>
 						<View style={styles.labelAndCloseAction}>
-							<Text style={styles.textstyle}>Sort Wordlist</Text>
+							<Text style={[styles.textstyle, { color: colors.text }]}>Sort Wordlist</Text>
 							<TouchableOpacity
 								style={[styles.button, styles.buttonClose]}
 								onPress={() => setSortModal(!sortModal)}>
@@ -426,7 +422,7 @@ export default function WordList({ navigation, route, onDeleteWord }) {
 												flexDirection: 'row',
 												justifyContent: 'space-between'
 											}}>
-											<Text style={{ textAlign: 'left' }}>
+											<Text style={{ textAlign: 'left', color: colors.text }}>
 												{sort.title}
 											</Text>
 											{sort.sort == selectedOption &&
