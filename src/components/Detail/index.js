@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	ActivityIndicator,
 	ScrollView,
+	Keyboard,
 } from 'react-native';
 import TagList from '../TagList';
 import styles from './style';
@@ -15,11 +16,15 @@ import { AntDesign } from '@expo/vector-icons';
 import { Feather } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
+import useHandleScroll from '../CustomHook';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 export default function Detail({ navigation, route, onDeleteWord, onUpdateButtonPressed }) {
 	const word = route.params.word;
 
 	const { colors } = useTheme()
+	const { handleScroll, showButton } = useHandleScroll();
+
 
 	const [title, setTitle] = useState(word.title);
 	const [desc, setDesc] = useState(word.defination);
@@ -34,7 +39,8 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 	const onUpdateButtonPressedHandler = () => {
 		if (title && desc) {
 			onUpdateButtonPressed(word.id, title, desc);
-			navigation.navigate('WordLists');
+			setModalVisible(false)
+			navigation.goBack()
 		}
 		else {
 			Alert.alert(`ERROR`, 'Title and description is required!!', [
@@ -46,18 +52,20 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 	};
 
 	const onDeleteWordHandler = () => {
-		setDeleteWord(true);
+
 		Alert.alert(`Do you want to delete a word "${word.title}"`, 'Are you sure?', [
 			{
 				text: 'Cancel',
 				onPress: () => {
-					navigation.navigate('WordLists');
+					// navigation.navigate('WordLists');
+					console.log("Delete Cancelled")
 				},
 				style: 'cancel',
 			},
 			{
 				text: 'OK',
 				onPress: () => {
+					setDeleteWord(true)
 					onDeleteWord(word.id);
 					navigation.navigate('WordLists');
 
@@ -87,7 +95,7 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 				</ScrollView>
 			</View>
 
-			<ScrollView>
+			<ScrollView onScroll={handleScroll}>
 				<View style={styles.tag}>
 					<Text style={[styles.tagHeader, { color: colors.text }]}>Tags:</Text>
 					<View style={styles.taglistContainer}>
@@ -96,12 +104,14 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 				</View>
 			</ScrollView>
 
+			{showButton &&
+				<TouchableOpacity
+					style={[styles.deleteButton, styles.floatButton]}
+					onPress={onDeleteWordHandler}>
+					<AntDesign name="delete" size={24} color="white" />
+				</TouchableOpacity>
 
-			<TouchableOpacity
-				style={[styles.deleteButton, styles.floatButton]}
-				onPress={onDeleteWordHandler}>
-				<AntDesign name="delete" size={24} color="white" />
-			</TouchableOpacity>
+			}
 			<TouchableOpacity
 				style={[styles.editButton, styles.floatButton]}
 				onPress={onEditButtonPressed}>
@@ -110,36 +120,44 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 
 			<Modal visible={modalVisible} animationType={'fade'} transparent={true}>
 				<View style={styles.containerModal}>
-					<View style={styles.modalGroup}>
+					<View style={[styles.modalGroup, { backgroundColor: colors.secondary }]}>
 						<View style={styles.titleModal}>
-							<Text style={styles.title}>Update Form</Text>
+
+							<Text style={[styles.title, { color: colors.text }]}>Update Form</Text>
+
 							<TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
 								<Entypo name="circle-with-cross" size={24} color="red" />
 							</TouchableOpacity>
 						</View>
-						<View style={styles.verticalOrientation}>
-							<Text style={styles.wordLabel}>Word:</Text>
-							<TextInput
-								style={styles.wordTF}
-								placeholder={`Update word ${word.title}`}
-								value={title}
-								onChangeText={(title) => setTitle(title)}
-								defaultValue={word.title}
-							/>
 
-							<Text style={styles.wordDesc}>Description:</Text>
-							<TextInput
-								multiline={true}
-								style={styles.wordTF}
-								placeholder={`Update defination ${word.defination}`}
-								value={desc}
-								onChangeText={(desc) => setDesc(desc)}
-								defaultValue={desc}
-								maxLength={150}
-							/>
-							<Text style={{ fontSize: 10, marginTop: -10 }}>
-								Number of characters: {150 - desc.length}
-							</Text>
+						<View style={styles.verticalOrientation}>
+							<>
+								<TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
+									<Text style={[styles.wordLabel, { color: colors.text }]}>Word:</Text>
+									<TextInput
+										style={[styles.wordTF, { color: colors.text, borderColor: colors.text }]}
+										placeholder={`Update word ${word.title}`}
+										value={title}
+										onChangeText={(title) => setTitle(title)}
+										defaultValue={word.title}
+									/>
+
+									<Text style={[styles.wordDesc, { color: colors.text }]}>Description:</Text>
+									<TextInput
+										multiline={true}
+										style={[styles.wordTF, { color: colors.text, borderColor: colors.text }]}
+										placeholder={`Update defination ${word.defination}`}
+										value={desc}
+										onChangeText={(desc) => setDesc(desc)}
+										defaultValue={desc}
+										maxLength={150}
+									/>
+
+									<Text style={{ fontSize: 10, marginTop: -10, color: colors.text }}>
+										Number of characters: {150 - desc.length}
+									</Text>
+								</TouchableWithoutFeedback>
+							</>
 							<TouchableOpacity
 								style={styles.updateBtn}
 								onPress={() => onUpdateButtonPressedHandler()}>
@@ -148,7 +166,7 @@ export default function Detail({ navigation, route, onDeleteWord, onUpdateButton
 						</View>
 					</View>
 				</View>
-			</Modal>
-		</View>
+			</Modal >
+		</View >
 	);
 }

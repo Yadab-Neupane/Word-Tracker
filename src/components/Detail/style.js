@@ -10,7 +10,7 @@ export default styles = StyleSheet.create({
 	},
 	tag: {
 		marginTop: 20,
-		marginBottom:60
+		marginBottom: 60
 	},
 	tagHeader: {
 		fontSize: 20,
@@ -36,6 +36,7 @@ export default styles = StyleSheet.create({
 	titleModal: {
 		flexDirection: 'row',
 		justifyContent: 'space-between',
+		paddingBottom: 30,
 		fontFamily: fontFamilyPlatform,
 	},
 	title: {
